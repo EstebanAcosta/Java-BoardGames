@@ -1,3 +1,4 @@
+package Game2048;
 import java.util.Random;
 
 public class Board
@@ -22,7 +23,7 @@ public class Board
 
         boolean randomlyChoose = rand.nextBoolean();
 
-        int randNum = randomlyChoose ? 2048 : 4;
+        int randNum = randomlyChoose ? 2 : 4;
 
         while (board[randRow][randCol].isOccupied())
         {

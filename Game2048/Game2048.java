@@ -1,3 +1,4 @@
+package Game2048;
 import java.util.Scanner;
 
 public class Game2048
