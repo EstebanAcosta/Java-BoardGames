@@ -1,5 +1,9 @@
 package TicTacToe;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 import java.util.Random;
 import java.util.Scanner;
 

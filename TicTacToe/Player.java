@@ -1,5 +1,9 @@
 package TicTacToe;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Player
 {
     private String name;

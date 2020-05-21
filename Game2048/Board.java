@@ -1,6 +1,10 @@
 package Game2048;
 import java.util.Random;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Board
 {
 

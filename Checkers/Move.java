@@ -1,6 +1,10 @@
 package Checkers;
 import java.util.ArrayList;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Move
 {
 

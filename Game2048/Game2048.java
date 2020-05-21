@@ -1,6 +1,10 @@
 package Game2048;
 import java.util.Scanner;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Game2048
 {
 

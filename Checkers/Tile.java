@@ -1,5 +1,9 @@
 package Checkers;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Tile
 
 {

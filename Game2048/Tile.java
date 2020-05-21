@@ -1,5 +1,9 @@
 package Game2048;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Tile
 {
 

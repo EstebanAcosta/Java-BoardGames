@@ -1,7 +1,11 @@
 package Checkers;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+/***
+ * 
+ * @author estebanacosta
+ *
+ */
 public class Checkers
 {
 
