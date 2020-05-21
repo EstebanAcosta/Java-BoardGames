@@ -2,7 +2,7 @@ package Game2048;
 import java.util.Random;
 /***
  * 
- * @author estebanacosta
+ * @author esteban acosta
  *
  */
 public class Board
