@@ -4,10 +4,23 @@ import javax.swing.*;
 
 import java.awt.*;
 
-public class Game2048 extends JFrame
+public class Game2048
 {
 
-    public void displayGame()
+    public static void main(String[] args)
+    {
+        displayWindow myWindow = new displayWindow();
+
+        displayPanel myPanel = new displayPanel();
+
+    }
+
+}
+
+class displayWindow extends JFrame
+{
+
+    public displayWindow()
     {
         Toolkit tk = Toolkit.getDefaultToolkit();
 
@@ -21,19 +34,30 @@ public class Game2048 extends JFrame
 
         setSize(width / 2, height / 2);
 
-        setVisible(true);
-        
         setTitle("2048");
+
+        displayPanel panel = new displayPanel();
+
+        add(panel);
+
+        setVisible(true);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
+}
 
-    public static void main(String[] args)
+class displayPanel extends JPanel
+{
+    public void paintComponent(Graphics g)
     {
-        Game2048 myGUI = new Game2048();
-        
-        myGUI.displayGame();
+        super.paintComponent(g);
+
+        g.drawString("Game 2048", 100, 100);
+    }
+
+    public displayPanel()
+    {
 
     }
 
