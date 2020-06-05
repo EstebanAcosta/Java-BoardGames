@@ -15,6 +15,8 @@ public class TicTacToe
     public void playersSetup()
     {
 
+        System.out.println("Welcome to Tic Tac Toe \n");
+        
         // loop through the players in the game
         for (int i = 0; i < players.length; i++)
         {

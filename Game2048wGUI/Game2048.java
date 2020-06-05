@@ -53,12 +53,15 @@ class displayPanel extends JPanel
     {
         super.paintComponent(g);
 
-        g.drawString("Game 2048", 100, 100);
+        g.drawString("Game 2048", 300, 100);
+        
+        g.drawRect(50, 50, 200, 200);
+        
+        g.drawLine(50, 100, 100, 100);
+        
+        g.drawPolygon(new Polygon());
+        
     }
 
-    public displayPanel()
-    {
-
-    }
 
 }
