@@ -1,8 +1,7 @@
 package ConnectFour;
+
 /***
- * 
  * @author estebanacosta
- *
  */
 public class Tile
 {
@@ -11,7 +10,7 @@ public class Tile
 
     private int row;
 
-    private int number;
+    private Color color;
 
     /**
      * Initializes the Tile with the given row and column
@@ -63,10 +62,10 @@ public class Tile
      * Sets the occupant of this Tile to the Piece specified.
      * @param newOccupant
      */
-    public void setOccupant(int newNumber)
+    public void setOccupant(Color color)
     {
 
-        this.number = newNumber;
+        this.color = color;
     }
 
     /**
@@ -79,7 +78,7 @@ public class Tile
         {
             return true;
         }
-        
+
         return false;
     }
 

@@ -10,6 +10,8 @@ public class Player
 
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
 
+    private Color playerColor;
+
     private String name;
 
     /***
@@ -18,6 +20,16 @@ public class Player
     public Player()
     {
 
+    }
+
+    public void setPlayerColor(Color playerColor)
+    {
+        this.playerColor = playerColor;
+    }
+
+    public Color getPlayerColor()
+    {
+        return this.playerColor;
     }
 
     public String getName()
@@ -78,5 +90,6 @@ public class Player
     {
         pieces.remove(remove);
     }
+
 
 }

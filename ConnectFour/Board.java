@@ -1,14 +1,16 @@
 package ConnectFour;
+
 import java.util.Random;
+
 /***
- * 
  * @author esteban acosta
- *
  */
 public class Board
 {
 
     private Tile[][] board = new Tile[6][6];
+
+    private Color winnerColor;
 
     public Board()
     {
@@ -16,7 +18,6 @@ public class Board
         constructBoard();
 
     }
-
 
     public void constructBoard()
     {
@@ -26,7 +27,7 @@ public class Board
             for (int col = 0; col < board[row].length; col++)
             {
                 board[row][col] = new Tile(row, col);
-                board[row][col].setOccupant(0);
+                board[row][col].setOccupant(null);
             }
         }
     }
@@ -54,7 +55,7 @@ public class Board
                 }
             }
         }
-        
+
         return count;
     }
 
@@ -74,22 +75,16 @@ public class Board
         return true;
     }
 
+    public void placeValue(Color color, int row, int col)
+    {
+        board[row][col].setOccupant(color);
+    }
 
     public boolean reached4InARow()
     {
-
-       
-
         return false;
     }
     
-    private void setWinnerValue(int occupant)
-    {
-        // TODO Auto-generated method stub
-        
-    }
-
-
     public void displayBoard()
     {
         // print the board to the screen
@@ -99,7 +94,7 @@ public class Board
 
         for (int r = 0; r < 4; r++)
         {
-            
+
             for (int c = 0; c < 4; c++)
             {
                 if (board[r][c].isOccupied())
@@ -117,6 +112,16 @@ public class Board
             System.out.println();
             System.out.println("-----------------------------");
         }
+    }
+
+    public void setWinnerValue(Color winnerColor)
+    {
+        this.winnerColor = winnerColor;
+    }
+
+    public Color getWinnerValue()
+    {
+        return this.winnerColor;
     }
 
 }
