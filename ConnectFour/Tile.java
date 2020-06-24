@@ -52,10 +52,10 @@ public class Tile
      * @return the Piece that is occupying this tile, or null if the Tile has no
      *         occupant.
      */
-    public int getOccupant()
+    public Color getOccupant()
     {
 
-        return this.number;
+        return this.color;
     }
 
     /**
@@ -74,7 +74,7 @@ public class Tile
     public boolean isOccupied()
     {
 
-        if (getOccupant() != 0)
+        if (getOccupant() != null)
         {
             return true;
         }
@@ -120,7 +120,7 @@ public class Tile
 
         hash = hash * result + row;
 
-        result = hash * result + number;
+        result = hash * result + color.hashCode();
 
         return result;
 

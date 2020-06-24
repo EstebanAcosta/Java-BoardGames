@@ -40,16 +40,16 @@ public class Connect_Four
         // pass the value that was randomly generated
         players[0].setPlayerColor(randomColor);
 
-        // if the first player's value is an X
+        // if the first player's piece color is red
         if (randomColor == Color.RED)
         {
-            // then the second player's value is an O
+            // then the second player's piece color is yellow
             players[1].setPlayerColor(Color.YELLOW);;
         }
-        // if the first player's value is an O
+        // if the first player's piece color is yellow
         else
         {
-            // then the second player's value is an X
+            // then the second player's piece color is redx
             players[1].setPlayerColor(Color.RED);
         }
 
@@ -71,8 +71,102 @@ public class Connect_Four
 
         Board board = new Board();
 
+        Random rand = new Random();
+
+        Scanner kbd = new Scanner(System.in);
+
+        int whoseTurn = rand.nextInt(2);
+
         while (gameOver(board) == false)
         {
+            System.out.println("It's player " + (whoseTurn + 1) + " " + players[whoseTurn].getName() + "'s turn");
+
+            board.displayBoard();
+
+            System.out.println("Where would you like to put your " + players[whoseTurn].getPlayerColor() + " piece, " + players[whoseTurn].getName() + " ?\n");
+
+            boolean spotIsOccupied = true;
+
+            int row = 0;
+
+            String r = "";
+
+            // ask for the user for the column position of their X or O
+            String c = "";
+
+            // store the second value in the array in the variable col (stores column #)
+            int col = 0;
+
+            while (spotIsOccupied == true)
+            {
+                System.out.println("Please enter a row # and column # that isn't occupied");
+
+                while (row < 1 || row > 6)
+                {
+                    System.out.println("Please enter a number for the row # that is greater than 0 and less than 7");
+
+                    // ask for the user for the row position of their X or O
+                    r = kbd.nextLine();
+
+                    while (r.matches("[0-9]+") == false)
+                    {
+                        System.out.println("Please enter a number");
+
+                        r = kbd.nextLine();
+
+                    }
+
+                    // store the first value in the array in the variable row (stores row #)
+
+                    row = Integer.parseInt(r);
+                }
+                
+                System.out.println();
+
+                while (col < 1 || col > 6)
+                {
+                    System.out.println("Please enter a number for the column # that is greater than 0 and less than 7");
+
+                    // ask for the user for the row position of their X or O
+                    c = kbd.nextLine();
+
+                    while (c.matches("[0-9]+") == false)
+                    {
+                        System.out.println("Please enter a number");
+
+                        c = kbd.nextLine();
+
+                    }
+
+                    // store the first value in the array in the variable row (stores row #)
+
+                    col = Integer.parseInt(c);
+                }
+
+                if (board.getBoard()[row - 1][col - 1].isOccupied() == false)
+                {
+                    spotIsOccupied = false;
+                }
+
+                else
+                {
+                    // reset the values
+                    row = 0;
+                    col = 0;
+                    System.out.println();
+                }
+
+            }
+
+            // put the player's X or O in that position of the board
+//            board.placeValue(players[whoseTurn].getPlayerColor(), row - 1, col - 1);
+            
+            // change turns
+            whoseTurn = changeTurn(whoseTurn);
+
+            System.out.println("__________________________________________________\n");
+            
+            break;
 
         }
     }

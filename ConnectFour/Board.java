@@ -90,12 +90,12 @@ public class Board
         // print the board to the screen
 
         System.out.println();
-        System.out.println("-----------------------------");
+        System.out.println("------------------------------------------");
 
-        for (int r = 0; r < 4; r++)
+        for (int r = 0; r < 6; r++)
         {
 
-            for (int c = 0; c < 4; c++)
+            for (int c = 0; c < 6; c++)
             {
                 if (board[r][c].isOccupied())
                 {
@@ -110,7 +110,7 @@ public class Board
                 }
             }
             System.out.println();
-            System.out.println("-----------------------------");
+            System.out.println("------------------------------------------");
         }
     }
 
