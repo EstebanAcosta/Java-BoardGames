@@ -120,7 +120,7 @@ public class Connect_Four
 
                     row = Integer.parseInt(r);
                 }
-                
+
                 System.out.println();
 
                 while (col < 1 || col > 6)
@@ -159,14 +159,13 @@ public class Connect_Four
             }
 
             // put the player's X or O in that position of the board
-//            board.placeValue(players[whoseTurn].getPlayerColor(), row - 1, col - 1);
-            
+            board.placeValue(players[whoseTurn].getPlayerColor(), row - 1, col - 1);
+
             // change turns
             whoseTurn = changeTurn(whoseTurn);
 
             System.out.println("__________________________________________________\n");
-            
-            break;
+
 
         }
     }

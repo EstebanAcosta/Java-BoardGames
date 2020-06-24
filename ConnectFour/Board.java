@@ -100,7 +100,16 @@ public class Board
                 if (board[r][c].isOccupied())
                 {
 
-                    System.out.print("|  " + board[r][c].getOccupant() + "  |");
+                    if(board[r][c].getOccupant() == Color.RED)
+                    {
+                        System.out.print("|  R  |");
+                    }
+                    
+                    else
+                    {
+                        System.out.print("|  Y  |");
+                    }
+                    
 
                 }
 
