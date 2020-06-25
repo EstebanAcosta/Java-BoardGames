@@ -9,3 +9,5 @@
 /Piece.class
 /Move.class
 /Tile.class
+/PieceColor.class
+/Board.class
