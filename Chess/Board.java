@@ -1,8 +1,7 @@
 package Chess;
+
 /***
- * 
  * @author estebanacosta
- *
  */
 public class Board
 {
@@ -84,7 +83,6 @@ public class Board
         return this.winnerValue;
     }
 
-    
     public void placeValue(Piece value, int row, int col)
     {
         board[row][col].setOccupant(value);
@@ -121,7 +119,35 @@ public class Board
                 if (board[r][c].isOccupied())
                 {
 
-                    System.out.print("|  " + board[r][c].getOccupant() + "  |");
+                    if (board[r][c].getOccupant().getPieceType() == PieceType.PAWN)
+                    {
+                        System.out.print("|  P  |");
+                    }
+
+                    else if (board[r][c].getOccupant().getPieceType() == PieceType.BISHOP)
+                    {
+                        System.out.print("|  B  |");
+                    }
+
+                    else if (board[r][c].getOccupant().getPieceType() == PieceType.ROOK)
+                    {
+                        System.out.print("|  R  |");
+                    }
+
+                    else if (board[r][c].getOccupant().getPieceType() == PieceType.KNIGHT)
+                    {
+                        System.out.print("|  KN  |");
+                    }
+
+                    else if (board[r][c].getOccupant().getPieceType() == PieceType.QUEEN)
+                    {
+                        System.out.print("|  Q  |");
+                    }
+
+                    else
+                    {
+                        System.out.print("|  K  |");
+                    }
 
                 }
 

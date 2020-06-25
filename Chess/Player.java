@@ -84,7 +84,7 @@ public class Player
     /***
      * @return the Player's color
      */
-    public PieceColor getColor()
+    public PieceColor getPlayerColor()
     {
 
         return this.playerColor;
