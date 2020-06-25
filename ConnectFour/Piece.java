@@ -1,8 +1,5 @@
 package ConnectFour;
 
-import java.util.ArrayList;
-
-
 /***
  * @author estebanacosta
  */
@@ -12,8 +9,6 @@ public class Piece
     private Player player;
 
     private Tile tile;
-
-    private ArrayList<Move> legalMoves = new ArrayList<Move>();
 
     private Color color;
 

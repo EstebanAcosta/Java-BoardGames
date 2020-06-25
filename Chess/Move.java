@@ -1,4 +1,4 @@
-package ConnectFour;
+package Chess;
 
 /***
  * @author estebanacosta

@@ -1,5 +1,6 @@
 package ConnectFour;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,15 +26,15 @@ public class Connect_Four
             String name = kbd.nextLine();
 
             players[i].setName(name);
-            
-            for(int j = 0; j < 21 ; j++)
+
+            for (int j = 0; j < 21; j++)
             {
                 players[i].addPiece(new Piece(players[i]));
             }
-            
-            System.out.println("21 pieces have been added to player " + (i + 1) + "'s pocket");
 
             System.out.println();
+
+            System.out.println("21 pieces have been added to player " + (i + 1) + "'s pocket");
 
             System.out.println("__________________________________________________\n");
 
@@ -59,14 +60,14 @@ public class Connect_Four
             // then the second player's piece color is redx
             players[1].setPlayerColor(Color.RED);
         }
-        
-        //loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
-        for(Piece piece : players[0].getPieces())
+
+        // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
+        for (Piece piece : players[0].getPieces())
         {
             piece.setColor(players[0].getPlayerColor());
         }
-        
-        for(Piece piece : players[1].getPieces())
+
+        for (Piece piece : players[1].getPieces())
         {
             piece.setColor(players[1].getPlayerColor());
         }
@@ -75,11 +76,9 @@ public class Connect_Four
 
         System.out.println(players[0].getName() + "'s color is " + players[0].getPlayerColor() + "\n");
 
-        System.out.println(players[0].getName() + "'s color is " + players[0].getPlayerColor() + "\n");
+        System.out.println(players[1].getName() + "'s color is " + players[1].getPlayerColor() + "\n");
 
         System.out.println("---------------------------------------------------\n");
-
-        startGame();
 
     }
 
@@ -87,7 +86,7 @@ public class Connect_Four
     {
         System.out.println("Welcome To Connect Four \n");
 
-        //create a new board
+        // create a new board
         Board board = new Board();
 
         Random rand = new Random();
@@ -98,28 +97,33 @@ public class Connect_Four
 
         while (gameOver(board) == false)
         {
+
+            ArrayList<Integer> unoccupiedColumns = board.whichOcuppiedColumns();
+
             System.out.println("It's player " + (whoseTurn + 1) + " " + players[whoseTurn].getName() + "'s turn\n");
 
             System.out.println(players[0].getName() + "'s pieces: " + players[0].getNumPieces() + "\n");
-           
-            System.out.println(players[1].getName() + "'s pieces: " + players[1].getNumPieces()+ "\n");
+
+            System.out.println(players[1].getName() + "'s pieces: " + players[1].getNumPieces() + "\n");
 
             board.displayBoard();
 
             System.out.println("Where would you like to put your " + players[whoseTurn].getPlayerColor() + " piece, " + players[whoseTurn].getName() + " ?\n");
 
-
             // ask for the user for the column position of their X or O
             String c = "";
 
             // store the second value in the array in the variable col (stores column #)
-            int col = 0;
+            int col = -1;
 
-            System.out.println("Please enter a column # that isn't occupied");
+            // print all available columns to the screen
+            printAllAvailableColumns(unoccupiedColumns);
+
+            System.out.println("Please enter a column # that isn't full");
 
             System.out.println();
 
-            while (col < 1 || col > 6)
+            while (unoccupiedColumns.contains(col) == false)
             {
                 System.out.println("Please enter a number for the column # that is greater than 0 and less than 7");
 
@@ -139,7 +143,7 @@ public class Connect_Four
                 col = Integer.parseInt(c);
             }
 
-            // put the player's X or O in that position of the board
+            // put the player's piece in that column
             board.placeValue(players[whoseTurn].removePiece(), col - 1);
 
             // change turns
@@ -150,6 +154,11 @@ public class Connect_Four
         }
     }
 
+    /**
+     * Determines who's the next player
+     * @param currentTurn
+     * @return
+     */
     public int changeTurn(int currentTurn)
     {
         // If it's the last person's turn then we need to reset current turn to 0
@@ -169,6 +178,11 @@ public class Connect_Four
         return currentTurn;
     }
 
+    /***
+     * Determines when the game is over
+     * @param board
+     * @return
+     */
     public boolean gameOver(Board board)
     {
         if (board.reached4InARow())
@@ -199,11 +213,41 @@ public class Connect_Four
         return false;
     }
 
+    /***
+     * Prints all the unoccupied columns
+     * @param availableCols
+     */
+    public void printAllAvailableColumns(ArrayList<Integer> availableCols)
+    {
+        System.out.print("Available Columns: ");
+
+        int count = 0;
+        for (int cols : availableCols)
+        {
+            if (count == availableCols.size() - 1)
+            {
+                System.out.print(cols + 1);
+            }
+            else
+            {
+                System.out.print(cols + 1 + " , ");
+            }
+
+            count++;
+
+        }
+
+        System.out.println();
+        System.out.println();
+    }
+
     public static void main(String[] args)
     {
         Connect_Four game = new Connect_Four();
 
         game.setUpPlayers();
+
+        game.startGame();
 
     }
 }
