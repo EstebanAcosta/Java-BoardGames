@@ -46,14 +46,12 @@ public class Player
      * Creates a new Piece and adds it to the Player's list of Pieces. Returns the created Piece.
      * @param initialPosition
      */
-    public Piece addPiece(Tile initialPosition)
+    public Piece addPiece(Piece newPiece)
     {
 
-        Piece piece = new Piece(this, initialPosition);
+        pieces.add(newPiece);
 
-        pieces.add(piece);
-
-        return piece;
+        return newPiece;
     }
 
     /***
@@ -85,10 +83,11 @@ public class Player
     /***
      * Removes the provided Piece from the player's list of Pieces.
      * @param remove
+     * @return 
      */
-    public void removePiece(Piece remove)
+    public Piece removePiece()
     {
-        pieces.remove(remove);
+        return pieces.remove(0);
     }
 
 

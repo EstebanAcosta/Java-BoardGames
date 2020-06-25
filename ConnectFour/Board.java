@@ -1,6 +1,6 @@
 package ConnectFour;
 
-import java.util.Random;
+import java.util.ArrayList;
 
 /***
  * @author esteban acosta
@@ -75,16 +75,62 @@ public class Board
         return true;
     }
 
-    public void placeValue(Color color, int row, int col)
+    public void placeValue(Piece piece, int col)
     {
-        board[row][col].setOccupant(color);
+        int row = whichUnoccupiedRow(col);
+
+        board[row][col].setOccupant(piece);
+    }
+
+    /**
+     * Loop through each column and determine which columns are unoccupied
+     * @return
+     */
+    public ArrayList<Integer> whichOcuppiedColumns()
+    {
+        ArrayList<Integer> unoccupiedColumns = new ArrayList<Integer>();
+
+        for (int col = 0; col < board[0].length; col++)
+        {
+            for (int row = 0; row < board.length; row++)
+            {
+                if (board[row][col].isOccupied() == false)
+                {
+                    unoccupiedColumns.add(col);
+                    
+                    break;
+                }
+            }
+        }
+
+        return unoccupiedColumns;
+    }
+
+    /***
+     * Helper function determines if there is a certain row in that column that is unoccupied
+     * @param col
+     * @return
+     */
+    private int whichUnoccupiedRow(int col)
+    {
+        int unoccupiedRow = 7;
+
+        for (int row = 0; row < board.length; row++)
+        {
+            if (board[row][col].isOccupied() == false)
+            {
+                unoccupiedRow = row;
+            }
+        }
+
+        return unoccupiedRow;
     }
 
     public boolean reached4InARow()
     {
         return false;
     }
-    
+
     public void displayBoard()
     {
         // print the board to the screen
@@ -100,16 +146,15 @@ public class Board
                 if (board[r][c].isOccupied())
                 {
 
-                    if(board[r][c].getOccupant() == Color.RED)
+                    if (board[r][c].getOccupant().getColor() == Color.RED)
                     {
                         System.out.print("|  R  |");
                     }
-                    
+
                     else
                     {
                         System.out.print("|  Y  |");
                     }
-                    
 
                 }
 

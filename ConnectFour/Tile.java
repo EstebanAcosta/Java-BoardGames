@@ -10,7 +10,7 @@ public class Tile
 
     private int row;
 
-    private Color color;
+    private Piece piece;
 
     /**
      * Initializes the Tile with the given row and column
@@ -52,20 +52,20 @@ public class Tile
      * @return the Piece that is occupying this tile, or null if the Tile has no
      *         occupant.
      */
-    public Color getOccupant()
+    public Piece getOccupant()
     {
 
-        return this.color;
+        return this.piece;
     }
 
     /**
      * Sets the occupant of this Tile to the Piece specified.
      * @param newOccupant
      */
-    public void setOccupant(Color color)
+    public void setOccupant(Piece piece)
     {
 
-        this.color = color;
+        this.piece = piece;
     }
 
     /**
@@ -120,7 +120,7 @@ public class Tile
 
         hash = hash * result + row;
 
-        result = hash * result + color.hashCode();
+        result = hash * result + piece.hashCode();
 
         return result;
 
