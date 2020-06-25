@@ -85,22 +85,79 @@ public class chess
         // white player setup
         for (int col = 0; col < 8; col++)
         {
-            Pawn pawn = new Pawn(white, new Tile(6,col));
-            
+            Pawn pawn = new Pawn(white, new Tile(1, col));
+
             board[1][col].setOccupant(pawn);
 
             white.addPiece(pawn);
         }
 
+        // create the rook, bishop and knight. Assign each one their initial tile position
+        Rook leftWhiteRook = new Rook(white, new Tile(0, 0));
+        Rook rightWhiteRook = new Rook(white, new Tile(0, 7));
+
+        Bishop leftWhiteBishop = new Bishop(white, new Tile(0, 2));
+        Bishop rightWhiteBishop = new Bishop(white, new Tile(0, 5));
+
+        Knight leftWhiteKnight = new Knight(white, new Tile(0, 1));
+        Knight rightWhiteKnight = new Knight(white, new Tile(0, 6));
+
+        // add the right and left side rooks to white's pieces
+        white.addPiece(leftWhiteRook);
+        white.addPiece(rightWhiteRook);
+        board[0][0].setOccupant(leftWhiteRook);
+        board[0][7].setOccupant(rightWhiteRook);
+
+        // add the right and left side bishops to white's pieces
+        white.addPiece(leftWhiteBishop);
+        white.addPiece(rightWhiteBishop);
+        board[0][2].setOccupant(leftWhiteBishop);
+        board[0][5].setOccupant(rightWhiteBishop);
+
+        // add the right and left side knight to white's pieces
+        white.addPiece(leftWhiteKnight);
+        white.addPiece(rightWhiteKnight);
+        board[0][1].setOccupant(leftWhiteKnight);
+        board[0][6].setOccupant(rightWhiteKnight);
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
         // black player setup
         for (int col = 0; col < 8; col++)
         {
-            Pawn pawn = new Pawn(black, new Tile(6,col));
-            
+            Pawn pawn = new Pawn(black, new Tile(6, col));
+
             board[6][col].setOccupant(pawn);
 
             black.addPiece(pawn);
         }
+        // create the rook, bishop and knight. Assign each one their initial tile position
+        Rook leftBlackRook = new Rook(black, new Tile(7, 0));
+        Rook rightBlackRook = new Rook(black, new Tile(7, 7));
+
+        Bishop leftBlackBishop = new Bishop(black, new Tile(7, 2));
+        Bishop rightBlackBishop = new Bishop(black, new Tile(7, 5));
+
+        Knight leftBlackKnight = new Knight(black, new Tile(7, 1));
+        Knight rightBlackKnight = new Knight(black, new Tile(7, 6));
+
+        // add the right and left side rooks to black's pieces
+        black.addPiece(leftBlackRook);
+        black.addPiece(rightBlackRook);
+        board[7][0].setOccupant(leftWhiteRook);
+        board[7][7].setOccupant(rightWhiteRook);
+
+        // add the right and left side bishops to black's pieces
+        black.addPiece(leftBlackBishop);
+        black.addPiece(rightBlackBishop);
+        board[7][2].setOccupant(leftBlackBishop);
+        board[7][5].setOccupant(rightBlackBishop);
+
+        // add the right and left side knight to black's pieces
+        black.addPiece(leftBlackKnight);
+        black.addPiece(rightBlackKnight);
+        board[7][1].setOccupant(leftBlackKnight);
+        board[7][6].setOccupant(rightBlackKnight);
 
         // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
         for (Piece piece : players[0].getPieces())
@@ -117,7 +174,7 @@ public class chess
 
         System.out.println(players[1].getName() + " is " + players[1].getPlayerColor() + "\n");
 
-        System.out.println("---------------------------------------------------\n");
+        System.out.println("-----------------------------------------------------\n");
 
         startGame(b);
     }
@@ -147,7 +204,7 @@ public class chess
 
             System.out.println(players[1].getName() + " has " + players[1].getNumPieces() + " pieces left \n ");
 
-            System.out.println("It's player " + (whoseTurn + 1) + players[whoseTurn].getName() + "'s turn");
+            System.out.println("It's player " + (whoseTurn + 1) + " " + players[whoseTurn].getName() + "'s turn");
 
             changeTurn(whoseTurn);
 

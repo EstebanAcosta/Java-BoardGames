@@ -93,22 +93,22 @@ public class Board
         System.out.println();
         System.out.print("    ||");
         // print the board to the screen
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 8; i++)
         {
 
-            if (i == 2)
+            if (i == 7)
             {
-                System.out.print("   " + (i + 1) + " |");
+                System.out.print("   " + (i + 1) + "  |");
             }
-
             else
             {
-                System.out.print("   " + (i + 1) + " ||");
+                System.out.print("   " + (i + 1) + "  ||");
             }
+
         }
 
         System.out.println();
-        System.out.println("-------------------------");
+        System.out.println("---------------------------------------------------------------------");
 
         for (int r = 0; r < 8; r++)
         {
@@ -193,7 +193,7 @@ public class Board
                 }
             }
             System.out.println();
-            System.out.println("--------------------------");
+            System.out.println("---------------------------------------------------------------------");
         }
     }
 
