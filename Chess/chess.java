@@ -3,7 +3,7 @@ package Chess;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Chess
+public class chess
 {
 
     Player[] players = new Player[2];
@@ -23,6 +23,8 @@ public class Chess
             Player p = new Player();
 
             String name = kbd.nextLine();
+            
+            players[i] = new Player();
 
             players[i].setName(name);
 
@@ -80,7 +82,7 @@ public class Chess
             white = players[0];
         }
 
-        //white player setup
+        // white player setup
         for (int row = 0; row < 3; row++)
         {
             if (row == 1)
@@ -99,7 +101,7 @@ public class Chess
             }
         }
 
-        //black player setup
+        // black player setup
         for (int row = 5; row < 8; row++)
         {
             if (row == 6)
@@ -129,11 +131,9 @@ public class Chess
             piece.setPieceColor(players[1].getPlayerColor());
         }
 
-        System.out.println();
+        System.out.println(players[0].getName() + " is " + players[0].getPlayerColor() + "\n");
 
-        System.out.println(players[0].getName() + "'s color is " + players[0].getPlayerColor() + "\n");
-
-        System.out.println(players[1].getName() + "'s color is " + players[1].getPlayerColor() + "\n");
+        System.out.println(players[1].getName() + " is " + players[1].getPlayerColor() + "\n");
 
         System.out.println("---------------------------------------------------\n");
     }
@@ -162,6 +162,8 @@ public class Chess
             System.out.println(players[0].getName() + " has " + players[0].getNumPieces() + " pieces left \n ");
 
             System.out.println(players[1].getName() + " has " + players[1].getNumPieces() + " pieces left \n ");
+
+            System.out.println("It's player " + (whoseTurn + 1) + players[whoseTurn].getName() + "'s turn");
 
             changeTurn(whoseTurn);
 
@@ -200,7 +202,7 @@ public class Chess
 
     public static void main(String[] args)
     {
-        Chess game = new Chess();
+        chess game = new chess();
 
         game.setUpPlayers();
 
