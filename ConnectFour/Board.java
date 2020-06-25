@@ -78,15 +78,8 @@ public class Board
     public void placeValue(Piece piece, int col)
     {
         int row = whichUnoccupiedRow(col);
-        
-        if(row == -1)
-        {
-            System.out.println("\n Please put the piece in another column \n");
-        }
-        else
-        {
-            board[row][col].setOccupant(piece);
-        }
+
+        board[row][col].setOccupant(piece);
 
     }
 
@@ -104,8 +97,8 @@ public class Board
             {
                 if (board[row][col].isOccupied() == false)
                 {
-                    unoccupiedColumns.add(col);
-                    
+                    unoccupiedColumns.add(col + 1);
+
                     break;
                 }
             }

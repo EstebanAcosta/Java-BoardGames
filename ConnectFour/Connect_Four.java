@@ -119,13 +119,12 @@ public class Connect_Four
             // print all available columns to the screen
             printAllAvailableColumns(unoccupiedColumns);
 
-            System.out.println("Please enter a column # that isn't full");
-
             System.out.println();
 
             while (unoccupiedColumns.contains(col) == false)
             {
-                System.out.println("Please enter a number for the column # that is greater than 0 and less than 7");
+
+                System.out.println("Please enter a column # that is unoccupied");
 
                 // ask for the user for the row position of their X or O
                 c = kbd.nextLine();
@@ -205,7 +204,10 @@ public class Connect_Four
 
         else if (board.allOccupied())
         {
+
             System.out.println("It's a tie");
+
+            board.displayBoard();
 
             return true;
         }
@@ -226,11 +228,11 @@ public class Connect_Four
         {
             if (count == availableCols.size() - 1)
             {
-                System.out.print(cols + 1);
+                System.out.print(cols);
             }
             else
             {
-                System.out.print(cols + 1 + " , ");
+                System.out.print(cols + " , ");
             }
 
             count++;
