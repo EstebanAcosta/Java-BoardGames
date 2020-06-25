@@ -13,7 +13,7 @@ public class Piece
     private Tile tile;
 
     private PieceColor pieceColor;
-    
+
     private PieceType pieceType;
 
     private ArrayList<Move> legalMoves = new ArrayList<Move>();
@@ -118,6 +118,11 @@ public class Piece
     public Player getPlayer()
     {
         return this.player;
+    }
+
+    public PieceColor getPieceColor()
+    {
+        return pieceColor;
     }
 
     public void setPieceColor(PieceColor pieceColor)

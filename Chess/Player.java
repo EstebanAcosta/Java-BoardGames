@@ -26,10 +26,8 @@ public class Player
      * Creates a new Piece and adds it to the Player's list of Pieces. Returns the created Piece.
      * @param initialPosition
      */
-    public Piece addPiece(Tile initialPosition)
+    public Piece addPiece(Piece piece)
     {
-
-        Piece piece = new Piece(this, initialPosition);
 
         pieces.add(piece);
 

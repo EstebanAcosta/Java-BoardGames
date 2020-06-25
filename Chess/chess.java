@@ -23,7 +23,7 @@ public class chess
             Player p = new Player();
 
             String name = kbd.nextLine();
-            
+
             players[i] = new Player();
 
             players[i].setName(name);
@@ -83,41 +83,23 @@ public class chess
         }
 
         // white player setup
-        for (int row = 0; row < 3; row++)
+        for (int col = 0; col < 8; col++)
         {
-            if (row == 1)
-            {
-                for (int col = 1; col < 8; col += 2)
-                {
-                    white.addPiece(board[row][col]);
-                }
-            }
-            else
-            {
-                for (int col = 0; col < 8; col += 2)
-                {
-                    white.addPiece(board[row][col]);
-                }
-            }
+            Pawn pawn = new Pawn(white, new Tile(6,col));
+            
+            board[1][col].setOccupant(pawn);
+
+            white.addPiece(pawn);
         }
 
         // black player setup
-        for (int row = 5; row < 8; row++)
+        for (int col = 0; col < 8; col++)
         {
-            if (row == 6)
-            {
-                for (int col = 0; col < 8; col += 2)
-                {
-                    black.addPiece(board[row][col]);
-                }
-            }
-            else
-            {
-                for (int col = 1; col < 8; col += 2)
-                {
-                    black.addPiece(board[row][col]);
-                }
-            }
+            Pawn pawn = new Pawn(black, new Tile(6,col));
+            
+            board[6][col].setOccupant(pawn);
+
+            black.addPiece(pawn);
         }
 
         // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
@@ -136,6 +118,8 @@ public class chess
         System.out.println(players[1].getName() + " is " + players[1].getPlayerColor() + "\n");
 
         System.out.println("---------------------------------------------------\n");
+
+        startGame(b);
     }
 
     public void startGame(Board board)

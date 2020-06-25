@@ -119,34 +119,70 @@ public class Board
                 if (board[r][c].isOccupied())
                 {
 
-                    if (board[r][c].getOccupant().getPieceType() == PieceType.PAWN)
+                    if (board[r][c].getOccupant().getPieceColor() == PieceColor.WHITE)
                     {
-                        System.out.print("|  P  |");
-                    }
+                        if (board[r][c].getOccupant().getPieceType() == PieceType.PAWN)
+                        {
+                            System.out.print("|  WP  |");
+                        }
 
-                    else if (board[r][c].getOccupant().getPieceType() == PieceType.BISHOP)
-                    {
-                        System.out.print("|  B  |");
-                    }
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.BISHOP)
+                        {
+                            System.out.print("|  WB  |");
+                        }
 
-                    else if (board[r][c].getOccupant().getPieceType() == PieceType.ROOK)
-                    {
-                        System.out.print("|  R  |");
-                    }
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.ROOK)
+                        {
+                            System.out.print("|  WR  |");
+                        }
 
-                    else if (board[r][c].getOccupant().getPieceType() == PieceType.KNIGHT)
-                    {
-                        System.out.print("|  KN  |");
-                    }
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.KNIGHT)
+                        {
+                            System.out.print("|  WKN  |");
+                        }
 
-                    else if (board[r][c].getOccupant().getPieceType() == PieceType.QUEEN)
-                    {
-                        System.out.print("|  Q  |");
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.QUEEN)
+                        {
+                            System.out.print("|  WQ  |");
+                        }
+
+                        else
+                        {
+                            System.out.print("|  WK  |");
+                        }
                     }
 
                     else
                     {
-                        System.out.print("|  K  |");
+                        if (board[r][c].getOccupant().getPieceType() == PieceType.PAWN)
+                        {
+                            System.out.print("|  BP  |");
+                        }
+
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.BISHOP)
+                        {
+                            System.out.print("|  BB  |");
+                        }
+
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.ROOK)
+                        {
+                            System.out.print("|  BR  |");
+                        }
+
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.KNIGHT)
+                        {
+                            System.out.print("|  BKN  |");
+                        }
+
+                        else if (board[r][c].getOccupant().getPieceType() == PieceType.QUEEN)
+                        {
+                            System.out.print("|  BQ  |");
+                        }
+
+                        else
+                        {
+                            System.out.print("|  BK  |");
+                        }
                     }
 
                 }
