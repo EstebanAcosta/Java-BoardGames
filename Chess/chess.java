@@ -119,17 +119,16 @@ public class chess
         white.addPiece(rightWhiteKnight);
         board[0][1].setOccupant(leftWhiteKnight);
         board[0][6].setOccupant(rightWhiteKnight);
-        
-        //add the white queen to the white's pieces
-        Queen whiteQueen = new Queen(white, new Tile(0,4));
-        
+
+        // add the white queen to the white's pieces
+        Queen whiteQueen = new Queen(white, new Tile(0, 4));
+
         white.addPiece(whiteQueen);
         board[0][4].setOccupant(whiteQueen);
-        
-    
-        //add the white king to the white's pieces
-        King whiteKing = new King(white, new Tile(0,3));
-        
+
+        // add the white king to the white's pieces
+        King whiteKing = new King(white, new Tile(0, 3));
+
         white.addPiece(whiteKing);
         board[0][3].setOccupant(whiteKing);
 
@@ -171,18 +170,17 @@ public class chess
         black.addPiece(rightBlackKnight);
         board[7][1].setOccupant(leftBlackKnight);
         board[7][6].setOccupant(rightBlackKnight);
-        
-        //add the white queen to the white's pieces
-        Queen blackQueen = new Queen(black, new Tile(7,4));
-        
+
+        // add the white queen to the white's pieces
+        Queen blackQueen = new Queen(black, new Tile(7, 4));
+
         black.addPiece(blackQueen);
         board[7][4].setOccupant(blackQueen);
-        
-    
-        //add the white king to the white's pieces
-        King blackKing = new King(white, new Tile(7,3));
-        
-        white.addPiece(blackKing);
+
+        // add the white king to the white's pieces
+        King blackKing = new King(white, new Tile(7, 3));
+
+        black.addPiece(blackKing);
         board[7][3].setOccupant(blackKing);
 
         // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
@@ -209,9 +207,9 @@ public class chess
     {
         System.out.println("Welcome To Chess\n");
 
-        board.displayBoard();
-
         int whoseTurn;
+
+        Scanner kbd = new Scanner(System.in);
 
         if (players[0].getPlayerColor() == PieceColor.WHITE)
         {
@@ -232,9 +230,58 @@ public class chess
 
             System.out.println("It's player " + (whoseTurn + 1) + " " + players[whoseTurn].getName() + "'s turn");
 
-            changeTurn(whoseTurn);
+            board.displayBoard();
 
-            break;
+            System.out.println("Please enter a row # and column # that isn't occupied");
+
+            int row = 0;
+
+            while (row < 1 || row > 8)
+            {
+                System.out.println("Please enter a number for the row # that is greater than 0 and less than 4");
+
+                // ask for the user for the row position of their X or O
+                String r = kbd.nextLine();
+
+                while (r.matches("[0-9]+") == false)
+                {
+                    System.out.println("Please enter a number");
+
+                    r = kbd.nextLine();
+
+                }
+
+                // store the first value in the array in the variable row (stores row #)
+
+                row = Integer.parseInt(r);
+            }
+
+            System.out.println();
+
+            int col = 0;
+
+            while (col < 1 || col > 8)
+            {
+                System.out.println("Please enter a number for the column # that is greater than 0 and less than 4");
+
+                // ask for the user for the row position of their X or O
+                String c = kbd.nextLine();
+
+                while (c.matches("[0-9]+") == false)
+                {
+                    System.out.println("Please enter a number");
+
+                    c = kbd.nextLine();
+
+                }
+
+                // store the first value in the array in the variable row (stores row #)
+
+                col = Integer.parseInt(c);
+            }
+
+            whoseTurn = changeTurn(whoseTurn);
+
         }
     }
 
