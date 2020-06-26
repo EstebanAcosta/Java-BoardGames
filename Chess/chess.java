@@ -119,6 +119,19 @@ public class chess
         white.addPiece(rightWhiteKnight);
         board[0][1].setOccupant(leftWhiteKnight);
         board[0][6].setOccupant(rightWhiteKnight);
+        
+        //add the white queen to the white's pieces
+        Queen whiteQueen = new Queen(white, new Tile(0,4));
+        
+        white.addPiece(whiteQueen);
+        board[0][4].setOccupant(whiteQueen);
+        
+    
+        //add the white king to the white's pieces
+        King whiteKing = new King(white, new Tile(0,3));
+        
+        white.addPiece(whiteKing);
+        board[0][3].setOccupant(whiteKing);
 
         ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -144,8 +157,8 @@ public class chess
         // add the right and left side rooks to black's pieces
         black.addPiece(leftBlackRook);
         black.addPiece(rightBlackRook);
-        board[7][0].setOccupant(leftWhiteRook);
-        board[7][7].setOccupant(rightWhiteRook);
+        board[7][0].setOccupant(leftBlackRook);
+        board[7][7].setOccupant(rightBlackRook);
 
         // add the right and left side bishops to black's pieces
         black.addPiece(leftBlackBishop);
@@ -158,6 +171,19 @@ public class chess
         black.addPiece(rightBlackKnight);
         board[7][1].setOccupant(leftBlackKnight);
         board[7][6].setOccupant(rightBlackKnight);
+        
+        //add the white queen to the white's pieces
+        Queen blackQueen = new Queen(black, new Tile(7,4));
+        
+        black.addPiece(blackQueen);
+        board[7][4].setOccupant(blackQueen);
+        
+    
+        //add the white king to the white's pieces
+        King blackKing = new King(white, new Tile(7,3));
+        
+        white.addPiece(blackKing);
+        board[7][3].setOccupant(blackKing);
 
         // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
         for (Piece piece : players[0].getPieces())
