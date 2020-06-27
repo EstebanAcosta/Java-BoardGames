@@ -211,24 +211,32 @@ public class chess
 
         Scanner kbd = new Scanner(System.in);
 
+        //if the first of the two player's is white
         if (players[0].getPlayerColor() == PieceColor.WHITE)
         {
+            //it's player 1's turn
             whoseTurn = 0;
         }
 
+        //if the second player is white
         else
         {
+            //it's player 2's turn
             whoseTurn = 1;
         }
 
         while (gameOver() == false)
         {
 
+            board.setLegalMoves();
+                     
             System.out.println(players[0].getName() + " has " + players[0].getNumPieces() + " pieces left \n ");
 
             System.out.println(players[1].getName() + " has " + players[1].getNumPieces() + " pieces left \n ");
 
-            System.out.println("It's player " + (whoseTurn + 1) + " " + players[whoseTurn].getName() + "'s turn");
+            System.out.println("It's player " + (whoseTurn + 1) + " " + players[whoseTurn].getName() + "'s turn\n");
+            
+            System.out.println("It's " + players[whoseTurn].getPlayerColor() + "'s turn\n");
 
             board.displayBoard();
 
@@ -238,7 +246,7 @@ public class chess
 
             while (row < 1 || row > 8)
             {
-                System.out.println("Please enter a number for the row # that is greater than 0 and less than 4");
+                System.out.println("Enter the row # that is greater than 0 and less than 9");
 
                 // ask for the user for the row position of their X or O
                 String r = kbd.nextLine();
@@ -251,8 +259,7 @@ public class chess
 
                 }
 
-                // store the first value in the array in the variable row (stores row #)
-
+                //convert the row value into an integer
                 row = Integer.parseInt(r);
             }
 
@@ -262,9 +269,9 @@ public class chess
 
             while (col < 1 || col > 8)
             {
-                System.out.println("Please enter a number for the column # that is greater than 0 and less than 4");
+                System.out.println("Enter the column # that is greater than 0 and less than 9");
 
-                // ask for the user for the row position of their X or O
+                // ask for the user for the row position
                 String c = kbd.nextLine();
 
                 while (c.matches("[0-9]+") == false)
@@ -275,12 +282,16 @@ public class chess
 
                 }
 
-                // store the first value in the array in the variable row (stores row #)
-
+                // convert the column value into an integer
                 col = Integer.parseInt(c);
             }
 
+            //get the next person's turn
             whoseTurn = changeTurn(whoseTurn);
+            
+
+            System.out.println("--------------------------------------------------------------------------\n");
+            System.out.println();
 
         }
     }

@@ -1,5 +1,7 @@
 package Chess;
 
+import java.util.ArrayList;
+
 public class King extends Piece
 {
 
@@ -9,4 +11,7 @@ public class King extends Piece
 
         super.setPieceType(PieceType.KING);
     }
+
+
+
 }

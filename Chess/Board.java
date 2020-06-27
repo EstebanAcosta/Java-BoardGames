@@ -1,5 +1,7 @@
 package Chess;
 
+import java.util.ArrayList;
+
 /***
  * @author estebanacosta
  */
@@ -7,8 +9,6 @@ public class Board
 {
 
     private Tile[][] board = new Tile[8][8];
-
-    private String winnerValue;
 
     public Board()
     {
@@ -30,6 +30,94 @@ public class Board
         }
     }
 
+    public void setLegalMoves()
+    {
+        for (int row = 0; row < board.length; row++)
+        {
+            for (int col = 0; col < board[row].length; col++)
+            {
+                if (board[row][col].isOccupied())
+                {
+                    if (board[row][col].getOccupant().getPieceType() == PieceType.BISHOP)
+                    {
+                        setBishopLegalMoves((Bishop) board[row][col].getOccupant());
+                    }
+
+                    else if (board[row][col].getOccupant().getPieceType() == PieceType.KNIGHT)
+                    {
+                        setKnightLegalMoves((Knight) board[row][col].getOccupant());
+                    }
+
+                    else if (board[row][col].getOccupant().getPieceType() == PieceType.ROOK)
+                    {
+                        setRookLegalMoves((Rook) board[row][col].getOccupant());
+                    }
+
+                    else if (board[row][col].getOccupant().getPieceType() == PieceType.QUEEN)
+                    {
+                        setQueenLegalMoves((Queen) board[row][col].getOccupant());
+                    }
+
+                    else if (board[row][col].getOccupant().getPieceType() == PieceType.KING)
+                    {
+                        setKingLegalMoves((King) board[row][col].getOccupant());
+                    }
+
+                    else
+                    {
+                        setPawnLegalMoves((Pawn) board[row][col].getOccupant());
+                    }
+                }
+            }
+        }
+
+    }
+
+    public void setKnightLegalMoves(Knight knight)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        
+        knight.setLegalMoves(legalMoves);
+    }
+
+    public void setRookLegalMoves(Rook rook)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        
+        rook.setLegalMoves(legalMoves);
+    }
+
+    public void setBishopLegalMoves(Bishop bishop)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        
+        bishop.setLegalMoves(legalMoves);
+    }
+
+    public void setKingLegalMoves(King king)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        
+        king.setLegalMoves(legalMoves);
+    }
+
+    public void setQueenLegalMoves(Queen queen)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        
+        queen.setLegalMoves(legalMoves);
+    }
+
+    public void setPawnLegalMoves(Pawn pawn)
+    {
+        ArrayList<Move> legalMoves = new ArrayList<Move>();
+        
+      
+       
+        
+        pawn.setLegalMoves(legalMoves);
+    }
+
     public Tile[][] getBoard()
     {
         return this.board;
@@ -38,54 +126,6 @@ public class Board
     public void setBoard(Tile[][] board)
     {
         this.board = board;
-    }
-
-    public int howManyOccupied()
-    {
-        int count = 0;
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board[row].length; col++)
-            {
-                if (board[row][col].isOccupied() == true)
-                {
-                    count++;
-                }
-            }
-        }
-
-        return count;
-    }
-
-    public boolean allOccupied()
-    {
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board[row].length; col++)
-            {
-                if (board[row][col].isOccupied() == false)
-                {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    public void setWinnerValue(String value)
-    {
-        this.winnerValue = value;
-    }
-
-    public String getWinnerValue()
-    {
-        return this.winnerValue;
-    }
-
-    public void placeValue(Piece value, int row, int col)
-    {
-        board[row][col].setOccupant(value);
     }
 
     public void displayBoard()

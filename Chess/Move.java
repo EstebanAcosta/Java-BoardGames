@@ -12,10 +12,10 @@ public class Move
 
     private Tile removedSquare;
 
-    Move(Piece thisPiece, Tile newHome, Tile removedHome)
+    Move(Piece thisPiece, Tile newSquare, Tile removedSquare)
     {
-        setNewSquare(newHome);
-        setRemovedSquare(removedHome);
+        setNewSquare(newSquare);
+        setRemovedSquare(removedSquare);
         setPiece(thisPiece);
 
     }

@@ -55,23 +55,7 @@ public class Piece
     {
         return tile;
     }
-
-    /***
-     * Set the legal moves this piece can take at this state of time
-     * @param legalMoves
-     */
-    public void setLegalMoves(ArrayList<Move> legalMoves)
-    {
-        this.legalMoves = legalMoves;
-    }
-
-    /***
-     * @return the set of legal moves this piece can take at this state of time
-     */
-    public ArrayList<Move> getLegalMoves()
-    {
-        return legalMoves;
-    }
+    
 
     /**
      * @param other
@@ -119,6 +103,7 @@ public class Piece
     {
         return this.player;
     }
+    
 
     public PieceColor getPieceColor()
     {
@@ -139,5 +124,20 @@ public class Piece
     {
         this.pieceType = pieceType;
     }
+
+    /***
+     * @return the set of legal moves this piece can take at this state of time
+     */
+    public ArrayList<Move> getLegalMoves()
+    {
+        return legalMoves;
+    }
+
+
+    public void setLegalMoves(ArrayList<Move> legalMoves)
+    {
+        this.legalMoves = legalMoves;
+    }
+   
 
 }
