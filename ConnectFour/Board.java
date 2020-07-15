@@ -129,6 +129,24 @@ public class Board
 
     public boolean reached4InARow()
     {
+
+        int count = 0;
+        for (int r = 0; r < 6; r++)
+        {
+
+            for (int c = 0; c < 6; c++)
+            {
+                // if the value in the first entry of that row is equal to the current entry of that same row
+                if (board[r][0].getOccupant().equals(board[r][c].getOccupant()) && !board[r][0].getOccupant().equals(""))
+                {
+
+                    // add one more to count
+                    count++;
+                }
+
+            }
+
+        }
         return false;
     }
 
@@ -139,10 +157,10 @@ public class Board
         System.out.println();
         System.out.println("------------------------------------------");
 
-        for (int r = 0; r < 6; r++)
+        for (int r = 0; r < board.length; r++)
         {
 
-            for (int c = 0; c < 6; c++)
+            for (int c = 0; c < board[r].length; c++)
             {
                 if (board[r][c].isOccupied())
                 {
