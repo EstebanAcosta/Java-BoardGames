@@ -131,22 +131,68 @@ public class Board
     {
 
         int count = 0;
-        for (int r = 0; r < 6; r++)
+
+        for (int r = 0; r < board.length; r++)
         {
 
-            for (int c = 0; c < 6; c++)
+            for (int c = 0; c < board[r].length; c++)
             {
                 // if the value in the first entry of that row is equal to the current entry of that same row
-                if (board[r][0].getOccupant().equals(board[r][c].getOccupant()) && !board[r][0].getOccupant().equals(""))
+                if (!board[r][0].getOccupant().equals(null) && board[r][0].getOccupant().getColor().equals(board[r][c].getOccupant().getColor()))
                 {
 
                     // add one more to count
                     count++;
                 }
 
+                if (count == 4)
+                {
+                    setWinnerValue(board[0][c].getOccupant().getColor());
+
+                    return true;
+                }
+
+                // otherwise reset the counter to 0
+                else
+                {
+                    count = 0;
+                }
+
             }
 
         }
+
+        count = 0;
+
+        for (int col = 0; col < board[0].length; col++)
+        {
+            for (int row = 0; row < board.length; row++)
+            {
+
+                // if the value in the first entry of that column is equal to the current entry of that same column
+                if (board[0][col].getOccupant().equals(board[row][col].getOccupant()) && !board[0][col].getOccupant().equals(""))
+                {
+                    // add one more to count
+                    count++;
+                }
+
+            }
+
+            // if all three numbers in that column are equal return true
+            if (count == 4)
+            {
+                setWinnerValue(board[0][col].getOccupant().getColor());
+
+                return true;
+            }
+
+            // otherwise reset the counter to 0
+            else
+            {
+                count = 0;
+            }
+        }
+
         return false;
     }
 

@@ -1,8 +1,7 @@
 package TicTacToe;
+
 /***
- * 
  * @author estebanacosta
- *
  */
 public class Board
 {
