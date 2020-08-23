@@ -141,6 +141,7 @@ public class Board
                 if (!board[r][0].getOccupant().equals(null) && board[r][0].getOccupant().getColor().equals(board[r][c].getOccupant().getColor()))
                 {
 
+                   
                     // add one more to count
                     count++;
                 }
