@@ -137,7 +137,7 @@ public class Connect_Four
 
                 }
 
-                // store the first value in the array in the variable row (stores row #)
+                // store the first value in the array in the variable row (stores column #)
 
                 col = Integer.parseInt(c);
             }

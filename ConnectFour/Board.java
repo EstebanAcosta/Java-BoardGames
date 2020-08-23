@@ -132,54 +132,67 @@ public class Board
 
         int count = 0;
 
-        for (int r = 0; r < board.length; r++)
-        {
+        /**
+         * loop through each row of the grid to see if the same color pops up four times
+         */
 
-            for (int c = 0; c < board[r].length; c++)
+        for (int row = 0; row < board.length - 1; row++)
+        {
+            for (int col = 0; col < board[row].length; col++)
             {
                 // if the value in the first entry of that row is equal to the current entry of that same row
-                if (!board[r][0].getOccupant().equals(null) && board[r][0].getOccupant().getColor().equals(board[r][c].getOccupant().getColor()))
+                if (board[row][0].getOccupant() != null && board[row][col].getOccupant() != null)
                 {
+                    if (board[row][0].getOccupant().getColor() == board[row][col].getOccupant().getColor())
+                    {
+                        // add one more to count
+                        count++;
+                    }
 
-                   
-                    // add one more to count
-                    count++;
                 }
 
-                if (count == 4)
-                {
-                    setWinnerValue(board[0][c].getOccupant().getColor());
+            }
 
-                    return true;
-                }
+            // if the same color pops up four times in a row
+            if (count == 4)
+            {
+                setWinnerValue(board[row][0].getOccupant().getColor());
 
-                // otherwise reset the counter to 0
-                else
-                {
-                    count = 0;
-                }
+                return true;
+            }
 
+            // otherwise reset the counter to 0
+            else
+            {
+                count = 0;
             }
 
         }
 
         count = 0;
 
-        for (int col = 0; col < board[0].length; col++)
+        /***
+         * Loop through each column of the grid to see if the same color pops up four times
+         */
+        for (int col = 0; col < board[0].length - 1; col++)
         {
             for (int row = 0; row < board.length; row++)
             {
 
                 // if the value in the first entry of that column is equal to the current entry of that same column
-                if (board[0][col].getOccupant().equals(board[row][col].getOccupant()) && !board[0][col].getOccupant().equals(""))
+                if (board[0][col].getOccupant() != null && board[row][col].getOccupant() != null)
                 {
-                    // add one more to count
-                    count++;
+                    if (board[0][col].getOccupant() == board[row][col].getOccupant())
+                    {
+                        // add one more to count
+                        count++;
+                    }
+
                 }
 
             }
 
-            // if all three numbers in that column are equal return true
+            // if the same color pops up four times in a column
             if (count == 4)
             {
                 setWinnerValue(board[0][col].getOccupant().getColor());
@@ -192,6 +205,7 @@ public class Board
             {
                 count = 0;
             }
+
         }
 
         return false;
