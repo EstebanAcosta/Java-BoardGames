@@ -151,6 +151,26 @@ public class Connect_Four
             System.out.println("__________________________________________________\n");
 
         }
+        
+        System.out.println("Would you like to play again? y/n");
+
+        String answer = kbd.nextLine();
+
+        while (answer.equalsIgnoreCase("y") == false && answer.equalsIgnoreCase("n") == false)
+        {
+            System.out.println("Please enter y/n if you wish to play again?");
+            answer = kbd.nextLine();
+        }
+
+        if (answer.equalsIgnoreCase("y"))
+        {
+            System.out.println();
+            startGame();
+        }
+        else
+        {
+            System.out.println("Thank you for playing");
+        }
     }
 
     /**
