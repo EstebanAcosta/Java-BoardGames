@@ -138,35 +138,33 @@ public class Board
 
         for (int row = 0; row < board.length; row++)
         {
-            for (int col = 0; col < board[row].length; col++)
+
+            if (board[row][0].getOccupant() != null && board[row][1].getOccupant() != null && board[row][2].getOccupant() != null && board[row][3].getOccupant() != null)
             {
-                // if the value in the first entry of that row is equal to the current entry of that same row
-                if (board[row][0].getOccupant() != null && board[row][col].getOccupant() != null)
+                if (board[row][0].getOccupant().getColor() == board[row][1].getOccupant().getColor() && board[row][1].getOccupant().getColor() == board[row][2].getOccupant().getColor()
+                && board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor())
                 {
 
-                    if (board[row][0].getOccupant().getColor() == board[row][col].getOccupant().getColor())
-                    {
+                    setWinnerValue(board[row][0].getOccupant().getColor());
 
-                        // add one more to count
-                        count++;
-                    }
-
+                    return true;
                 }
 
-            }
+                else if (board[row][1].getOccupant().getColor() == board[row][2].getOccupant().getColor() && board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor()
+                && board[row][3].getOccupant().getColor() == board[row][4].getOccupant().getColor())
+                {
+                    setWinnerValue(board[row][1].getOccupant().getColor());
 
-            // if the same color pops up four times in a row
-            if (count == 4)
-            {
-                setWinnerValue(board[row][0].getOccupant().getColor());
+                    return true;
+                }
 
-                return true;
-            }
+                else if (board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor() && board[row][3].getOccupant().getColor() == board[row][4].getOccupant().getColor()
+                && board[row][4].getOccupant().getColor() == board[row][5].getOccupant().getColor())
+                {
+                    setWinnerValue(board[row][2].getOccupant().getColor());
 
-            // otherwise reset the counter to 0
-            else
-            {
-                count = 0;
+                    return true;
+                }
             }
 
         }
