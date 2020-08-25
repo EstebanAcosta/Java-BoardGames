@@ -151,7 +151,7 @@ public class Connect_Four
             System.out.println("__________________________________________________\n");
 
         }
-        
+
         System.out.println("Would you like to play again? y/n");
 
         String answer = kbd.nextLine();
@@ -165,6 +165,29 @@ public class Connect_Four
         if (answer.equalsIgnoreCase("y"))
         {
             System.out.println();
+
+            for (int j = 0; j < players.length; j++)
+            {
+                players[j].clearPieces();
+
+                for (int i = 0; i < 21; i++)
+                {
+                    players[j].addPiece(new Piece(players[j]));
+                }
+
+            }
+            
+            // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
+            for (Piece piece : players[0].getPieces())
+            {
+                piece.setColor(players[0].getPlayerColor());
+            }
+
+            for (Piece piece : players[1].getPieces())
+            {
+                piece.setColor(players[1].getPlayerColor());
+            }
+            
             startGame();
         }
         else
