@@ -143,8 +143,10 @@ public class Board
                 // if the value in the first entry of that row is equal to the current entry of that same row
                 if (board[row][0].getOccupant() != null && board[row][col].getOccupant() != null)
                 {
+
                     if (board[row][0].getOccupant().getColor() == board[row][col].getOccupant().getColor())
                     {
+
                         // add one more to count
                         count++;
                     }
@@ -176,16 +178,15 @@ public class Board
          */
         for (int col = 0; col < board[0].length; col++)
         {
-            for (int row = 0; row < board.length; row++)
+            for (int row = board.length - 1; row >= 0; row--)
             {
-
                 // if the value in the first entry of that column is equal to the current entry of that same column
-                if (board[0][col].getOccupant() != null && board[row][col].getOccupant() != null)
+                if (board[board.length - 1][col].getOccupant() != null && board[row][col].getOccupant() != null)
                 {
-                    if (board[0][col].getOccupant().getColor() == board[row][col].getOccupant().getColor())
+
+                    if (board[board.length - 1][col].getOccupant().getColor() == board[row][col].getOccupant().getColor())
                     {
-                        
-                        System.out.println("GET OUT");
+
                         // add one more to count
                         count++;
                     }
@@ -197,7 +198,7 @@ public class Board
             // if the same color pops up four times in a column
             if (count == 4)
             {
-                setWinnerValue(board[0][col].getOccupant().getColor());
+                setWinnerValue(board[board.length - 1][col].getOccupant().getColor());
 
                 return true;
             }
