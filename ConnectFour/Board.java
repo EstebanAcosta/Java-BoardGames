@@ -138,7 +138,6 @@ public class Board
 
         for (int row = 0; row < board.length; row++)
         {
-
             if (board[row][0].getOccupant() != null && board[row][1].getOccupant() != null && board[row][2].getOccupant() != null && board[row][3].getOccupant() != null)
             {
                 if (board[row][0].getOccupant().getColor() == board[row][1].getOccupant().getColor() && board[row][1].getOccupant().getColor() == board[row][2].getOccupant().getColor()
@@ -149,8 +148,12 @@ public class Board
 
                     return true;
                 }
+            }
 
-                else if (board[row][1].getOccupant().getColor() == board[row][2].getOccupant().getColor() && board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor()
+            else if (board[row][1].getOccupant() != null && board[row][2].getOccupant() != null && board[row][3].getOccupant() != null && board[row][4].getOccupant() != null)
+            {
+
+                if (board[row][1].getOccupant().getColor() == board[row][2].getOccupant().getColor() && board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor()
                 && board[row][3].getOccupant().getColor() == board[row][4].getOccupant().getColor())
                 {
                     setWinnerValue(board[row][1].getOccupant().getColor());
@@ -158,13 +161,19 @@ public class Board
                     return true;
                 }
 
-                else if (board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor() && board[row][3].getOccupant().getColor() == board[row][4].getOccupant().getColor()
+            }
+
+            else if (board[row][2].getOccupant() != null && board[row][3].getOccupant() != null && board[row][4].getOccupant() != null && board[row][5].getOccupant() != null)
+            {
+
+                if (board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor() && board[row][3].getOccupant().getColor() == board[row][4].getOccupant().getColor()
                 && board[row][4].getOccupant().getColor() == board[row][5].getOccupant().getColor())
                 {
                     setWinnerValue(board[row][2].getOccupant().getColor());
 
                     return true;
                 }
+
             }
 
         }
@@ -174,37 +183,46 @@ public class Board
         /***
          * Loop through each column of the grid to see if the same color pops up four times
          */
+
         for (int col = 0; col < board[0].length; col++)
         {
-            for (int row = board.length - 1; row >= 0; row--)
+
+            // if the value in the first entry of that column is equal to the current entry of that same column
+            if (board[5][col].getOccupant() != null && board[4][col].getOccupant() != null && board[3][col].getOccupant() != null && board[2][col].getOccupant() != null)
             {
-                // if the value in the first entry of that column is equal to the current entry of that same column
-                if (board[board.length - 1][col].getOccupant() != null && board[row][col].getOccupant() != null)
+
+                if (board[5][col].getOccupant().getColor() == board[4][col].getOccupant().getColor() && board[4][col].getOccupant().getColor() == board[3][col].getOccupant().getColor() &&
+                board[3][col].getOccupant().getColor() == board[2][col].getOccupant().getColor())
                 {
+                    setWinnerValue(board[5][col].getOccupant().getColor());
 
-                    if (board[board.length - 1][col].getOccupant().getColor() == board[row][col].getOccupant().getColor())
-                    {
-
-                        // add one more to count
-                        count++;
-                    }
-
+                    return true;
                 }
 
             }
 
-            // if the same color pops up four times in a column
-            if (count == 4)
+            else if (board[4][col].getOccupant() != null && board[3][col].getOccupant() != null && board[2][col].getOccupant() != null && board[1][col].getOccupant() != null)
             {
-                setWinnerValue(board[board.length - 1][col].getOccupant().getColor());
+                if (board[4][col].getOccupant().getColor() == board[3][col].getOccupant().getColor() && board[3][col].getOccupant().getColor() == board[2][col].getOccupant().getColor() &&
+                board[2][col].getOccupant().getColor() == board[1][col].getOccupant().getColor())
+                {
+                    setWinnerValue(board[4][col].getOccupant().getColor());
 
-                return true;
+                    return true;
+                }
+
             }
 
-            // otherwise reset the counter to 0
-            else
+            else if (board[3][col].getOccupant() != null && board[2][col].getOccupant() != null && board[1][col].getOccupant() != null && board[0][col].getOccupant() != null)
             {
-                count = 0;
+
+                if (board[3][col].getOccupant().getColor() == board[2][col].getOccupant().getColor() && board[2][col].getOccupant().getColor() == board[1][col].getOccupant().getColor() &&
+                board[1][col].getOccupant().getColor() == board[0][col].getOccupant().getColor())
+                {
+                    setWinnerValue(board[3][col].getOccupant().getColor());
+
+                    return true;
+                }
             }
 
         }
