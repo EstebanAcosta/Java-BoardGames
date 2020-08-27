@@ -1,4 +1,3 @@
-package ConnectFour;
 
 import java.util.ArrayList;
 

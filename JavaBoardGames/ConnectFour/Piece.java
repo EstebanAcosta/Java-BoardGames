@@ -1,4 +1,3 @@
-package ConnectFour;
 
 /***
  * @author estebanacosta

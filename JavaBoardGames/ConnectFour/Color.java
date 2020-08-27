@@ -1,4 +1,4 @@
-package ConnectFour;
+
 
 public enum Color
 {

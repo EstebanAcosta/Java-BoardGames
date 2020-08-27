@@ -1,4 +1,3 @@
-package ConnectFour;
 
 import java.util.ArrayList;
 
@@ -83,12 +82,11 @@ public class Player
     /***
      * Removes the provided Piece from the player's list of Pieces.
      * @param remove
-     * @return 
+     * @return
      */
     public Piece removePiece()
     {
         return pieces.remove(0);
     }
-
 
 }
