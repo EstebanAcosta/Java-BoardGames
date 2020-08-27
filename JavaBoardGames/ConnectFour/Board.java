@@ -227,40 +227,58 @@ public class Board
 
         final int COL = board.length;
 
-        // // There will be ROW+COL-1 lines in the output
-        // for (int line = 1; line <= (ROW + COL - 1); line++)
-        // {
-        //
-        // // Get column index of the first element in this
-        // // line of output.The index is 0 for first ROW
-        // // lines and line - ROW for remaining lines
-        // int start_col = max(0, line - ROW);
-        //
-        // // Get count of elements in this line. The count
-        // // of elements is equal to minimum of line number,
-        // // COL-start_col and ROW
-        // int count = min(line, (COL - start_col), ROW);
-        //
-        // System.out.println(count);
-        //
-        // if(count >= 4)
-        // {
-        // // Print elements of this line
-        // for (int j = 0; j < count; j++)
-        // {
-        // if (board[min(ROW, line) - j - 1][start_col + j].isOccupied())
-        // {
-        // System.out.print(board[min(ROW, line) - j - 1][start_col + j].getOccupant() + " ");
-        //
-        // }
-        // }
-        // }
-        //
-        //
-        //
-        // // Print elements of next diagonal on next line
-        // System.out.println();
-        // }
+        // There will be ROW+COL-1 lines in the output
+        for (int line = 1; line <= (ROW + COL - 1); line++)
+        {
+
+            // Get column index of the first element in this
+            // line of output.The index is 0 for first ROW
+            // lines and line - ROW for remaining lines
+            int start_col = max(0, line - ROW);
+
+            // Get count of elements in this line. The count
+            // of elements is equal to minimum of line number,
+            // COL-start_col and ROW
+            int count = min(line, (COL - start_col), ROW);
+
+            if (count >= 4)
+            {
+                int countSameColor = 0;
+
+                // Print elements of this line
+                for (int j = 0; j < count; j++)
+                {
+
+                    int newRow = min(ROW, line) - j - 1;
+
+                    int newCol = start_col + j;
+
+                    if (newRow + 1 >= board.length || newCol + 1 >= board.length)
+                    {
+                        break;
+                    }
+
+                    if (board[newRow][newCol].isOccupied())
+                    {
+
+                        if (board[newRow][newCol].getOccupant() == board[newRow + 1][newCol + 1].getOccupant())
+                        {
+                            countSameColor++;
+                        }
+                        System.out.print(board[min(ROW, line) - j - 1][start_col + j].getOccupant() + " ");
+
+                    }
+                }
+
+                if (countSameColor == 4)
+                {
+                    return true;
+                }
+            }
+
+            // Print elements of next diagonal on next line
+            System.out.println();
+        }
         return false;
     }
 
