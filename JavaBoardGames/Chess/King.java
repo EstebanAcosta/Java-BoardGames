@@ -1,6 +1,5 @@
-package Chess;
+package JavaBoardGames.Chess;
 
-import java.util.ArrayList;
 
 public class King extends Piece
 {

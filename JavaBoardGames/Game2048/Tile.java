@@ -1,8 +1,7 @@
-package Game2048;
+package JavaBoardGames.Game2048;
+
 /***
- * 
  * @author estebanacosta
- *
  */
 public class Tile
 {
@@ -79,7 +78,7 @@ public class Tile
         {
             return true;
         }
-        
+
         return false;
     }
 

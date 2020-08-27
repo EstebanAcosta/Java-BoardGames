@@ -1,4 +1,4 @@
-package UltimateTickTacToe;
+package JavaBoardGames.UltimateTickTacToe;
 
 public class UltimateTickTacToe
 {

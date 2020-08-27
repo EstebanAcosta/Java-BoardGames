@@ -1,9 +1,9 @@
-package Game2048;
+package JavaBoardGames.Game2048;
+
 import java.util.Scanner;
+
 /***
- * 
  * @author estebanacosta
- *
  */
 public class Game2048
 {
@@ -14,7 +14,7 @@ public class Game2048
 
         int firstRow = 0;
 
-        //this determines if there has been a change to the tileboard
+        // this determines if there has been a change to the tileboard
         boolean noChange = true;
 
         for (int row = 0; row < tileBoard.length; row++)
@@ -44,7 +44,7 @@ public class Game2048
                         // set it to 0 in order to officially unoccupy the square
                         tileBoard[row][col].setOccupant(0);
 
-                        //since the tiles have been moved upwards then we set no change to false
+                        // since the tiles have been moved upwards then we set no change to false
                         noChange = false;
                     }
 
@@ -747,7 +747,7 @@ public class Game2048
                     boolean slideLeft = slideLeft(board) ? false : true;
 
                     boolean mergeLeft = mergeLeft(board) ? true : false;
-                    
+
                     // if there is a change in the tile board whether it be just through a slide or a merge
 
                     if (slideLeft == true && mergeLeft == true || slideLeft == true && mergeLeft == false || slideLeft == false && mergeLeft == true)

@@ -1,4 +1,4 @@
-package Game2048wGUI;
+package JavaBoardGames.Game2048wGUI;
 
 import javax.swing.*;
 

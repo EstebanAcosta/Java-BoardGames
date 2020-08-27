@@ -1,9 +1,9 @@
-package Game2048;
+package JavaBoardGames.Game2048;
+
 import java.util.Random;
+
 /***
- * 
  * @author esteban acosta
- *
  */
 public class Board
 {
@@ -77,7 +77,7 @@ public class Board
                 }
             }
         }
-        
+
         return count;
     }
 
@@ -124,7 +124,7 @@ public class Board
 
         for (int r = 0; r < 4; r++)
         {
-            
+
             for (int c = 0; c < 4; c++)
             {
                 if (board[r][c].isOccupied())

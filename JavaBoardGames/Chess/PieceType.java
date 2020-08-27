@@ -1,4 +1,4 @@
-package Chess;
+package JavaBoardGames.Chess;
 
 public enum PieceType
 {

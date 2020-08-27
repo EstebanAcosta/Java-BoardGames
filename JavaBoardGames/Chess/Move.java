@@ -1,4 +1,4 @@
-package Chess;
+package JavaBoardGames.Chess;
 
 /***
  * @author estebanacosta
