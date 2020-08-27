@@ -130,8 +130,6 @@ public class Board
     public boolean reached4InARow()
     {
 
-        int count = 0;
-
         /**
          * loop through each row of the grid to see if the same color pops up four times
          */
@@ -150,7 +148,7 @@ public class Board
                 }
             }
 
-            else if (board[row][1].getOccupant() != null && board[row][2].getOccupant() != null && board[row][3].getOccupant() != null && board[row][4].getOccupant() != null)
+            if (board[row][1].getOccupant() != null && board[row][2].getOccupant() != null && board[row][3].getOccupant() != null && board[row][4].getOccupant() != null)
             {
 
                 if (board[row][1].getOccupant().getColor() == board[row][2].getOccupant().getColor() && board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor()
@@ -163,7 +161,7 @@ public class Board
 
             }
 
-            else if (board[row][2].getOccupant() != null && board[row][3].getOccupant() != null && board[row][4].getOccupant() != null && board[row][5].getOccupant() != null)
+            if (board[row][2].getOccupant() != null && board[row][3].getOccupant() != null && board[row][4].getOccupant() != null && board[row][5].getOccupant() != null)
             {
 
                 if (board[row][2].getOccupant().getColor() == board[row][3].getOccupant().getColor() && board[row][3].getOccupant().getColor() == board[row][4].getOccupant().getColor()
@@ -177,8 +175,6 @@ public class Board
             }
 
         }
-
-        count = 0;
 
         /***
          * Loop through each column of the grid to see if the same color pops up four times
@@ -201,7 +197,7 @@ public class Board
 
             }
 
-            else if (board[4][col].getOccupant() != null && board[3][col].getOccupant() != null && board[2][col].getOccupant() != null && board[1][col].getOccupant() != null)
+            if (board[4][col].getOccupant() != null && board[3][col].getOccupant() != null && board[2][col].getOccupant() != null && board[1][col].getOccupant() != null)
             {
                 if (board[4][col].getOccupant().getColor() == board[3][col].getOccupant().getColor() && board[3][col].getOccupant().getColor() == board[2][col].getOccupant().getColor() &&
                 board[2][col].getOccupant().getColor() == board[1][col].getOccupant().getColor())
@@ -213,7 +209,7 @@ public class Board
 
             }
 
-            else if (board[3][col].getOccupant() != null && board[2][col].getOccupant() != null && board[1][col].getOccupant() != null && board[0][col].getOccupant() != null)
+            if (board[3][col].getOccupant() != null && board[2][col].getOccupant() != null && board[1][col].getOccupant() != null && board[0][col].getOccupant() != null)
             {
 
                 if (board[3][col].getOccupant().getColor() == board[2][col].getOccupant().getColor() && board[2][col].getOccupant().getColor() == board[1][col].getOccupant().getColor() &&
@@ -227,7 +223,66 @@ public class Board
 
         }
 
+        final int ROW = board.length;
+
+        final int COL = board.length;
+
+        // // There will be ROW+COL-1 lines in the output
+        // for (int line = 1; line <= (ROW + COL - 1); line++)
+        // {
+        //
+        // // Get column index of the first element in this
+        // // line of output.The index is 0 for first ROW
+        // // lines and line - ROW for remaining lines
+        // int start_col = max(0, line - ROW);
+        //
+        // // Get count of elements in this line. The count
+        // // of elements is equal to minimum of line number,
+        // // COL-start_col and ROW
+        // int count = min(line, (COL - start_col), ROW);
+        //
+        // System.out.println(count);
+        //
+        // if(count >= 4)
+        // {
+        // // Print elements of this line
+        // for (int j = 0; j < count; j++)
+        // {
+        // if (board[min(ROW, line) - j - 1][start_col + j].isOccupied())
+        // {
+        // System.out.print(board[min(ROW, line) - j - 1][start_col + j].getOccupant() + " ");
+        //
+        // }
+        // }
+        // }
+        //
+        //
+        //
+        // // Print elements of next diagonal on next line
+        // System.out.println();
+        // }
         return false;
+    }
+
+    // A utility function to find min
+    // of two integers
+    public int min(int a, int b)
+    {
+        return (a < b) ? a : b;
+    }
+
+    // A utility function to find min
+    // of three integers
+    public int min(int a, int b, int c)
+    {
+        return min(min(a, b), c);
+    }
+
+    // A utility function to find max
+    // of two integers
+    public int max(int a, int b)
+    {
+        return (a > b) ? a : b;
     }
 
     public void displayBoard()

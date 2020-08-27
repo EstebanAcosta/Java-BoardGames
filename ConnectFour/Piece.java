@@ -70,4 +70,18 @@ public class Piece
         return this.player;
     }
 
+    public String toString()
+    {
+        if (color == Color.RED)
+        {
+            return "Red";
+        }
+
+        else
+        {
+            return "Yellow";
+
+        }
+    }
+
 }
