@@ -241,6 +241,7 @@ public class Board
             // COL-start_col and ROW
             int count = min(line, (COL - start_col), ROW);
 
+            //if the number of elements in that specific diaganal line is more than or equal to 4
             if (count >= 4)
             {
                 int countSameColor = 0;
@@ -249,19 +250,14 @@ public class Board
                 for (int j = 0; j < count; j++)
                 {
 
-                    int newRow = min(ROW, line) - j - 1;
+                    int currentRow = min(ROW, line) - j - 1;
 
-                    int newCol = start_col + j;
+                    int currentCol = start_col + j;
 
-//                    if (newRow + 1 >= board.length || newCol + 1 >= board.length)
-//                    {
-//                        break;
-//                    }
-
-                    if (board[newRow][newCol].isOccupied())
+                    if (board[currentRow][currentCol].isOccupied())
                     {
 
-                        System.out.print(board[min(ROW, line) - j - 1][start_col + j].getOccupant() + " ");
+                        System.out.print(board[currentRow][currentCol].getOccupant() + " ");
 
                     }
                 }
