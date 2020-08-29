@@ -253,18 +253,14 @@ public class Board
 
                     int newCol = start_col + j;
 
-                    if (newRow + 1 >= board.length || newCol + 1 >= board.length)
-                    {
-                        break;
-                    }
+//                    if (newRow + 1 >= board.length || newCol + 1 >= board.length)
+//                    {
+//                        break;
+//                    }
 
                     if (board[newRow][newCol].isOccupied())
                     {
 
-                        if (board[newRow][newCol].getOccupant() == board[newRow + 1][newCol + 1].getOccupant())
-                        {
-                            countSameColor++;
-                        }
                         System.out.print(board[min(ROW, line) - j - 1][start_col + j].getOccupant() + " ");
 
                     }
@@ -282,27 +278,45 @@ public class Board
         return false;
     }
 
-    // A utility function to find min
-    // of two integers
+    /***
+     * A utility function to find min of two integers
+     * @param a
+     * @param b
+     * @return
+     */
     public int min(int a, int b)
     {
         return (a < b) ? a : b;
     }
 
-    // A utility function to find min
-    // of three integers
+    /***
+     * A utility function to find min of three integers
+     * @param a
+     * @param b
+     * @param c
+     * @return
+     */
+
     public int min(int a, int b, int c)
     {
         return min(min(a, b), c);
     }
 
-    // A utility function to find max
-    // of two integers
+    /***
+     * A utility function to find max of two integers
+     * @param a
+     * @param b
+     * @return
+     */
+
     public int max(int a, int b)
     {
         return (a > b) ? a : b;
     }
 
+    /***
+     * Displays the board on the screen
+     */
     public void displayBoard()
     {
         // print the board to the screen
@@ -340,11 +354,18 @@ public class Board
         }
     }
 
+    /***
+     * Finds the winner of the game and stores the color of the winning planner
+     * @param winnerColor
+     */
     public void setWinnerValue(Color winnerColor)
     {
         this.winnerColor = winnerColor;
     }
 
+    /***
+     * @returns the color of the winner of the game
+     */
     public Color getWinnerValue()
     {
         return this.winnerColor;
