@@ -231,6 +231,7 @@ public class Board
         for (int line = 1; line <= (ROW + COL - 1); line++)
         {
 
+            System.out.println(line);
             // Get column index of the first element in this
             // line of output.The index is 0 for first ROW
             // lines and line - ROW for remaining lines
@@ -241,10 +242,10 @@ public class Board
             // COL-start_col and ROW
             int count = min(line, (COL - start_col), ROW);
 
-            //if the number of elements in that specific diaganal line is more than or equal to 4
+            // if the number of elements in that specific diagonal line is more than or equal to 4
             if (count >= 4)
             {
-                int countSameColor = 0;
+                int countSameColor = 1;
 
                 // Print elements of this line
                 for (int j = 0; j < count; j++)
@@ -254,12 +255,32 @@ public class Board
 
                     int currentCol = start_col + j;
 
-                    if (board[currentRow][currentCol].isOccupied())
+                    int nextRow = currentRow + 1;
+
+                    int nextCol = currentCol + 1;
+
+                    if (nextRow < 6 && nextCol < 6)
                     {
+                        if (board[currentRow][currentCol].isOccupied() && board[nextRow][nextCol].isOccupied())
+                        {
 
-                        System.out.print(board[currentRow][currentCol].getOccupant() + " ");
+                            if (board[currentRow][currentCol].getOccupant().getColor() == board[nextRow][nextCol].getOccupant().getColor())
+                            {
+                                countSameColor++;
+                            }
 
+                            else
+                            {
+                                countSameColor = 0;
+                            }
+
+                            System.out.print(board[currentRow][currentCol].getOccupant() + " ");
+
+                            System.out.println(countSameColor);
+
+                        }
                     }
+
                 }
 
                 if (countSameColor == 4)
