@@ -1,6 +1,5 @@
 package JavaBoardGames.ConnectFour;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -177,7 +176,7 @@ public class Connect_Four
                 }
 
             }
-            
+
             // loop through the player's pieces and set each one of their 21 pieces to the player's assigned color
             for (Piece piece : players[0].getPieces())
             {
@@ -188,7 +187,7 @@ public class Connect_Four
             {
                 piece.setColor(players[1].getPlayerColor());
             }
-            
+
             startGame();
         }
         else
@@ -235,12 +234,12 @@ public class Connect_Four
 
             if (players[0].getPlayerColor() == board.getWinnerValue())
             {
-                System.out.println("Congratulations Player 1 " + players[0].getName() + " You have won!");
+                System.out.println("Congratulations Player 1 " + players[0].getName() + " " + players[0].getPlayerColor() + " has won!");
             }
 
             else
             {
-                System.out.println("Congratulations Player 2 " + players[1].getName() + "! You have won!");
+                System.out.println("Congratulations Player 2 " + players[1].getName() + " " + players[1].getPlayerColor() + " has won!");
 
             }
             return true;
