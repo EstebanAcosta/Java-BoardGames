@@ -250,6 +250,7 @@ public class Board
                 for (int j = 0; j < count; j++)
                 {
 
+                    // store the current row and current column calculation in separate variables
                     int currentRow = min(ROW, line) - j - 1;
 
                     int currentCol = start_col + j;
@@ -258,26 +259,33 @@ public class Board
 
                     int nextCol = currentCol + 1;
 
-                    System.out.print(board[currentRow][currentCol].getOccupant() + " ");
+                    // System.out.print(board[currentRow][currentCol].getOccupant() + " ");
 
+                    // if the next row and next column is legally inside the matrix
                     if (nextRow >= 0 && nextCol < 6)
                     {
+                        // check to see if both two consecutive elements are occupied
                         if (board[currentRow][currentCol].isOccupied() && board[nextRow][nextCol].isOccupied())
                         {
+                            // If both consecutive elements are occupied, check if they are occupied by the same color piece
 
                             if (board[currentRow][currentCol].getOccupant().getColor() == board[nextRow][nextCol].getOccupant().getColor())
                             {
+                                // if they are both occupied by the same color piece, add one
                                 countSameColor++;
                             }
 
+                            // if they're not the same color piece, reset the counter to 1
                             else
                             {
                                 countSameColor = 1;
                             }
 
+                            // if there are four consecutive elements in a diagonal that are occupied by the same color
                             if (countSameColor == 4)
                             {
 
+                                // Declare the winner of the game
                                 setWinnerValue(board[currentRow][currentCol].getOccupant().getColor());
 
                                 return true;
@@ -288,7 +296,7 @@ public class Board
 
                 }
 
-                System.out.println();
+                // System.out.println();
 
             }
 
