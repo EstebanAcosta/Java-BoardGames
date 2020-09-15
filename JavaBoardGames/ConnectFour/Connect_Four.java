@@ -126,7 +126,7 @@ public class Connect_Four
 
                 System.out.println("Please enter a column # that is unoccupied");
 
-                // ask for the user for the row position of their X or O
+                // ask for the user for the column position of their X or O
                 c = kbd.nextLine();
 
                 while (c.matches("[0-9]+") == false)
@@ -137,7 +137,7 @@ public class Connect_Four
 
                 }
 
-                // store the first value in the array in the variable row (stores column #)
+                // store the first value in the array in the variable column (stores column #)
 
                 col = Integer.parseInt(c);
             }

@@ -59,6 +59,10 @@ public class Board
         return count;
     }
 
+    /***
+     * Checks to see if the entire board is fulls
+     * @return
+     */
     public boolean allOccupied()
     {
         for (int row = 0; row < board.length; row++)
@@ -75,10 +79,18 @@ public class Board
         return true;
     }
 
+    /***
+     * Places the player's piece in the specified columna and row
+     * @param piece
+     * @param col
+     */
     public void placeValue(Piece piece, int col)
     {
+        // goes through each row of the column and finds the first unoccupied row
+        // and stores the row number in that column in the variable
         int row = whichUnoccupiedRow(col);
 
+        // set the piece in the appointed row and column
         board[row][col].setOccupant(piece);
 
     }
@@ -223,6 +235,8 @@ public class Board
 
         }
 
+        // Loop diagnally through the matrix and find if any of the diagonal lines has the same color pop up four times in a row
+
         final int ROW = board.length;
 
         final int COL = board.length;
@@ -259,8 +273,6 @@ public class Board
 
                     int nextCol = currentCol + 1;
 
-                    // System.out.print(board[currentRow][currentCol].getOccupant() + " ");
-
                     // if the next row and next column is legally inside the matrix
                     if (nextRow >= 0 && nextCol < 6)
                     {
@@ -271,7 +283,7 @@ public class Board
 
                             if (board[currentRow][currentCol].getOccupant().getColor() == board[nextRow][nextCol].getOccupant().getColor())
                             {
-                                // if they are both occupied by the same color piece, add one
+                                // if they are both occupied by the same color piece, add one to the counter
                                 countSameColor++;
                             }
 
@@ -301,7 +313,88 @@ public class Board
             }
 
         }
+
+        // final int diffROW = board.length;
+        //
+        // final int diffCOL = board.length;
+
+        // // There will be ROW+COL-1 lines in the output
+        // for (int line = (ROW + COL - 1); line >= 0; line--)
+        // {
+        // // Get column index of the first element in this
+        // // line of output.The index is 0 for first ROW
+        // // lines and line - ROW for remaining lines
+        // int start_col = max(0, line - ROW);
+        //
+        // // Get count of elements in this line. The count
+        // // of elements is equal to minimum of line number,
+        // // COL-start_col and ROW
+        // int count = min(line, (COL - start_col), ROW);
+        //
+        // // if the number of elements in that specific diagonal line is more than or equal to 4
+        // if (count >= 4)
+        // {
+        // int countSameColor = 1;
+        //
+        // for (int j = 0; j < count; j++)
+        // {
+        //
+        // // store the current row and current column calculation in separate variables
+        // int currentRow = min(ROW, line) - j - 1;
+        //
+        // int currentCol = start_col + j;
+        //
+        // int nextRow = currentRow - 1;
+        //
+        // int nextCol = currentCol - 1;
+        //
+        //
+        //
+        //// System.out.println(currentRow + " " + currentCol);
+        //
+        // System.out.print(board[currentRow][currentCol].getOccupant() + " ");
+        //
+        // if (nextRow >= 0 && nextCol < 6)
+        // {
+        // // check to see if both two consecutive elements are occupied
+        // if (board[currentRow][currentCol].isOccupied() && board[nextRow][nextCol].isOccupied())
+        // {
+        // // If both consecutive elements are occupied, check if they are occupied by the same color piece
+        //
+        // if (board[currentRow][currentCol].getOccupant().getColor() == board[nextRow][nextCol].getOccupant().getColor())
+        // {
+        // // if they are both occupied by the same color piece, add one to the counter
+        // countSameColor++;
+        // }
+        //
+        // // if they're not the same color piece, reset the counter to 1
+        // else
+        // {
+        // countSameColor = 1;
+        // }
+        //
+        // // if there are four consecutive elements in a diagonal that are occupied by the same color
+        // if (countSameColor == 4)
+        // {
+        //
+        // // Declare the winner of the game
+        // setWinnerValue(board[currentRow][currentCol].getOccupant().getColor());
+        //
+        // return true;
+        // }
+        //
+        // }
+        // }
+        // }
+        //
+        //// System.out.println();
+        //
+        //// }
+        //
+        // }
+
         return false;
+
     }
 
     /***
