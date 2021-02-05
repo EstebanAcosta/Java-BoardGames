@@ -176,7 +176,7 @@ public class Board
         System.out.println();
         System.out.print("    ||");
         // print the board to the screen
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 8; i++)
         {
 
             if (i == 2)
@@ -191,13 +191,13 @@ public class Board
         }
 
         System.out.println();
-        System.out.println("-------------------------");
+        System.out.println("--------------------------------------------------------------");
 
-        for (int r = 0; r < 3; r++)
+        for (int r = 0; r < 8; r++)
         {
             System.out.print(" " + (r + 1) + "  |");
 
-            for (int c = 0; c < 3; c++)
+            for (int c = 0; c < 8; c++)
             {
                 if (board[r][c].isOccupied())
                 {
@@ -212,7 +212,7 @@ public class Board
                 }
             }
             System.out.println();
-            System.out.println("--------------------------");
+            System.out.println("----------------------------------------------------------------");
         }
     }
 

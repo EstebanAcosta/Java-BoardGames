@@ -13,6 +13,8 @@ public class Player
     private PieceColor playerColor;
 
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
+    
+    private int playerId;
 
     /***
      * Initializes the Player appropriately.
@@ -22,6 +24,30 @@ public class Player
 
     }
 
+    public Player(int i)
+    {
+        setPlayerId(i);
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public int getPlayerId()
+    {
+        return playerId;
+    }
+
+    public void setPlayerId(int playerId)
+    {
+        this.playerId = playerId;
+    }
     /***
      * Creates a new Piece and adds it to the Player's list of Pieces. Returns the created Piece.
      * @param initialPosition
@@ -89,14 +115,6 @@ public class Player
 
     }
 
-    public String getName()
-    {
-        return name;
-    }
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
 
 }

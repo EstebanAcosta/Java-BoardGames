@@ -14,8 +14,6 @@ public class Piece
 
     private PieceColor pieceColor;
 
-    private PieceType pieceType;
-
     private ArrayList<Move> legalMoves = new ArrayList<Move>();
 
     /**
@@ -114,17 +112,7 @@ public class Piece
     {
         this.pieceColor = pieceColor;
     }
-
-    public PieceType getPieceType()
-    {
-        return pieceType;
-    }
-
-    public void setPieceType(PieceType pieceType)
-    {
-        this.pieceType = pieceType;
-    }
-
+    
     /***
      * @return the set of legal moves this piece can take at this state of time
      */
