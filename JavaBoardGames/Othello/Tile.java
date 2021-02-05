@@ -11,7 +11,7 @@ public class Tile
 
     private int row;
 
-    private String value;
+    private Piece piece;
 
     /**
      * Initializes the Tile with the given row and column
@@ -53,20 +53,20 @@ public class Tile
      * @return the Piece that is occupying this tile, or null if the Tile has no
      *         occupant.
      */
-    public String getOccupant()
+    public Piece getOccupant()
     {
 
-        return this.value;
+        return this.piece;
     }
 
     /**
      * Sets the occupant of this Tile to the Piece specified.
      * @param newOccupant
      */
-    public void setOccupant(String value)
+    public void setOccupant(Piece piece)
     {
 
-        this.value = value;
+        this.piece = piece;
     }
 
     /**
@@ -75,7 +75,7 @@ public class Tile
     public boolean isOccupied()
     {
 
-        if (getOccupant().equals("") == false)
+        if (getOccupant() != null)
         {
             return true;
         }
@@ -121,7 +121,7 @@ public class Tile
 
         hash = hash * result + row;
 
-        result = hash * result + value.length();
+        result = hash * result;
 
         return result;
 

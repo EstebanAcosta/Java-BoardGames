@@ -25,7 +25,7 @@ public class Board
             for (int col = 0; col < board[row].length; col++)
             {
                 board[row][col] = new Tile(row, col);
-                board[row][col].setOccupant("");
+                board[row][col].setOccupant(null);
             }
         }
     }
@@ -73,103 +73,11 @@ public class Board
         return true;
     }
 
-    public void setWinnerValue(String value)
+    public void placeValue(Piece piece, int row, int col)
     {
-        this.winnerValue = value;
+        board[row][col].setOccupant(piece);
     }
 
-    public String getWinnerValue()
-    {
-        return this.winnerValue;
-    }
-
-    public boolean reached3InARow()
-    {
-
-        int count = 0;
-
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board[row].length; col++)
-            {
-
-                // if the value in the first entry of that row is equal to the current entry of that same row
-                if (board[row][0].getOccupant().equals(board[row][col].getOccupant()) && !board[row][0].getOccupant().equals(""))
-                {
-                    // add one more to count
-                    count++;
-                }
-
-            }
-
-            // if all three numbers in that row are equal return true
-            if (count == 3)
-            {
-                setWinnerValue(board[row][0].getOccupant());
-
-                return true;
-            }
-
-            // otherwise reset the counter to 0
-            else
-            {
-                count = 0;
-            }
-        }
-
-        count = 0;
-
-        for (int col = 0; col < board[0].length; col++)
-        {
-            for (int row = 0; row < board.length; row++)
-            {
-
-                // if the value in the first entry of that column is equal to the current entry of that same column
-                if (board[0][col].getOccupant().equals(board[row][col].getOccupant()) && !board[0][col].getOccupant().equals(""))
-                {
-                    // add one more to count
-                    count++;
-                }
-
-            }
-
-            // if all three numbers in that column are equal return true
-            if (count == 3)
-            {
-                setWinnerValue(board[0][col].getOccupant());
-
-                return true;
-            }
-
-            // otherwise reset the counter to 0
-            else
-            {
-                count = 0;
-            }
-        }
-
-        // if the entries in the diagonals are all equal
-        if (!board[0][0].getOccupant().equals("") && board[0][0].getOccupant().equals(board[1][1].getOccupant()) && board[1][1].getOccupant().equals(board[2][2].getOccupant()))
-        {
-            setWinnerValue(board[0][0].getOccupant());
-            return true;
-
-        }
-
-        else if (!board[0][2].getOccupant().equals("") && board[0][2].getOccupant().equals(board[1][1].getOccupant()) && board[1][1].getOccupant().equals(board[2][0].getOccupant()))
-        {
-            setWinnerValue(board[0][2].getOccupant());
-            return true;
-
-        }
-
-        return false;
-    }
-
-    public void placeValue(String value, int row, int col)
-    {
-        board[row][col].setOccupant(value);
-    }
 
     public void displayBoard()
     {
@@ -179,19 +87,19 @@ public class Board
         for (int i = 0; i < 8; i++)
         {
 
-            if (i == 2)
+            if (i == 7)
             {
-                System.out.print("   " + (i + 1) + " |");
+                System.out.print("   " + (i + 1) + "  |");
             }
-
             else
             {
-                System.out.print("   " + (i + 1) + " ||");
+                System.out.print("   " + (i + 1) + "  ||");
             }
+
         }
 
         System.out.println();
-        System.out.println("--------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------");
 
         for (int r = 0; r < 8; r++)
         {
@@ -202,7 +110,16 @@ public class Board
                 if (board[r][c].isOccupied())
                 {
 
-                    System.out.print("|  " + board[r][c].getOccupant() + "  |");
+                    if(board[r][c].getOccupant().getPieceColor() == PieceColor.BLACK)
+                    {
+                        System.out.print("|  B  |");
+                    }
+                    
+                    else
+                    {
+                        System.out.print("|  W  |");
+                    }
+                    
 
                 }
 
@@ -212,8 +129,13 @@ public class Board
                 }
             }
             System.out.println();
-            System.out.println("----------------------------------------------------------------");
+            System.out.println("---------------------------------------------------------------------");
         }
+    }
+
+    public void setLegalMoves()
+    {
+
     }
 
 }

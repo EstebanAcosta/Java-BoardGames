@@ -69,14 +69,71 @@ public class Othello
 
     public void setUpBoard()
     {
-        Board board = new Board();
+        Board b = new Board();
 
-        startGame(board);
+        Tile[][] board = b.getBoard();
+
+        Player black;
+
+        Player white;
+
+        // if the first player is black
+        if (players[0].getPlayerColor() == PieceColor.BLACK)
+        {
+
+            black = players[0];
+
+            white = players[1];
+        }
+
+        // if the second player is black
+        else
+        {
+            black = players[1];
+
+            white = players[0];
+        }
+        // create two black pieces and two white pieces
+        Piece blackP1 = new Piece(black, new Tile(4, 5));
+        Piece blackP2 = new Piece(black, new Tile(5, 4));
+
+        Piece whiteP1 = new Piece(white, new Tile(4, 4));
+        Piece whiteP2 = new Piece(white, new Tile(5, 5));
+
+        //add the black pieces and white pieces to each player's bag of pieces
+        black.addPiece(blackP1);
+        black.addPiece(blackP2);
+
+        white.addPiece(whiteP1);
+        white.addPiece(whiteP2);
+
+        // set two white pieces in the center
+        board[4][4].setOccupant(whiteP1);
+        board[5][5].setOccupant(whiteP2);
+
+        // set two black pieces in the center
+        board[4][5].setOccupant(blackP1);
+        board[5][4].setOccupant(blackP2);
+
+        
+        for (Piece p : white.getPieces())
+        {
+            p.setPieceColor(PieceColor.WHITE);
+        }
+
+        for (Piece p : black.getPieces())
+        {
+            p.setPieceColor(PieceColor.BLACK);
+        }
+
+        startGame(b);
     }
 
     public void startGame(Board board)
     {
         System.out.println("Welcome to Othello \n");
+        
+        Scanner kbd = new Scanner(System.in);
 
         int whoseTurn = 0;
 
@@ -94,11 +151,65 @@ public class Othello
             whoseTurn = 1;
         }
 
-        while (endGame())
+        while (endGame() == false)
         {
+            board.setLegalMoves();
+
+            System.out.println(players[0].getName() + " has " + players[0].getNumPieces() + " pieces left \n ");
+
+            System.out.println(players[1].getName() + " has " + players[1].getNumPieces() + " pieces left \n ");
+
             System.out.println("It's " + players[whoseTurn].getName() + "'s turn");
-            
+
+            System.out.println("It's " + players[whoseTurn].getPlayerColor() + "'s turn\n");
+
             board.displayBoard();
+            
+            System.out.println("Please enter a row # and column # that isn't occupied");
+
+            int row = 0;
+
+            while (row < 1 || row > 8)
+            {
+                System.out.println("Enter the row # that is greater than 0 and less than 9");
+
+                // ask for the user for the row position of their X or O
+                String r = kbd.nextLine();
+
+                while (r.matches("[0-9]+") == false)
+                {
+                    System.out.println("Please enter a number");
+
+                    r = kbd.nextLine();
+
+                }
+
+                //convert the row value into an integer
+                row = Integer.parseInt(r);
+            }
+
+            System.out.println();
+
+            int col = 0;
+
+            while (col < 1 || col > 8)
+            {
+                System.out.println("Enter the column # that is greater than 0 and less than 9");
+
+                // ask for the user for the row position
+                String c = kbd.nextLine();
+
+                while (c.matches("[0-9]+") == false)
+                {
+                    System.out.println("Please enter a number");
+
+                    c = kbd.nextLine();
+
+                }
+
+                // convert the column value into an integer
+                col = Integer.parseInt(c);
+            }
 
             whoseTurn = changeTurn(whoseTurn);
 
@@ -129,14 +240,14 @@ public class Othello
 
         return currentTurn;
     }
-    
+
     public boolean endGame()
     {
-        for(Player p : players)
+        for (Player p : players)
         {
-            return true;
+
         }
-        
+
         return false;
     }
 
