@@ -100,7 +100,7 @@ public class Othello
         Piece whiteP1 = new Piece(white, new Tile(4, 4));
         Piece whiteP2 = new Piece(white, new Tile(5, 5));
 
-        //add the black pieces and white pieces to each player's bag of pieces
+        // add the black pieces and white pieces to each player's bag of pieces
         black.addPiece(blackP1);
         black.addPiece(blackP2);
 
@@ -115,7 +115,6 @@ public class Othello
         board[4][5].setOccupant(blackP1);
         board[5][4].setOccupant(blackP2);
 
-        
         for (Piece p : white.getPieces())
         {
             p.setPieceColor(PieceColor.WHITE);
@@ -129,11 +128,13 @@ public class Othello
         startGame(b);
     }
 
-    public void startGame(Board board)
+    public void startGame(Board b)
     {
         System.out.println("Welcome to Othello \n");
-        
+
         Scanner kbd = new Scanner(System.in);
+
+        Tile[][] board = b.getBoard();
 
         int whoseTurn = 0;
 
@@ -153,7 +154,7 @@ public class Othello
 
         while (endGame() == false)
         {
-            board.setLegalMoves();
+            b.setLegalMoves();
 
             System.out.println(players[0].getName() + " has " + players[0].getNumPieces() + " pieces left \n ");
 
@@ -163,7 +164,19 @@ public class Othello
 
             System.out.println("It's " + players[whoseTurn].getPlayerColor() + "'s turn\n");
 
-            board.displayBoard();
+            b.displayBoard();
+            
+            System.out.println("Which piece do you want to move? ");
+            
+            System.out.println("1. On the board");
+            
+            System.out.println("2. In my bag");
+            
+            
+            if()
+            {
+                
+            }
             
             System.out.println("Please enter a row # and column # that isn't occupied");
 
@@ -184,7 +197,7 @@ public class Othello
 
                 }
 
-                //convert the row value into an integer
+                // convert the row value into an integer
                 row = Integer.parseInt(r);
             }
 
@@ -210,6 +223,8 @@ public class Othello
                 // convert the column value into an integer
                 col = Integer.parseInt(c);
             }
+            
+          
 
             whoseTurn = changeTurn(whoseTurn);
 
