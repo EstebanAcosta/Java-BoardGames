@@ -173,11 +173,6 @@ public class Othello
             System.out.println("2. In my bag");
             
             
-            if()
-            {
-                
-            }
-            
             System.out.println("Please enter a row # and column # that isn't occupied");
 
             int row = 0;
