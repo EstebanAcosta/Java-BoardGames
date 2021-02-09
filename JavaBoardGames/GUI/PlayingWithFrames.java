@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.*;
 
-public class PlayingWithSwing
+public class PlayingWithFrames
 {
 
     public static void main(String[] args)
