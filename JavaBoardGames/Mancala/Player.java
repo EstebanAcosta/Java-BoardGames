@@ -12,14 +12,26 @@ public class Player
 
     private String name;
 
+    private int playerID;
+
     /***
      * Initializes the Player appropriately.
+     * @param i
      */
-    public Player()
+    public Player(int i)
     {
 
     }
 
+    public int getPlayerID()
+    {
+        return playerID;
+    }
+
+    public void setPlayerID(int playerID)
+    {
+        this.playerID = playerID;
+    }
 
     public String getName()
     {

@@ -3,18 +3,15 @@ package JavaBoardGames.Mancala;
 import java.util.Random;
 import java.util.Scanner;
 
-import JavaBoardGames.Othello.Piece;
-import JavaBoardGames.Othello.Player;
-
 public class Mancala
 {
-    
+
     Player[] players = new Player[2];
 
     public void playersSetup()
     {
 
-        System.out.println("Welcome to Othello \n");
+        System.out.println("Welcome to Mancala \n");
 
         // loop through the players in the game
         for (int i = 0; i < players.length; i++)
@@ -34,32 +31,57 @@ public class Mancala
 
             for (int j = 0; j < 30; j++)
             {
-                players[i].addPiece(new Piece());
+                players[i].addStone(new Stone(players[i]));
             }
 
-            System.out.println(players[i].getName() + " has " + players[i].getNumPieces() + " pieces");
+            System.out.println(players[i].getName() + " has " + players[i].getNumStones() + " stones");
 
             System.out.println("____________________________________________________");
 
         }
-        
-    }
-    
 
-    
+    }
+
     public void startGame()
     {
-        
+
+        Board b = new Board();
+
         Random rand = new Random(players.length);
         
-        
-        
+        Scanner kbd = new Scanner(System.in);
+
         int whoseTurn = rand.nextInt();
-        
-        
-        
+
+        while (endGame() == false)
+        {
+
+            int turn = 1;
+
+            while (true)
+            {
+                System.out.println(players[whoseTurn].getName() + "'s turn \n");
+
+                System.out.println("Turn " + turn);
+
+                b.displayBoard();
+
+                turn++;
+
+                whoseTurn = changeTurn(whoseTurn);
+
+                break;
+            }
+
+        }
+
     }
-    
+
+    public boolean endGame()
+    {
+        return false;
+    }
+
     /**
      * Determine which player goes next
      * @param currentTurn
@@ -83,11 +105,13 @@ public class Mancala
 
         return currentTurn;
     }
-    
+
     public static void main(String[] args)
     {
-        Mancala m =  new Mancala();
-        
+        Mancala m = new Mancala();
+
         m.playersSetup();
+
+        m.startGame();
     }
 }

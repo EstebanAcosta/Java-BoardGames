@@ -57,7 +57,7 @@ public class Stone
 
     public String toString()
     {
-        return null;
+        return "S";
         
     }
 
