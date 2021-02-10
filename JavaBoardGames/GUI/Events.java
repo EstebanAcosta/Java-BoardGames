@@ -33,7 +33,7 @@ class buttons extends JFrame
     }
 }
 
-class buttonPanel extends JPanel implements ActionListener
+class buttonPanel extends JPanel
 {
 
     JButton blueButton = new JButton(" Azul");
@@ -49,36 +49,64 @@ class buttonPanel extends JPanel implements ActionListener
         add(redButton);
 
         add(yellowButton);
+        
+        backgroundColor yellow = new backgroundColor(Color.yellow);
+        
+        backgroundColor blue= new backgroundColor(Color.blue);
+        
+        backgroundColor red= new backgroundColor(Color.red);
 
-        blueButton.addActionListener(this);
+        blueButton.addActionListener(blue);
 
-        redButton.addActionListener(this);
+        redButton.addActionListener(red);
 
-        yellowButton.addActionListener(this);
+        yellowButton.addActionListener(yellow);
+        
+
 
     }
-
-    public void actionPerformed(ActionEvent e)
+    
+    private class backgroundColor implements ActionListener
     {
-        Object buttonPressed = e.getSource();
+        private Color backColor;
 
-        if (buttonPressed == blueButton)
+        public backgroundColor(Color c)
         {
-            setBackground(Color.BLUE);
-
+            backColor = c;
         }
 
-        else if (buttonPressed == yellowButton)
+        public void actionPerformed(ActionEvent e)
         {
-            setBackground(Color.YELLOW);
+
+            setBackground(backColor);
 
         }
-
-        else
-        {
-            setBackground(Color.RED);
-
-        }
-
     }
+
+    // public void actionPerformed(ActionEvent e)
+    // {
+    // Object buttonPressed = e.getSource();
+    //
+    // if (buttonPressed == blueButton)
+    // {
+    // setBackground(Color.BLUE);
+    //
+    // }
+    //
+    // else if (buttonPressed == yellowButton)
+    // {
+    // setBackground(Color.YELLOW);
+    //
+    // }
+    //
+    // else
+    // {
+    // setBackground(Color.RED);
+    //
+    // }
+    //
+    // }
+
 }
+
+

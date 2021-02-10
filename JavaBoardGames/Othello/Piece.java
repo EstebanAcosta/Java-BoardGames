@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author estebanacosta
  */
 public class Piece
-{
+{ 
 
     private Player player;
 
