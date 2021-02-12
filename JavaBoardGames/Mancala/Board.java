@@ -6,7 +6,7 @@ package JavaBoardGames.Mancala;
 public class Board
 {
 
-    private Tile[][] board = new Tile[2][6];
+    private Hole[][] board = new Hole[2][6];
 
     public Board()
     {
@@ -22,20 +22,20 @@ public class Board
         {
             for (int col = 0; col < board[row].length; col++)
             {
-                board[row][col] = new Tile(row, col);
-                board[row][col].setOccupant(null);
+                board[row][col] = new Hole(row, col);
+
+                for (int i = 0; i < 4; i++)
+                {
+                    board[row][col].addOccupant(new Stone());
+
+                }
             }
         }
     }
 
-    public Tile[][] getBoard()
+    public Hole[][] getBoard()
     {
         return this.board;
-    }
-
-    public void setBoard(Tile[][] board)
-    {
-        this.board = board;
     }
 
     public int howManyOccupied()
@@ -73,9 +73,9 @@ public class Board
 
     public void placeValue(Stone piece, int row, int col)
     {
-        board[row][col].setOccupant(piece);
+        board[row][col].addOccupant(piece);
+       
     }
-
 
     public void displayBoard()
     {
@@ -99,7 +99,6 @@ public class Board
         System.out.println();
         System.out.println("-------------------------------------------------------");
 
-        
         for (int r = 0; r < board.length; r++)
         {
             System.out.print(" " + (r + 1) + "  |");
@@ -109,17 +108,16 @@ public class Board
                 if (board[r][c].isOccupied())
                 {
 
-                    
-//                    if(board[r][c].getOccupant().getPieceColor() == PieceColor.BLACK)
-//                    {
-//                        System.out.print("|  B  |");
-//                    }
-//                    
-//                    else
-//                    {
-//                        System.out.print("|  W  |");
-//                    }
-//                    
+                    // if(board[r][c].getOccupant().getPieceColor() == PieceColor.BLACK)
+                    // {
+                    // System.out.print("| B |");
+                    // }
+                    //
+                    // else
+                    // {
+                    // System.out.print("| W |");
+                    // }
+                    //
 
                 }
 
@@ -131,11 +129,6 @@ public class Board
             System.out.println();
             System.out.println("-------------------------------------------------------");
         }
-    }
-
-    public void setLegalMoves()
-    {
-
     }
 
 }

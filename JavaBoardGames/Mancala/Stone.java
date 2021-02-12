@@ -6,11 +6,7 @@ package JavaBoardGames.Mancala;
 public class Stone
 {
 
-    private Player player;
-
-    private Tile tile;
-
-
+    private Hole tile;
 
     /**
      * Initializes the Piece appropriately, and saves the supplied arguments.
@@ -18,12 +14,10 @@ public class Stone
      * @param tile
      * @param direction
      */
-    public Stone(Player player)
+    public Stone()
     {
 
-        this.player = player;
-
-        this.setCurrentTile(tile);
+        this.setCurrentHole(tile);
 
     }
 
@@ -31,7 +25,7 @@ public class Stone
      * Sets the tile for this specific piece
      * @param tile
      */
-    public void setCurrentTile(Tile tile)
+    public void setCurrentHole(Hole tile)
     {
         this.tile = tile;
 
@@ -40,25 +34,9 @@ public class Stone
     /***
      * @return the tile this piece is currently on
      */
-    public Tile getCurrentTile()
+    public Hole getCurrentHole()
     {
         return tile;
-    }
-
-
-
-    /**
-     * @return the Player that this Piece belongs to
-     */
-    public Player getPlayer()
-    {
-        return this.player;
-    }
-
-    public String toString()
-    {
-        return "S";
-        
     }
 
 }

@@ -29,13 +29,6 @@ public class Mancala
             // pass the player's name to the player object
             players[i].setName(name);
 
-            for (int j = 0; j < 30; j++)
-            {
-                players[i].addStone(new Stone(players[i]));
-            }
-
-            System.out.println(players[i].getName() + " has " + players[i].getNumStones() + " stones");
-
             System.out.println("____________________________________________________");
 
         }
@@ -47,20 +40,20 @@ public class Mancala
 
         Board b = new Board();
 
-        Random rand = new Random(players.length);
-        
+        Random rand = new Random();
+
         Scanner kbd = new Scanner(System.in);
 
-        int whoseTurn = rand.nextInt();
+        int whoseTurn = rand.nextInt(players.length);
 
         while (endGame() == false)
         {
+            System.out.println(players[whoseTurn].getName() + "'s turn \n");
 
             int turn = 1;
 
-            while (true)
+            while (whoseTurn == 1)
             {
-                System.out.println(players[whoseTurn].getName() + "'s turn \n");
 
                 System.out.println("Turn " + turn);
 
@@ -70,9 +63,9 @@ public class Mancala
 
                 whoseTurn = changeTurn(whoseTurn);
 
-                break;
             }
 
+            break;
         }
 
     }

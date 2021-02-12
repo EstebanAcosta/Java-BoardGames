@@ -1,27 +1,40 @@
 package JavaBoardGames.Mancala;
+
+import java.util.ArrayList;
+
 /***
- * 
  * @author estebanacosta
- *
  */
-public class Tile
+public class Hole
 {
 
     private int col;
 
     private int row;
 
-    private Stone piece;
+    private ArrayList<Stone> stones = new ArrayList<Stone>();
+
+    private Player player;
 
     /**
-     * Initializes the Tile with the given row and column
+     * Initializes the hole with the given row and column
      * @param col
      * @param row
      */
-    public Tile(int row, int col)
+    public Hole(int row, int col)
     {
         this.setColumn(col);
         this.setRow(row);
+    }
+
+    public Player getPlayer()
+    {
+        return player;
+    }
+
+    public void setPlayer(Player player)
+    {
+        this.player = player;
     }
 
     private void setRow(int r)
@@ -44,42 +57,43 @@ public class Tile
         return this.col;
     }
 
-    public String toString()
+    public int getNumStones()
     {
-        return this.getRow() + "," + this.getCol();
+        return stones.size();
     }
 
+
     /**
-     * @return the Piece that is occupying this tile, or null if the Tile has no
+     * @return the stone that is occupying this hole, or null if the hole has no
      *         occupant.
      */
-    public Stone getOccupant()
+    public ArrayList<Stone> getOccupant()
     {
 
-        return this.piece;
+        return this.stones;
     }
 
     /**
-     * Sets the occupant of this Tile to the Piece specified.
+     * Add a new stone to the list of stones.
      * @param newOccupant
      */
-    public void setOccupant(Stone piece)
+    public void addOccupant(Stone stone)
     {
 
-        this.piece = piece;
+        this.stones.add(stone);
     }
 
     /**
-     * @return true if the Tile has a Piece on it, false otherwise
+     * @return true if the hole has a stone on it, false otherwise
      */
     public boolean isOccupied()
     {
 
-        if (getOccupant() != null)
+        if (getNumStones() != 0)
         {
             return true;
         }
-        
+
         return false;
     }
 
@@ -97,13 +111,13 @@ public class Tile
          * Check if o is an instance of Complex or not "null instanceof [type]" also
          * returns false
          */
-        if (!(o instanceof Tile))
+        if (!(o instanceof Hole))
         {
             return false;
         }
 
         // typecast o to Complex so that we can compare data members
-        Tile t = (Tile) o;
+        Hole t = (Hole) o;
 
         // Compare the data members and return accordingly
         return this.row == t.getRow() && this.col == t.getCol() && this.getOccupant() == t.getOccupant();
@@ -125,6 +139,12 @@ public class Tile
 
         return result;
 
+    }
+    
+    
+    public String toString()
+    {
+       return " # of Stones: " + stones.size() + "\n " + this.getRow() + " " + this.getCol();
     }
 
 }
