@@ -23,3 +23,13 @@
 /Events_Windows.class
 /FrameWindow.class
 /F_Window.class
+/N_Window.class
+/N_Window$F_Window.class
+/WINDOWS_WINDOWSLISTENER.class
+/Windows_WindowsListener.class
+/WindowState.class
+/FrameState.class
+/changeState.class
+/MouseListener.class
+/KeyListener.class
+/keyFrame.class

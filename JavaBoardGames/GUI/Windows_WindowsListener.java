@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Events_Windows
+public class Windows_WindowsListener
 {
 
     public static void main(String[] args)
@@ -15,15 +15,14 @@ public class Events_Windows
         fw.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         fw.setTitle("Window 1");
-        
+
         fw.setBounds(300, 300, 500, 350);
 
         FrameWindow fw2 = new FrameWindow();
 
         fw2.setTitle("Window 2");
-        
-        fw2.setBounds(300, 400, 300, 350);
 
+        fw2.setBounds(300, 400, 300, 350);
 
         fw2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -44,10 +43,22 @@ class FrameWindow extends JFrame
 
         F_Window listener = new F_Window();
 
-        addWindowListener(listener);
+        N_Window listener2 = new N_Window();
+
+        // addWindowListener(listener);
+
+        addWindowListener(listener2);
 
     }
 
+}
+
+class N_Window extends WindowAdapter
+{
+    public void windowIconified(WindowEvent e)
+    {
+        System.out.println("Window minimized");
+    }
 }
 
 class F_Window implements WindowListener
