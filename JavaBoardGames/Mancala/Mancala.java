@@ -1,5 +1,6 @@
 package JavaBoardGames.Mancala;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -33,12 +34,30 @@ public class Mancala
 
         }
 
+        Random rand = new Random();
+
+        int whichSide = rand.nextInt(1);
+
+        players[0].setPlayerSide(whichSide);
+
+        if (players[0].getPlayerSide() == 0)
+        {
+            players[1].setPlayerSide(1);
+
+        }
+
+        else
+        {
+            players[1].setPlayerSide(0);
+
+        }
+
     }
 
     public void startGame()
     {
 
-        Board b = new Board();
+        Board board = new Board();
 
         Random rand = new Random();
 
@@ -46,32 +65,98 @@ public class Mancala
 
         int whoseTurn = rand.nextInt(players.length);
 
-        while (endGame() == false)
+        while (endGame(board) == false)
         {
             System.out.println(players[whoseTurn].getName() + "'s turn \n");
 
             int turn = 1;
 
-            while (whoseTurn == 1)
+            System.out.println("Turn " + turn);
+
+            board.displayBoard();
+
+            turn++;
+
+            System.out.println();
+
+            System.out.println("Which hole do you choose?");
+
+            ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
+
+            for (int choice : availableHoles)
             {
-
-                System.out.println("Turn " + turn);
-
-                b.displayBoard();
-
-                turn++;
-
-                whoseTurn = changeTurn(whoseTurn);
-
+                System.out.println(choice + ": " + choice);
             }
 
-            break;
+            int choice = 0;
+
+            String c = "";
+
+            while (availableHoles.contains(choice) == false)
+            {
+                System.out.println("Enter the column # that is in the list of available holes");
+
+                // ask for the user for the row position
+                c = kbd.nextLine();
+
+                while (c.matches("[0-9]+") == false)
+                {
+                    System.out.println("Please enter a number");
+                    c = kbd.nextLine();
+
+                }
+
+                // convert the column value into an integer
+                choice = Integer.parseInt(c);
+            }
+
+            System.out.println();
+
+            whoseTurn = changeTurn(whoseTurn);
+
+            System.out.println("____________________________________________________");
+
         }
 
     }
 
-    public boolean endGame()
+    /***
+
+     * @param board
+     * @return true if on any side of the board there are no stones
+     */
+    public boolean endGame(Board board)
     {
+        // get the mancala board
+        Hole[][] mancalaBoard = board.getBoard();
+
+        // loop through the board
+        // first through the rows
+        for (int r = 0; r < mancalaBoard.length; r++)
+        {
+            // create a var that keeps track of how many columns don't have any stones in them
+            int allColumnsCleared = 0;
+
+            // then through the columns
+            for (int c = 0; c < mancalaBoard[r].length; c++)
+            {
+
+                // if that specific hole isn't occupied (there aren't any holes in them)
+                if (mancalaBoard[r][c].isOccupied() == false)
+                {
+                    // add one to the var
+                    allColumnsCleared++;
+                }
+
+            }
+
+            // if every column in that row has no stones
+            if (allColumnsCleared == mancalaBoard[r].length)
+            {
+                // the game is over
+                return true;
+            }
+        }
         return false;
     }
 

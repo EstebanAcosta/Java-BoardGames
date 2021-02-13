@@ -33,3 +33,10 @@
 /MouseListener.class
 /KeyListener.class
 /keyFrame.class
+/keyEvent.class
+/key.class
+/playingWithKeys.class
+/PlayingWithKeyListen.class
+/PlayingWithMouseListen.class
+/mouseFrame.class
+/playingWithMouse.class

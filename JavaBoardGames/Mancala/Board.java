@@ -1,5 +1,7 @@
 package JavaBoardGames.Mancala;
 
+import java.util.ArrayList;
+
 /***
  * @author estebanacosta
  */
@@ -74,7 +76,33 @@ public class Board
     public void placeValue(Stone piece, int row, int col)
     {
         board[row][col].addOccupant(piece);
-       
+
+    }
+
+    /***
+     * Method loops through the player's side of the board and checks to see how many holes
+     * on their side has at least one stone in them
+     * @param side
+     * @return a list of holes that is occupied
+     */
+    public ArrayList<Integer> returnListOfAvailableHoles(int side)
+    {
+        //create an array list
+        ArrayList<Integer> availableHoles = new ArrayList<Integer>();
+
+        //loop through the player's side of the board
+        //loop only through the player's side columns
+        for (int col = 0; col < board[side].length; col++)
+        {
+            //if this hole is occupied
+            if (board[side][col].isOccupied())
+            {
+                //add that column # in the list
+                availableHoles.add(col + 1);
+            }
+        }
+
+        return availableHoles;
     }
 
     public void displayBoard()

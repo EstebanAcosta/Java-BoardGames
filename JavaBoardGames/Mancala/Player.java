@@ -14,6 +14,8 @@ public class Player
 
     private int playerID;
 
+    private int playerSide;
+
     /***
      * Initializes the Player appropriately.
      * @param i
@@ -31,6 +33,16 @@ public class Player
     public void setPlayerID(int playerID)
     {
         this.playerID = playerID;
+    }
+
+    public int getPlayerSide()
+    {
+        return playerSide;
+    }
+
+    public void setPlayerSide(int playerSide)
+    {
+        this.playerSide = playerSide;
     }
 
     public String getName()
