@@ -87,17 +87,17 @@ public class Board
      */
     public ArrayList<Integer> returnListOfAvailableHoles(int side)
     {
-        //create an array list
+        // create an array list
         ArrayList<Integer> availableHoles = new ArrayList<Integer>();
 
-        //loop through the player's side of the board
-        //loop only through the player's side columns
+        // loop through the player's side of the board
+        // loop only through the player's side columns
         for (int col = 0; col < board[side].length; col++)
         {
-            //if this hole is occupied
+            // if this hole is occupied
             if (board[side][col].isOccupied())
             {
-                //add that column # in the list
+                // add that column # in the list
                 availableHoles.add(col + 1);
             }
         }
@@ -108,54 +108,67 @@ public class Board
     public void displayBoard()
     {
         System.out.println();
-        System.out.print("    ||");
+        System.out.print("           ||");
         // print the board to the screen
         for (int i = 0; i < board[0].length; i++)
         {
 
             if (i == 6)
             {
-                System.out.print("   " + (i + 1) + "  |");
+                System.out.print("     " + (i + 1) + "    |");
             }
             else
             {
-                System.out.print("   " + (i + 1) + "  ||");
+                System.out.print("     " + (i + 1) + "    ||");
             }
 
         }
 
         System.out.println();
-        System.out.println("-------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------");
 
         for (int r = 0; r < board.length; r++)
         {
-            System.out.print(" " + (r + 1) + "  |");
+            System.out.print("           |");
 
             for (int c = 0; c < board[r].length; c++)
             {
-                if (board[r][c].isOccupied())
+                if(c ==  board[r].length - 1)
                 {
-
-                    // if(board[r][c].getOccupant().getPieceColor() == PieceColor.BLACK)
-                    // {
-                    // System.out.print("| B |");
-                    // }
-                    //
-                    // else
-                    // {
-                    // System.out.print("| W |");
-                    // }
-                    //
+                    System.out.print("| " + board[r][c].getNumStones() + " stones ||");
 
                 }
-
+                
                 else
                 {
-                    System.out.print("|     |");
+                    System.out.print("| " + board[r][c].getNumStones() + " stones |");
+
                 }
+
             }
             System.out.println();
-            System.out.println("-------------------------------------------------------");
+            System.out.print("           ||");
+
+            for (int c = 0; c < board[r].length; c++)
+            {
+                System.out.print("          ||");
+
+            }
+            
+            System.out.println();
+
+            
+            if(r == board.length - 1)
+            {
+                System.out.println("---------------------------------------------------------------------------------------------");
+
+            }
+            
+            else
+            {
+                System.out.println("           ||----------------------------------------------------------------------||");
+
+            }
         }
     }
 
