@@ -15,6 +15,8 @@ public class Player
     private int playerID;
 
     private int playerSide;
+    
+    private int mancalaStones;
 
     /***
      * Initializes the Player appropriately.
@@ -35,6 +37,16 @@ public class Player
         this.playerID = playerID;
     }
 
+    public int getNumMancalaStones()
+    {
+        return mancalaStones;
+    }
+
+    public void setNumMancalaStones(int mancalaStones)
+    {
+        this.mancalaStones = mancalaStones;
+    }
+    
     public int getPlayerSide()
     {
         return playerSide;
@@ -102,5 +114,7 @@ public class Player
     {
         return stones.remove(0);
     }
+
+
 
 }

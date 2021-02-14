@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Mancala
 {
 
-    Player[] players = new Player[2];
+    private Player[] players = new Player[2];
 
     public void playersSetup()
     {
@@ -58,6 +58,8 @@ public class Mancala
     {
 
         Board board = new Board();
+        
+        board.addPlayers(players);
 
         Random rand = new Random();
 

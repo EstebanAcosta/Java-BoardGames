@@ -10,6 +10,18 @@ public class Board
 
     private Hole[][] board = new Hole[2][6];
 
+    private Player[] players = new Player[2];
+
+    public Player[] getPlayers()
+    {
+        return players;
+    }
+
+    public void addPlayers(Player[] players)
+    {
+        this.players = players;
+    }
+
     public Board()
     {
 
@@ -129,24 +141,35 @@ public class Board
 
         for (int r = 0; r < board.length; r++)
         {
-            System.out.print("           |");
+            if (r == 0)
+            {
+                System.out.print(players[0].getNumMancalaStones() + " stones   |");
+
+            }
+
+            else
+            {
+                System.out.print("           |");
+
+            }
 
             for (int c = 0; c < board[r].length; c++)
             {
-                if(c ==  board[r].length - 1)
+                if (c == board[r].length - 1)
                 {
-                    System.out.print("| " + board[r][c].getNumStones() + " stones ||");
+                    System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones ||" : " stone  ||"));
 
                 }
-                
+
                 else
                 {
-                    System.out.print("| " + board[r][c].getNumStones() + " stones |");
+                    System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones |" : " stone  |"));
 
                 }
 
             }
             System.out.println();
+
             System.out.print("           ||");
 
             for (int c = 0; c < board[r].length; c++)
@@ -154,16 +177,15 @@ public class Board
                 System.out.print("          ||");
 
             }
-            
+
             System.out.println();
 
-            
-            if(r == board.length - 1)
+            if (r == board.length - 1)
             {
                 System.out.println("---------------------------------------------------------------------------------------------");
 
             }
-            
+
             else
             {
                 System.out.println("           ||----------------------------------------------------------------------||");
