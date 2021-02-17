@@ -52,39 +52,6 @@ public class Board
         return this.board;
     }
 
-    public int howManyOccupied()
-    {
-        int count = 0;
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board[row].length; col++)
-            {
-                if (board[row][col].isOccupied() == true)
-                {
-                    count++;
-                }
-            }
-        }
-
-        return count;
-    }
-
-    public boolean allOccupied()
-    {
-        for (int row = 0; row < board.length; row++)
-        {
-            for (int col = 0; col < board[row].length; col++)
-            {
-                if (board[row][col].isOccupied() == false)
-                {
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
     public void placeValue(Stone piece, int row, int col)
     {
         board[row][col].addOccupant(piece);

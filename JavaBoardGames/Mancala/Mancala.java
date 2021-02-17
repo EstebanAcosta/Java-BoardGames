@@ -89,6 +89,8 @@ public class Mancala
             {
                 System.out.println(choice + ": " + choice);
             }
+            
+            System.out.println();
 
             int choice = 0;
 
@@ -116,7 +118,7 @@ public class Mancala
 
             whoseTurn = changeTurn(whoseTurn);
 
-            System.out.println("____________________________________________________");
+            System.out.println("_____________________________________________________________________________________________");
 
         }
 
