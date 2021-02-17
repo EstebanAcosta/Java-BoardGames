@@ -58,7 +58,7 @@ public class Mancala
     {
 
         Board board = new Board();
-        
+
         board.addPlayers(players);
 
         Random rand = new Random();
@@ -69,63 +69,70 @@ public class Mancala
 
         while (endGame(board) == false)
         {
-            System.out.println(players[whoseTurn].getName() + "'s turn \n");
 
-            int turn = 1;
-
-            System.out.println("Turn " + turn);
-
-            board.displayBoard();
-
-            turn++;
-
-            System.out.println();
-
-            System.out.println("Which hole do you choose?");
-
-            ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
-
-            for (int choice : availableHoles)
+            while (endTurn(board) == false)
             {
-                System.out.println(choice + ": " + choice);
-            }
-            
-            System.out.println();
+                System.out.println(players[whoseTurn].getName() + "'s turn \n");
 
-            int choice = 0;
+                int turn = 1;
 
-            String c = "";
+                System.out.println("Turn " + turn);
 
-            while (availableHoles.contains(choice) == false)
-            {
-                System.out.println("Enter the column # that is in the list of available holes");
+                board.displayBoard();
 
-                // ask for the user for the row position
-                c = kbd.nextLine();
+                turn++;
 
-                while (c.matches("[0-9]+") == false)
+                System.out.println();
+
+                System.out.println("Which hole do you choose?");
+
+                ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
+
+                for (int choice : availableHoles)
                 {
-                    System.out.println("Please enter a number");
-                    c = kbd.nextLine();
-
+                    System.out.println(choice + ": " + choice);
                 }
 
-                // convert the column value into an integer
-                choice = Integer.parseInt(c);
+                System.out.println();
+
+                int choice = 0;
+
+                String c = "";
+
+                while (availableHoles.contains(choice) == false)
+                {
+                    System.out.println("Enter the column # that is in the list of available holes");
+
+                    // ask for the user for the row position
+                    c = kbd.nextLine();
+
+                    while (c.matches("[0-9]+") == false)
+                    {
+                        System.out.println("Please enter a number");
+                        c = kbd.nextLine();
+
+                    }
+
+                    // convert the column value into an integer
+                    choice = Integer.parseInt(c);
+                }
+
+                System.out.println();
+
+                System.out.println("_____________________________________________________________________________________________");
             }
 
-            System.out.println();
-
             whoseTurn = changeTurn(whoseTurn);
-
-            System.out.println("_____________________________________________________________________________________________");
-
         }
 
     }
 
-    /***
+    public boolean endTurn(Board board)
+    {
+        return false;
+    }
 
+    /***
      * @param board
      * @return true if on any side of the board there are no stones
      */

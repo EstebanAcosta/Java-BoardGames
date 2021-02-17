@@ -86,16 +86,19 @@ public class Board
 
     public void displayBoard()
     {
-        System.out.println();
-        System.out.print("           ||");
+        System.out.println(); 
+        System.out.print("                    ||");
         // print the board to the screen
         for (int i = 0; i < board[0].length; i++)
         {
 
+            //if it's the last column
             if (i == 6)
             {
                 System.out.print("     " + (i + 1) + "    |");
             }
+            
+            //if it's any column but the last one
             else
             {
                 System.out.print("     " + (i + 1) + "    ||");
@@ -104,30 +107,37 @@ public class Board
         }
 
         System.out.println();
-        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------");
 
         for (int r = 0; r < board.length; r++)
         {
+            //if it's the first row
+            //print this statement
             if (r == 0)
             {
-                System.out.print(players[0].getNumMancalaStones() + " stones   |");
-
+                System.out.print("Player 1's Mancala: |");
             }
 
+            //if it's the second row, just print an empty space followed by a vertical bar
             else
             {
-                System.out.print("           |");
+                System.out.print("                    |");
 
             }
 
+            //loop through the columns of the board
             for (int c = 0; c < board[r].length; c++)
             {
+                //if it's the last column
+                //print the number of stones in that hole but with two vertical bars
                 if (c == board[r].length - 1)
                 {
                     System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones ||" : " stone  ||"));
 
                 }
 
+                //if it's any other column but the last one
+                //print the number of stones in that hole but with one vertical bar
                 else
                 {
                     System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones |" : " stone  |"));
@@ -135,27 +145,65 @@ public class Board
                 }
 
             }
+
+            //if it's still the first row
+            //print this stament
+            if (r == 0)
+            {
+                System.out.print(" Player 2's Mancala: ");
+
+            }
+
+            //skip to the next line
             System.out.println();
 
-            System.out.print("           ||");
+            //if if's the first row
+            //print the number of stones the first player has in their mancala
+            if (r == 0)
+            {
+                System.out.print(players[0].getNumMancalaStones() + (players[0].getNumMancalaStones() == 1 ? "  stone            ||" : " stones            ||"));
 
+            }
+
+            //if it's not the first row
+            //print an empty space
+            else
+            {
+
+                System.out.print("                    ||");
+            }
+
+            //loop through columns of the board
+            //print an empty space followed by two vertical bars
             for (int c = 0; c < board[r].length; c++)
             {
                 System.out.print("          ||");
 
             }
+            
+            //if it's still the first row, print the # of stones in the second player's mancala
+            if (r == 0)
+            {
+                System.out.print(" " + players[1].getNumMancalaStones() + (players[1].getNumMancalaStones() == 1 ? "  stone    " : " stones   "));
 
+            }
+            
+            //skip to the new line
             System.out.println();
 
-            if (r == board.length - 1)
+            //if it's the second row
+            //print this
+            if (r == 1)
             {
-                System.out.println("---------------------------------------------------------------------------------------------");
+                System.out.println("--------------------------------------------------------------------------------------------------------------------");
 
             }
 
+            //if it's the first row
+            //print rhis
             else
             {
-                System.out.println("           ||----------------------------------------------------------------------||");
+                System.out.println("                    ||----------------------------------------------------------------------||");
 
             }
         }
