@@ -10,13 +10,13 @@ public class Player
 
     private ArrayList<Stone> stonesInHand = new ArrayList<Stone>();
 
+    private ArrayList<Stone> mancala = new ArrayList<Stone>();
+
     private String name;
 
     private int playerID;
 
     private int playerSide;
-
-    private int mancalaStones;
 
     /***
      * Initializes the Player appropriately.
@@ -39,12 +39,7 @@ public class Player
 
     public int getNumMancalaStones()
     {
-        return mancalaStones;
-    }
-
-    public void setNumMancalaStones(int mancalaStones)
-    {
-        this.mancalaStones = mancalaStones;
+        return mancala.size();
     }
 
     public int getPlayerSide()
@@ -65,6 +60,16 @@ public class Player
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public void addStoneToMancala(Stone stone)
+    {
+        mancala.add(stone);
+    }
+
+    public ArrayList<Stone> getMancala()
+    {
+        return this.mancala;
     }
 
     /***
