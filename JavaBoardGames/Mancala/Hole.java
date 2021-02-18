@@ -62,25 +62,42 @@ public class Hole
         return stones.size();
     }
 
+    /***
+     * Remove all stones from this hole
+     */
+    public void clearOccupants()
+    {
+        stones.clear();
+    }
 
     /**
+     * Create a list of stones that this hole has
      * @return the stone that is occupying this hole, or null if the hole has no
      *         occupant.
      */
-    public ArrayList<Stone> getOccupant()
+    public ArrayList<Stone> getOccupants()
     {
 
         return this.stones;
     }
 
     /**
-     * Add a new stone to the list of stones.
+     * Add a new stone to this hole.
      * @param newOccupant
      */
-    public void addOccupant(Stone stone)
+    public void addStone(Stone stone)
     {
 
         this.stones.add(stone);
+    }
+
+    /***
+     * Add multiple stones to this hole
+     * @param stones
+     */
+    public void addStones(ArrayList<Stone> stones)
+    {
+        this.stones.addAll(stones);
     }
 
     /**
@@ -119,8 +136,10 @@ public class Hole
         // typecast o to Complex so that we can compare data members
         Hole t = (Hole) o;
 
+        boolean similarOccupants = true;
+
         // Compare the data members and return accordingly
-        return this.row == t.getRow() && this.col == t.getCol() && this.getOccupant() == t.getOccupant();
+        return this.row == t.getRow() && this.col == t.getCol() && this.getOccupants().size() == t.getOccupants().size();
     }
 
     @Override
@@ -140,11 +159,10 @@ public class Hole
         return result;
 
     }
-    
-    
+
     public String toString()
     {
-       return " # of Stones: " + stones.size() + "\n " + this.getRow() + " " + this.getCol();
+        return " # of Stones: " + stones.size() + "\n " + this.getRow() + " " + this.getCol();
     }
 
 }

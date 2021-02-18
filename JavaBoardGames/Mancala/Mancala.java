@@ -36,21 +36,41 @@ public class Mancala
 
         Random rand = new Random();
 
-        int whichSide = rand.nextInt(1);
+        // randomly choose an number between 0 and 1
+        int whichSide = rand.nextInt(2);
 
+        // set the player row to that random number
         players[0].setPlayerSide(whichSide);
 
+        // give the other player the other row depending on what the first player's row is
+        // if the first player's row is the first row
         if (players[0].getPlayerSide() == 0)
         {
+            // the second player's side is the second row
             players[1].setPlayerSide(1);
 
         }
 
+        // if the first player's row is the second row
         else
         {
+            // the second player's side is the first row
             players[1].setPlayerSide(0);
 
         }
+
+        System.out.println();
+
+        // loop through the players and print which side of the board is their
+        for (Player p : players)
+        {
+            System.out.println("Player " + p.getPlayerID() + " " + p.getName() + " has row " + (p.getPlayerSide() + 1));
+
+            System.out.println();
+
+        }
+
+        System.out.println("____________________________________________________");
 
     }
 
@@ -59,6 +79,9 @@ public class Mancala
 
         Board board = new Board();
 
+        Hole[][] mancalaBoard = board.getBoard();
+
+        // add the players to the board
         board.addPlayers(players);
 
         Random rand = new Random();
@@ -69,66 +92,145 @@ public class Mancala
 
         while (endGame(board) == false)
         {
+            int turn = 1;
 
-            while (endTurn(board) == false)
+            int whichSide = players[whoseTurn].getPlayerSide();
+
+            do
             {
-                System.out.println(players[whoseTurn].getName() + "'s turn \n");
+                boolean endedInMancala = false;
 
-                int turn = 1;
+                System.out.println("Player " + players[whoseTurn].getPlayerID() + " " + players[whoseTurn].getName() + "'s turn \n");
 
                 System.out.println("Turn " + turn);
 
                 board.displayBoard();
 
-                turn++;
-
-                System.out.println();
-
-                System.out.println("Which hole do you choose?");
-
-                ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
-
-                for (int choice : availableHoles)
-                {
-                    System.out.println(choice + ": " + choice);
-                }
-
-                System.out.println();
-
                 int choice = 0;
 
                 String c = "";
 
-                while (availableHoles.contains(choice) == false)
+                if (turn == 1 || endedInMancala == true)
                 {
-                    System.out.println("Enter the column # that is in the list of available holes");
+                    System.out.println();
 
-                    // ask for the user for the row position
-                    c = kbd.nextLine();
+                    System.out.println("Which hole do you choose?");
 
-                    while (c.matches("[0-9]+") == false)
+                    // get all the holes that have stones in them
+                    ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
+
+                    // print all the available holes
+                    for (int choices : availableHoles)
                     {
-                        System.out.println("Please enter a number");
-                        c = kbd.nextLine();
-
+                        System.out.println(choices + ": " + choices);
                     }
 
-                    // convert the column value into an integer
-                    choice = Integer.parseInt(c);
+                    System.out.println();
+
+                    // continue prompting the player until they choose an available choice
+                    while (availableHoles.contains(choice) == false)
+                    {
+                        System.out.println("Enter the column # that is in the list of available holes");
+
+                        // ask for the user for the row position
+                        c = kbd.nextLine();
+
+                        while (c.matches("[0-9]+") == false)
+                        {
+                            System.out.println("Please enter a number");
+                            c = kbd.nextLine();
+
+                        }
+
+                        // convert the column value into an integer
+                        choice = Integer.parseInt(c);
+                    }
+
+                    // since the choices don't directly represent the array indices
+                    // the choice that the player made has to be converted to an array index
+                    // the way to do is to take whatever choice they made and subtract 1 from it
+                    // and store that value back into the variable
+                    choice -= 1;
+
+                    System.out.println();
+
+                    System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choice].getNumStones() + " stones from hole " + (choice + 1));
+
+                    players[whoseTurn].addStonesToHand(mancalaBoard[whichSide][choice].getOccupants());
+
+                    mancalaBoard[whichSide][choice].clearOccupants();
+
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + " stones in their hand ");
+
                 }
 
-                System.out.println();
+                // Find the next row and the next column number on the board
+                int[] nextRowNCol = findNextRowAndCol(choice, whichSide);
+
+                //the first element has the next row
+                int nextRow = nextRowNCol[0];
+
+                //the second element has the next column
+                int nextCol = nextRowNCol[1];
+
+                //if the next column that was computed from the method is after the last column of the board
+                //it's time to put a stone in the player's store
+                if (nextCol == 6 && players[whoseTurn].getNumStonesInHand() == 1)
+                {
+
+                }
+
+                else
+                {
+                    mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + " stones in their hand ");
+
+                }
+
+                turn++;
 
                 System.out.println("_____________________________________________________________________________________________");
             }
+
+            while (endTurn(board, whoseTurn) == false);
 
             whoseTurn = changeTurn(whoseTurn);
         }
 
     }
 
-    public boolean endTurn(Board board)
+    public int[] findNextRowAndCol(int row, int col)
     {
+        int[] nextRowNCol = new int[2];
+
+        if (col <= 5)
+        {
+            nextRowNCol[0] = row;
+
+            nextRowNCol[1] = col++;
+
+        }
+
+        else
+        {
+
+        }
+
+        return nextRowNCol;
+    }
+
+    /***
+     * @param whoseTurn
+     * @return true if the number of stones in the player's hand is zero, false if the number of stones is greater than zero
+     */
+    public boolean endTurn(Board board, int whoseTurn)
+    {
+        if (players[whoseTurn].getNumStonesInHand() == 0)
+        {
+            return true;
+        }
+
         return false;
     }
 

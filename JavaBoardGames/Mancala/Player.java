@@ -8,23 +8,23 @@ import java.util.ArrayList;
 public class Player
 {
 
-    private ArrayList<Stone> stones = new ArrayList<Stone>();
+    private ArrayList<Stone> stonesInHand = new ArrayList<Stone>();
 
     private String name;
 
     private int playerID;
 
     private int playerSide;
-    
+
     private int mancalaStones;
 
     /***
      * Initializes the Player appropriately.
      * @param i
      */
-    public Player(int i)
+    public Player(int id)
     {
-
+        setPlayerID(id);
     }
 
     public int getPlayerID()
@@ -46,7 +46,7 @@ public class Player
     {
         this.mancalaStones = mancalaStones;
     }
-    
+
     public int getPlayerSide()
     {
         return playerSide;
@@ -68,41 +68,48 @@ public class Player
     }
 
     /***
-     * Creates a new Stone and adds it to the Player's list of Stones. Returns the created Stone.
+     * Creates a new stone and adds it to the player's hand. Returns the stone that was recently added.
      * @param initialPosition
      */
-    public Stone addStone(Stone newStone)
+    public Stone addStoneToHand(Stone newStone)
     {
 
-        stones.add(newStone);
+        stonesInHand.add(newStone);
 
         return newStone;
     }
 
+    /****
+     * Adds a list of stones to the list of stones in the player's hand
+     * @param stones
+     */
+    public void addStonesToHand(ArrayList<Stone> stones)
+    {
+        stonesInHand.addAll(stones);
+    }
+
     /***
-     * Removes all the Stones the player currently has (used only for the undo method)
+     * Removes all the stones the player currently has (used only for the undo method)
      */
     public void clearStones()
     {
-        stones.clear();
+        stonesInHand.clear();
     }
 
     /***
      * @return all of the Player's remaining Stones as an array list of Stones.
      */
-    public ArrayList<Stone> getStones()
+    public ArrayList<Stone> getStonesInHand()
     {
-        return stones;
+        return stonesInHand;
     }
 
     /***
-     * Returns the number of Stones this Player has remaining.
+     * Returns the number of stones this Player has remaining.
      */
-    public int getNumStones()
+    public int getNumStonesInHand()
     {
-
-        return stones.size();
-
+        return stonesInHand.size();
     }
 
     /***
@@ -112,9 +119,7 @@ public class Player
      */
     public Stone removeStone()
     {
-        return stones.remove(0);
+        return stonesInHand.remove(0);
     }
-
-
 
 }

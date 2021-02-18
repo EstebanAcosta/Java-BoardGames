@@ -6,18 +6,13 @@ package JavaBoardGames.Mancala;
 public class Stone
 {
 
-    private Hole tile;
+    private Hole hole;
 
-    /**
-     * Initializes the Piece appropriately, and saves the supplied arguments.
-     * @param player
-     * @param tile
-     * @param direction
-     */
+
     public Stone()
     {
 
-        this.setCurrentHole(tile);
+        this.setCurrentHole(hole);
 
     }
 
@@ -25,9 +20,9 @@ public class Stone
      * Sets the tile for this specific piece
      * @param tile
      */
-    public void setCurrentHole(Hole tile)
+    public void setCurrentHole(Hole hole)
     {
-        this.tile = tile;
+        this.hole = hole;
 
     }
 
@@ -36,7 +31,7 @@ public class Stone
      */
     public Hole getCurrentHole()
     {
-        return tile;
+        return hole;
     }
 
 }
