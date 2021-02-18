@@ -165,16 +165,22 @@ public class Mancala
 
                     mancalaBoard[whichSide][choiceCol].clearOccupants();
 
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + " stones in their hand ");
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "in their hand ");
+
+                    board.displayBoard();
+
+                    System.out.println();
 
                     nextRow = whichSide;
 
                     nextCol = choiceCol;
 
+                    endedInMancala = false;
+
                 }
 
                 // Find the next row and the next column number on the board
-                int[] nextRowNCol = findNextRowAndCol(whichSide,nextRow, nextCol);
+                int[] nextRowNCol = findNextRowAndCol(nextRow, nextCol);
 
                 // the first element has the next row
                 nextRow = nextRowNCol[0];
@@ -184,21 +190,41 @@ public class Mancala
 
                 // if the next column that was computed from the method is after the last column of the board
                 // and the mancala is theirs, it's time to put a stone in the player's mancala
-                if ((nextCol == 6 && whichSide == 1 || nextCol == 0 && whichSide == 0) && players[whoseTurn].getNumStonesInHand() == 1)
+                if (nextCol == 6 && whichSide == 1 || nextCol == -1 && whichSide == 0)
                 {
+
+                    // since the last stone was dropped in the mancala, this variable needs to be set to true
+                    if (players[whoseTurn].getNumStonesInHand() == 1)
+                    {
+
+                        endedInMancala = true;
+                    }
+
                     // remove the only stone in the player's hand and place it in their store
                     players[whoseTurn].addStoneToMancala(players[whoseTurn].removeStone());
 
-                    // since the last stone was dropped in the mancala, this variable needs to be set to true
-                    endedInMancala = true;
                 }
 
                 else
                 {
                     mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
 
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + " stones in their hand ");
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand ");
 
+                    System.out.println();
+
+                    System.out.println(players[whoseTurn].getName() + " has added a stone to hole " + (nextCol + 1) + " on " + (whichSide == nextRow ? "their" : "their opponent's") + " side of the board");
+
+                    System.out.println();
+                }
+
+                String next = "";
+
+                while (!next.equalsIgnoreCase("n"))
+                {
+                    System.out.println("Please enter n for next");
+
+                    next = kbd.nextLine();
                 }
 
                 turn++;
@@ -213,14 +239,27 @@ public class Mancala
 
     }
 
-    public int[] findNextRowAndCol(int whichSide , int row, int col)
+    public int[] findNextRowAndCol(int row, int col)
     {
         int[] nextRowNCol = new int[2];
 
-        
-        if (whichSide == 0)
+        if (row == 0)
         {
+            if (col >= 0)
+            {
+                nextRowNCol[0] = row;
 
+                nextRowNCol[1] = col - 1;
+
+            }
+
+            else
+            {
+                nextRowNCol[0] = 1;
+
+                nextRowNCol[1] = col;
+
+            }
         }
 
         else
@@ -229,12 +268,15 @@ public class Mancala
             {
                 nextRowNCol[0] = row;
 
-                nextRowNCol[1] = col++;
+                nextRowNCol[1] = col + 1;
 
             }
 
             else
             {
+                nextRowNCol[0] = 0;
+
+                nextRowNCol[1] = col;
 
             }
         }
@@ -244,7 +286,6 @@ public class Mancala
 
     /***
      * @param whoseTurn
-     * @return true if the number of stones in the player's hand is zero, false if the number of stones is greater than zero
      */
     public boolean endTurn(int whichSide, int whoseTurn)
     {
