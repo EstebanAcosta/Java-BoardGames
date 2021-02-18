@@ -167,6 +167,15 @@ public class Mancala
 
                     System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "in their hand ");
 
+                    String next = "";
+
+                    while (!next.equalsIgnoreCase("n"))
+                    {
+                        System.out.println("Please enter n for next");
+
+                        next = kbd.nextLine();
+                    }
+
                     board.displayBoard();
 
                     System.out.println();
@@ -187,10 +196,10 @@ public class Mancala
 
                 // the second element has the next column
                 nextCol = nextRowNCol[1];
-
+                
                 // if the next column that was computed from the method is after the last column of the board
                 // and the mancala is theirs, it's time to put a stone in the player's mancala
-                if (nextCol == 6 && whichSide == 1 || nextCol == -1 && whichSide == 0)
+                if ((nextCol == 6 && whichSide == 1) || (nextCol == -1 && whichSide == 0))
                 {
 
                     // since the last stone was dropped in the mancala, this variable needs to be set to true
@@ -202,6 +211,14 @@ public class Mancala
 
                     // remove the only stone in the player's hand and place it in their store
                     players[whoseTurn].addStoneToMancala(players[whoseTurn].removeStone());
+
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand ");
+
+                    System.out.println();
+                    
+                    System.out.println(players[whoseTurn].getName() + " has added a stone to their mancala");
+
+                    System.out.println();
 
                 }
 
@@ -257,7 +274,7 @@ public class Mancala
             {
                 nextRowNCol[0] = 1;
 
-                nextRowNCol[1] = col;
+                nextRowNCol[1] = col + 1;
 
             }
         }
@@ -276,7 +293,7 @@ public class Mancala
             {
                 nextRowNCol[0] = 0;
 
-                nextRowNCol[1] = col;
+                nextRowNCol[1] = col - 1;
 
             }
         }
