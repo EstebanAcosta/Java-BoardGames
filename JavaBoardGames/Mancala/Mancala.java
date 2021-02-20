@@ -14,6 +14,7 @@ public class Mancala
 
         System.out.println("Welcome to Mancala \n");
 
+        int limit = 8;
         // loop through the players in the game
         for (int i = 0; i < players.length; i++)
         {
@@ -23,6 +24,24 @@ public class Mancala
 
             // ask for their name
             String name = kbd.nextLine();
+
+            // Continue prompting the player until they put a name that is less than the character limit
+            // and doesn't have a number in it
+            while (name.length() > limit || !name.matches("[A-Za-z]+"))
+            {
+                if (name.length() > limit)
+                {
+                    System.out.println("Please enter a name with less than or equal to " + limit + " characters\n");
+
+                }
+
+                else if (!name.matches("[A-Za-z]+"))
+                {
+                    System.out.println("Please write a name with no number in it\n");
+                }
+
+                name = kbd.nextLine();
+            }
 
             // create a new player in this spot
             players[i] = new Player(i + 1);
@@ -119,7 +138,7 @@ public class Mancala
                 {
                     System.out.println();
 
-                    System.out.println("Which hole do you choose?");
+                    System.out.println("Which hole do you choose, " + players[whoseTurn].getName() + " ?");
 
                     // get all the holes that have stones in them
                     ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
@@ -159,13 +178,13 @@ public class Mancala
 
                     System.out.println();
 
-                    System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choiceCol].getNumStones() + " stones from hole " + (choiceCol + 1));
+                    System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choiceCol].getNumStones() + " stones from hole " + (choiceCol + 1) + "\n");
 
                     players[whoseTurn].addStonesToHand(mancalaBoard[whichSide][choiceCol].getOccupants());
 
                     mancalaBoard[whichSide][choiceCol].clearOccupants();
 
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "in their hand ");
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "in their hand\n ");
 
                     String next = "";
 
@@ -175,6 +194,8 @@ public class Mancala
 
                         next = kbd.nextLine();
                     }
+
+                    System.out.println();
 
                     board.displayBoard();
 
@@ -196,9 +217,9 @@ public class Mancala
 
                 // the second element has the next column
                 nextCol = nextRowNCol[1];
-                
-                // if the next column that was computed from the method is after the last column of the board
-                // and the mancala is theirs, it's time to put a stone in the player's mancala
+
+                // if the next column that was computed from the method is the player's mancala
+                //  it's time to put a stone in the player's mancala
                 if ((nextCol == 6 && whichSide == 1) || (nextCol == -1 && whichSide == 0))
                 {
 
@@ -212,27 +233,48 @@ public class Mancala
                     // remove the only stone in the player's hand and place it in their store
                     players[whoseTurn].addStoneToMancala(players[whoseTurn].removeStone());
 
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand ");
+                    System.out.println(players[whoseTurn].getName() + " has added a stone to their mancala \n");
 
-                    System.out.println();
-                    
-                    System.out.println(players[whoseTurn].getName() + " has added a stone to their mancala");
-
-                    System.out.println();
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
 
                 }
 
+                //if the player hits the opponent's mancala,
+                //skip their mancala
+                else if ((nextCol == 6 && whichSide == 0) || (nextCol == -1 && whichSide == 1))
+                {
+                    continue;
+                }
+
+                //if it's a hole within the bounds of the board
+                //place a stone in the hole
+                //and move to the next hole
                 else
                 {
-                    mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+                    System.out.println(players[whoseTurn].getName() + " has added a stone to hole " + (nextCol + 1) + " on " + (whichSide == nextRow ? "their" : "their opponent's") + " side of the board\n");
 
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand ");
+                    if (mancalaBoard[nextRow][nextCol].isOccupied() && players[whoseTurn].getNumStonesInHand() == 1)
+                    {
+                        // take one stone from the player's hand and place it in that hole
+                        mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
 
-                    System.out.println();
+                        System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[nextRow][nextCol].getNumStones() + " stones from hole " + (nextCol + 1) + "\n");
 
-                    System.out.println(players[whoseTurn].getName() + " has added a stone to hole " + (nextCol + 1) + " on " + (whichSide == nextRow ? "their" : "their opponent's") + " side of the board");
+                        players[whoseTurn].addStonesToHand(mancalaBoard[nextRow][nextCol].getOccupants());
 
-                    System.out.println();
+                        mancalaBoard[nextRow][nextCol].clearOccupants();
+
+                    }
+
+                    else
+                    {
+                        // take one stone from the player's hand and place it in that hole
+                        mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+
+                    }
+
+                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
+
                 }
 
                 String next = "";
@@ -256,43 +298,72 @@ public class Mancala
 
     }
 
+    /**
+     * Takes the current row # and column # and tries to determine where to move from the current position. Method returns
+     * an array that contains the new row # and the new column #
+     * @param row
+     * @param col
+     * @param whichSide
+     * @return an array where the first element contains the new row and the second element contains the new column
+     */
     public int[] findNextRowAndCol(int row, int col)
     {
         int[] nextRowNCol = new int[2];
 
+        // if we find ourselves currently in the first row
         if (row == 0)
         {
+            // and if the current column number is one of the six holes on that side of the board
             if (col >= 0)
             {
+                // keep the row number the same
                 nextRowNCol[0] = row;
 
+                // and subtract one from the column number(since we are on the first row, in order to place stones in a counterclock wise rotation
+                // we would need to move left of that side of the board. And in order to do that in this program the column number needs to go down by one)
                 nextRowNCol[1] = col - 1;
 
             }
-
+            // if the current column number isn't one of the six holes on that side of the board
             else
             {
+                // that means we are going to the other side of the board
+                // the other side of the board is the second row
+                // so we need to just store 1 for the new row
                 nextRowNCol[0] = 1;
 
+                // And since we are moving up from the mancala, we need to add one to the column number in order to
+                // be on the correct column number
                 nextRowNCol[1] = col + 1;
 
             }
         }
-
+        // if we find ourselves currently in the second row
         else
         {
+            // and if the current column number is one of the six holes on that side of the board
             if (col <= 5)
             {
+                // keep the row number the same
                 nextRowNCol[0] = row;
 
+                // and add one to the column number(since we are on the second row, that means that when placing a
+                // stone in the mancala, we are going to be moving to the right. And in order to do that in this program,
+                // the column number needs to be go up by one)
                 nextRowNCol[1] = col + 1;
 
             }
 
+            // if the current column number isn't one of the six holes on that side of the board
             else
             {
+                // that means we are going to the other side of the board
+                // and we need to move up a row, in this case since there are only two rows, we will need to just
+                // hardcode which row we are going to be placing this stone, which is the zeroth row.
                 nextRowNCol[0] = 0;
 
+                // And since we are moving up from the mancala, we need to subtract one from the column number in order to
+                // be on the correct column number
                 nextRowNCol[1] = col - 1;
 
             }
