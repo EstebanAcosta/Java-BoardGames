@@ -121,6 +121,7 @@ public class Mancala
 
             int nextCol = 0;
 
+            boolean endTurn = false;
             do
             {
 
@@ -219,7 +220,7 @@ public class Mancala
                 nextCol = nextRowNCol[1];
 
                 // if the next column that was computed from the method is the player's mancala
-                //  it's time to put a stone in the player's mancala
+                // it's time to put a stone in the player's mancala
                 if ((nextCol == 6 && whichSide == 1) || (nextCol == -1 && whichSide == 0))
                 {
 
@@ -239,23 +240,24 @@ public class Mancala
 
                 }
 
-                //if the player hits the opponent's mancala,
-                //skip their mancala
+                // if the player hits the opponent's mancala,
+                // skip their mancala
                 else if ((nextCol == 6 && whichSide == 0) || (nextCol == -1 && whichSide == 1))
                 {
                     continue;
                 }
 
-                //if it's a hole within the bounds of the board
-                //place a stone in the hole
-                //and move to the next hole
+                // if it's a hole within the bounds of the board
+                // place a stone in the hole
+                // and move to the next hole
                 else
                 {
                     System.out.println(players[whoseTurn].getName() + " has added a stone to hole " + (nextCol + 1) + " on " + (whichSide == nextRow ? "their" : "their opponent's") + " side of the board\n");
 
+                    // take one stone from the player's hand and place it in that hole
+
                     if (mancalaBoard[nextRow][nextCol].isOccupied() && players[whoseTurn].getNumStonesInHand() == 1)
                     {
-                        // take one stone from the player's hand and place it in that hole
                         mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
 
                         System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[nextRow][nextCol].getNumStones() + " stones from hole " + (nextCol + 1) + "\n");
@@ -266,9 +268,53 @@ public class Mancala
 
                     }
 
+                    // if it the hole the player places this stone is empty
+                    // it is officially the end of their turn
+                    else if (mancalaBoard[nextRow][nextCol].isOccupied() == false && players[whoseTurn].getNumStonesInHand() == 1)
+                    {
+                        // set this variable to true to end the player's turn
+                        endTurn = true;
+
+                        // add the stone to the empty hole
+                        mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+
+                        // if the empty hole happens to be on the player's side
+                        if (nextRow == whichSide)
+                        {
+                            // make sure to that stone to the mancala
+                            players[whoseTurn].addStonesToMancala(mancalaBoard[nextRow][nextCol].getOccupants());
+
+                            // and remove that stone from the empty hole
+                            mancalaBoard[nextRow][nextCol].clearOccupants();
+
+                            // if the current hole is on the second row
+                            if (nextRow == 1)
+                            {
+                                // pick up all the stones across from the current hole (first row, same column)
+                                // and put in the player's mancala
+                                players[whoseTurn].addStonesToMancala(mancalaBoard[0][nextCol].getOccupants());
+
+                                // make sure to clear the occupants from this hole
+                                mancalaBoard[0][nextCol].clearOccupants();
+
+                            }
+
+                            // if the current hole is on the first row
+                            else
+                            {
+                                // pick up all the stones from the hole across from the current hole (second row, same column)
+                                // and put in the player's mancala
+                                players[whoseTurn].addStonesToMancala(mancalaBoard[1][nextCol].getOccupants());
+
+                                // make sure to clear the occupants from this hole
+                                mancalaBoard[1][nextCol].clearOccupants();
+
+                            }
+                        }
+                    }
+
                     else
                     {
-                        // take one stone from the player's hand and place it in that hole
                         mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
 
                     }
@@ -291,7 +337,7 @@ public class Mancala
                 System.out.println("_____________________________________________________________________________________________");
             }
 
-            while (endTurn(whichSide, whoseTurn) == false);
+            while (endTurn == false);
 
             whoseTurn = changeTurn(whoseTurn);
         }
@@ -370,15 +416,6 @@ public class Mancala
         }
 
         return nextRowNCol;
-    }
-
-    /***
-     * @param whoseTurn
-     */
-    public boolean endTurn(int whichSide, int whoseTurn)
-    {
-
-        return false;
     }
 
     /***

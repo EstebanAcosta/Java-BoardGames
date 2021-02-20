@@ -62,9 +62,19 @@ public class Player
         this.name = name;
     }
 
+    
     public void addStoneToMancala(Stone stone)
     {
         mancala.add(stone);
+    }
+
+    /****
+     * Adds a bunch of stones to the player's mancala
+     * @param stones
+     */
+    public void addStonesToMancala(ArrayList<Stone> stones)
+    {
+        mancala.addAll(stones);
     }
 
     public ArrayList<Stone> getMancala()
@@ -73,15 +83,14 @@ public class Player
     }
 
     /***
-     * Creates a new stone and adds it to the player's hand. Returns the stone that was recently added.
+     * Adds a stone to the player's hand. Returns the stone that was recently added.
      * @param initialPosition
      */
-    public Stone addStoneToHand(Stone newStone)
+    public void addStoneToHand(Stone newStone)
     {
 
         stonesInHand.add(newStone);
 
-        return newStone;
     }
 
     /****
