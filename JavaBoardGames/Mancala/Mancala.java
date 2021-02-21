@@ -289,6 +289,12 @@ public class Mancala
                         {
 
                             endedInMancala = true;
+                            
+                            // after the player has moved their piece into their mancala, if their side has no stones left
+                            if (board.isThisSideEmpty(whichSide))
+                            { // end their turn
+                                endTurn = true;
+                            }
                         }
 
                         // remove the only stone in the player's hand and place it in their store
@@ -320,8 +326,8 @@ public class Mancala
                         {
                             mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
 
-                            System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choiceCol].getNumStones() + (mancalaBoard[whichSide][choiceCol].getNumStones() == 1 ? " stone " : " stones ") + "from hole "
-                            + (choiceCol + 1) + "\n");
+                            System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[nextRow][nextCol].getNumStones() + (mancalaBoard[nextRow][nextCol].getNumStones() == 1 ? " stone " : " stones ") + "from hole "
+                            + (nextCol + 1) + "\n");
 
                             players[whoseTurn].addStonesToHand(mancalaBoard[nextRow][nextCol].getOccupants());
 
@@ -380,11 +386,7 @@ public class Mancala
 
                         }
 
-                        // after the player has moved their mancala side, if their side has no stones left
-                        if (board.isThisSideEmpty(whichSide))
-                        { // end their turn
-                            endTurn = true;
-                        }
+
 
                         System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
 
@@ -446,7 +448,7 @@ public class Mancala
             else if (board.isThisSideEmpty(1) == false)
             {
                 // Calculate how many stones are on that side
-                int stonesOnThisSide = board.sumUpStonesOnThisSide(0);
+                int stonesOnThisSide = board.sumUpStonesOnThisSide(1);
 
                 // Create an empty list of stones
                 ArrayList<Stone> stones = new ArrayList<Stone>();
@@ -488,8 +490,10 @@ public class Mancala
                 winner = players[1];
             }
 
+            System.out.println();
+
             // declare winner
-            System.out.println("The winner of round " + currentRound + " is " + winner.getName() + " with " + winner.getNumMancalaStones() + " stones");
+            System.out.println("The winner of round " + (currentRound + 1) + " is Player " + winner.getPlayerID() + " " + winner.getName() + " with " + winner.getNumMancalaStones() + " stones");
 
             System.out.println("_____________________________________________________________________________________________\n");
 
@@ -509,8 +513,24 @@ public class Mancala
             // reset the board
             board = new Board();
 
+            board.addPlayers(players);
+
             // The first player to go in the next round is the winner
             whoseTurn = winner.getPlayerID() - 1;
+
+            if(currentRound < rounds)
+            {
+                System.out.println("Please enter n for next to commence the next round \n");
+                String next = kbd.nextLine();
+
+                while (!next.equalsIgnoreCase("n"))
+                {
+                    System.out.println("Please enter n for next");
+                    
+                    next = kbd.nextLine();
+                }  
+            }
+
         }
 
     }
