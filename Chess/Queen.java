@@ -1,4 +1,4 @@
-package JavaBoardGames.Chess;
+package Chess;
 
 public class Queen extends Piece
 {

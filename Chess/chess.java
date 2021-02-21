@@ -1,4 +1,4 @@
-package JavaBoardGames.Chess;
+package Chess;
 
 import java.util.Random;
 import java.util.Scanner;

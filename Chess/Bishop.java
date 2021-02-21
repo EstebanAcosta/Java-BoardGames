@@ -1,4 +1,4 @@
-package JavaBoardGames.Chess;
+package Chess;
 
 public class Bishop extends Piece
 {

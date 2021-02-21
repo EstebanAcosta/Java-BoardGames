@@ -1,4 +1,4 @@
-package JavaBoardGames.Checkers;
+package Checkers;
 
 /***
  * @author estebanacosta

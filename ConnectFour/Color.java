@@ -1,4 +1,4 @@
-package JavaBoardGames.ConnectFour;
+package ConnectFour;
 
 
 public enum Color
