@@ -1,4 +1,4 @@
-package JavaBoardGames.Mancala;
+package Mancala;
 
 /***
  * @author estebanacosta

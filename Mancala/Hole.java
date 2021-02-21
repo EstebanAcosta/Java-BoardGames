@@ -1,4 +1,4 @@
-package JavaBoardGames.Mancala;
+package Mancala;
 
 import java.util.ArrayList;
 

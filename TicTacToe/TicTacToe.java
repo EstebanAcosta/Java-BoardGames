@@ -1,4 +1,4 @@
-package JavaBoardGames.TicTacToe;
+package TicTacToe;
 /***
  * 
  * @author estebanacosta

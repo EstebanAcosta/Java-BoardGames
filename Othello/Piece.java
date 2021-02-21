@@ -1,4 +1,4 @@
-package JavaBoardGames.Othello;
+package Othello;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package JavaBoardGames.Game2048;
+package Game2048;
 
 /***
  * @author estebanacosta

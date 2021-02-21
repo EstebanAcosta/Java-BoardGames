@@ -1,4 +1,4 @@
-package JavaBoardGames.GUI;
+package GUI;
 
 import java.awt.GraphicsEnvironment;
 
