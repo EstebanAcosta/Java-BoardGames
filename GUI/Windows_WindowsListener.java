@@ -45,7 +45,7 @@ class FrameWindow extends JFrame
 
         N_Window listener2 = new N_Window();
 
-         addWindowListener(listener);
+        addWindowListener(listener);
 
         addWindowListener(listener2);
 
