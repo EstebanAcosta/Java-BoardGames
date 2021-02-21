@@ -38,7 +38,7 @@ public class Board
             {
                 board[row][col] = new Hole(row, col);
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 20; i++)
                 {
                     board[row][col].addStone(new Stone());
 
@@ -55,6 +55,35 @@ public class Board
     public void placeStone(Stone stone, int row, int col)
     {
         board[row][col].addStone(stone);
+
+    }
+
+    public boolean isThisSideEmpty(int whichSide)
+    {
+
+        for (int col = 0; col < board[whichSide].length; col++)
+        {
+
+            if (board[whichSide][col].isOccupied())
+            {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public int sumUpStonesOnThisSide(int whichSide)
+    {
+        int sum = 0;
+
+        for (int col = 0; col < board[whichSide].length; col++)
+        {
+            sum += board[whichSide][col].getNumStones();
+        }
+
+        return sum;
 
     }
 
@@ -87,7 +116,7 @@ public class Board
     public void displayBoard()
     {
         System.out.println();
-        System.out.print("                    ||");
+        System.out.print("                     ||");
         // print the board to the screen
         for (int i = 0; i < board[0].length; i++)
         {
@@ -96,14 +125,14 @@ public class Board
             // print this
             if (i == 6)
             {
-                System.out.print("     " + (i + 1) + "    |");
+                System.out.print("     " + (i + 1) + "      |");
             }
 
             // if it's any column but the last one
             // print this
             else
             {
-                System.out.print("     " + (i + 1) + "    ||");
+                System.out.print("     " + (i + 1) + "      ||");
             }
 
         }
@@ -117,20 +146,20 @@ public class Board
             // print this statement
             if (r == 0 && players[0].getPlayerSide() == 0)
             {
-                System.out.print("Player 1's Mancala: |");
+                System.out.print("Player 1's Mancala:  |");
             }
 
             // if it's the first row and the second player has this side
             // print this statement
             else if (r == 0 && players[1].getPlayerSide() == 0)
             {
-                System.out.print("Player 2's Mancala: |");
+                System.out.print("Player 2's Mancala:  |");
             }
 
             // otherwise just print an empty space followed by a vertical bar
             else
             {
-                System.out.print("                    |");
+                System.out.print("                     |");
 
             }
 
@@ -141,7 +170,18 @@ public class Board
                 // print the number of stones in that hole but with two vertical bars
                 if (c == board[r].length - 1)
                 {
-                    System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones ||" : " stone  ||"));
+
+                    if (board[r][c].getNumStones() < 10)
+                    {
+                        System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones   ||" : " stone    ||"));
+
+                    }
+
+                    else
+                    {
+                        System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones  ||" : " stone   ||"));
+
+                    }
 
                 }
 
@@ -149,8 +189,16 @@ public class Board
                 // print the number of stones in that hole but with one vertical bar
                 else
                 {
-                    System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones |" : " stone  |"));
+                    if (board[r][c].getNumStones() < 10)
+                    {
+                        System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones   |" : " stone    |"));
 
+                    }
+
+                    else
+                    {
+                        System.out.print("| " + board[r][c].getNumStones() + (board[r][c].getNumStones() != 1 ? " stones  |" : " stone   |"));
+                    }
                 }
 
             }
@@ -161,7 +209,7 @@ public class Board
             {
                 System.out.print("Player 1's Mancala: ");
             }
-            
+
             // if it's the second row and the second player has this side
             // print this statement
             else if (r == 1 && players[1].getPlayerSide() == 1)
@@ -176,7 +224,17 @@ public class Board
             // print the number of stones the first player has in their mancala
             if (r == 0 && players[0].getPlayerSide() == 0)
             {
-                System.out.print(players[0].getNumMancalaStones() + (players[0].getNumMancalaStones() == 1 ? "  stone            ||" : " stones            ||"));
+                if (players[0].getNumMancalaStones() < 10)
+                {
+                    System.out.print(players[0].getNumMancalaStones() + (players[0].getNumMancalaStones() == 1 ? "  stone             ||" : " stones             ||"));
+
+                }
+
+                else
+                {
+                    System.out.print(players[0].getNumMancalaStones() + (players[0].getNumMancalaStones() == 1 ? "  stone            ||" : " stones            ||"));
+
+                }
 
             }
 
@@ -184,7 +242,17 @@ public class Board
             // print the number of stones the second player has in their mancala
             else if (r == 0 && players[1].getPlayerSide() == 0)
             {
-                System.out.print(players[1].getNumMancalaStones() + (players[1].getNumMancalaStones() == 1 ? "  stone            ||" : " stones            ||"));
+                if (players[1].getNumMancalaStones() < 10)
+                {
+                    System.out.print(players[1].getNumMancalaStones() + (players[1].getNumMancalaStones() == 1 ? "  stone             ||" : " stones             ||"));
+
+                }
+
+                else
+                {
+                    System.out.print(players[1].getNumMancalaStones() + (players[1].getNumMancalaStones() == 1 ? "  stone            ||" : " stones            ||"));
+
+                }
 
             }
 
@@ -192,27 +260,27 @@ public class Board
             else
             {
 
-                System.out.print("                    ||");
+                System.out.print("                     ||");
             }
 
             // loop through columns of the board
             // print an empty space followed by two vertical bars
             for (int c = 0; c < board[r].length; c++)
             {
-                System.out.print("          ||");
+                System.out.print("            ||");
 
             }
 
             // if it's the second row and the first player has this side
-            //print the # of stones in the first player's mancala
+            // print the # of stones in the first player's mancala
             if (r == 1 && players[0].getPlayerSide() == 1)
             {
                 System.out.print(players[0].getNumMancalaStones() + (players[0].getNumMancalaStones() == 1 ? "  stone            " : " stones            "));
 
             }
 
-            //if it's the second row and the second player has this side
-            //print the # of stones in the second player's mancala
+            // if it's the second row and the second player has this side
+            // print the # of stones in the second player's mancala
             else if (r == 1 && players[1].getPlayerSide() == 1)
             {
                 System.out.print(players[1].getNumMancalaStones() + (players[1].getNumMancalaStones() == 1 ? "  stone            " : " stones            "));
@@ -234,7 +302,7 @@ public class Board
             // print this
             else
             {
-                System.out.println("                    ||----------------------------------------------------------------------||");
+                System.out.println("                     ||----------------------------------------------------------------------------------||");
 
             }
         }

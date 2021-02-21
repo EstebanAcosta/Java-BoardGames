@@ -62,7 +62,6 @@ public class Player
         this.name = name;
     }
 
-    
     public void addStoneToMancala(Stone stone)
     {
         mancala.add(stone);
@@ -103,11 +102,19 @@ public class Player
     }
 
     /***
-     * Removes all the stones the player currently has (used only for the undo method)
+     * Removes all the stones the player currently has
      */
-    public void clearStones()
+    public void clearHandStones()
     {
         stonesInHand.clear();
+    }
+
+    /***
+     * Clears all the stones in the player's mancala
+     */
+    public void clearMancalaStones()
+    {
+        mancala.clear();
     }
 
     /***

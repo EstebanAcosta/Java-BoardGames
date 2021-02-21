@@ -93,10 +93,63 @@ public class Mancala
 
     }
 
-    public void startGame()
+    public void setUpGame()
+    {
+        Scanner kbd = new Scanner(System.in);
+
+        int min = 1;
+
+        int max = 4;
+
+        System.out.println("What is the number of rounds you want?\n");
+
+        System.out.println("The min # is " + min + " and the max # is " + max);
+
+        String numRounds = kbd.nextLine();
+
+        // if player gives a non-numerical answer
+        // continue prompting player until they give a numeric answer
+        while (!numRounds.matches("[0-9]+"))
+        {
+            System.out.println("Please enter a number for the number of rounds in this new game");
+
+            numRounds = kbd.nextLine();
+        }
+
+        // convert input into an integer
+        int numberOfRounds = Integer.parseInt(numRounds);
+
+        // Continue promoting the player until they provide
+        // a number between 0 and 5
+        while (numberOfRounds > max || numberOfRounds < min)
+        {
+            System.out.println("Please enter a number that is between " + min + " and " + max);
+
+            // get player input
+            numRounds = kbd.nextLine();
+
+            // continue prompting player until the player gives a number
+            while (!numRounds.matches("[0-9]+"))
+            {
+                System.out.println("Please enter a number for the number of rounds in this new game");
+
+                numRounds = kbd.nextLine();
+            }
+            // convert the player input into an integer
+            numberOfRounds = Integer.parseInt(numRounds);
+        }
+
+        System.out.println("__________________________________________________\n");
+
+        startGame(numberOfRounds);
+    }
+
+    public void startGame(int rounds)
     {
 
         Board board = new Board();
+
+        int currentRound = 0;
 
         Hole[][] mancalaBoard = board.getBoard();
 
@@ -109,83 +162,233 @@ public class Mancala
 
         int whoseTurn = rand.nextInt(players.length);
 
-        while (endGame(board) == false)
+        while (currentRound < rounds)
         {
-            int turn = 1;
-
-            int whichSide = players[whoseTurn].getPlayerSide();
-
-            boolean endedInMancala = false;
-
-            int nextRow = 0;
-
-            int nextCol = 0;
-
-            boolean endTurn = false;
-            do
+            while (endGame(board) == false)
             {
 
-                System.out.println("Player " + players[whoseTurn].getPlayerID() + " " + players[whoseTurn].getName() + "'s turn \n");
+                int turn = 1;
 
-                System.out.println("Turn " + turn);
+                int whichSide = players[whoseTurn].getPlayerSide();
 
-                board.displayBoard();
+                boolean endedInMancala = false;
 
-                int choiceCol = 0;
+                int nextRow = 0;
 
-                String c = "";
+                int nextCol = 0;
 
-                if (turn == 1 || endedInMancala == true)
+                boolean endTurn = false;
+
+                do
                 {
-                    System.out.println();
 
-                    System.out.println("Which hole do you choose, " + players[whoseTurn].getName() + " ?");
+                    System.out.println("Round " + (currentRound + 1) + "\n");
 
-                    // get all the holes that have stones in them
-                    ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
+                    System.out.println("Player " + players[whoseTurn].getPlayerID() + " " + players[whoseTurn].getName() + "'s turn \n");
 
-                    // print all the available holes
-                    for (int choices : availableHoles)
+                    System.out.println("Turn " + turn);
+
+                    board.displayBoard();
+
+                    int choiceCol = 0;
+
+                    String c = "";
+
+                    if (turn == 1 || endedInMancala == true)
                     {
-                        System.out.println(choices + ": " + choices);
+                        System.out.println();
+
+                        System.out.println("Which hole do you choose, " + players[whoseTurn].getName() + " ?");
+
+                        // get all the holes that have stones in them
+                        ArrayList<Integer> availableHoles = board.returnListOfAvailableHoles(players[whoseTurn].getPlayerSide());
+
+                        // print all the available holes
+                        for (int choices : availableHoles)
+                        {
+                            System.out.println(choices + ": " + choices);
+                        }
+
+                        System.out.println();
+
+                        // continue prompting the player until they choose an available choice
+                        while (availableHoles.contains(choiceCol) == false)
+                        {
+                            System.out.println("Enter the column # that is in the list of available holes");
+
+                            // ask for the user for the row position
+                            c = kbd.nextLine();
+
+                            while (c.matches("[0-9]+") == false)
+                            {
+                                System.out.println("Please enter a number");
+                                c = kbd.nextLine();
+
+                            }
+
+                            // convert the column value into an integer
+                            choiceCol = Integer.parseInt(c);
+                        }
+
+                        // since the choices don't directly represent the array indices
+                        // the choice that the player made has to be converted to an array index
+                        // the way to do is to take whatever choice they made and subtract 1 from it
+                        // and store that value back into the variable
+                        choiceCol -= 1;
+
+                        System.out.println();
+
+                        System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choiceCol].getNumStones() + (mancalaBoard[whichSide][choiceCol].getNumStones() == 1 ? " stone " : " stones ") + "from hole "
+                        + (choiceCol + 1) + "\n");
+
+                        players[whoseTurn].addStonesToHand(mancalaBoard[whichSide][choiceCol].getOccupants());
+
+                        mancalaBoard[whichSide][choiceCol].clearOccupants();
+
+                        System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "in their hand\n ");
+
+                        String next = "";
+
+                        while (!next.equalsIgnoreCase("n"))
+                        {
+                            System.out.println("Please enter n for next");
+
+                            next = kbd.nextLine();
+                        }
+
+                        System.out.println();
+
+                        board.displayBoard();
+
+                        System.out.println();
+
+                        nextRow = whichSide;
+
+                        nextCol = choiceCol;
+
+                        endedInMancala = false;
+
                     }
 
-                    System.out.println();
+                    // Find the next row and the next column number on the board
+                    int[] nextRowNCol = findNextRowAndCol(nextRow, nextCol);
 
-                    // continue prompting the player until they choose an available choice
-                    while (availableHoles.contains(choiceCol) == false)
+                    // the first element has the next row
+                    nextRow = nextRowNCol[0];
+
+                    // the second element has the next column
+                    nextCol = nextRowNCol[1];
+
+                    // if the next column that was computed from the method is the player's mancala
+                    // it's time to put a stone in the player's mancala
+                    if ((nextCol == 6 && whichSide == 1) || (nextCol == -1 && whichSide == 0))
                     {
-                        System.out.println("Enter the column # that is in the list of available holes");
 
-                        // ask for the user for the row position
-                        c = kbd.nextLine();
-
-                        while (c.matches("[0-9]+") == false)
+                        // since the last stone was dropped in the mancala, this variable needs to be set to true
+                        if (players[whoseTurn].getNumStonesInHand() == 1)
                         {
-                            System.out.println("Please enter a number");
-                            c = kbd.nextLine();
+
+                            endedInMancala = true;
+                        }
+
+                        // remove the only stone in the player's hand and place it in their store
+                        players[whoseTurn].addStoneToMancala(players[whoseTurn].removeStone());
+
+                        System.out.println(players[whoseTurn].getName() + " has added a stone to their mancala \n");
+
+                        System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
+
+                    }
+
+                    // if the player hits the opponent's mancala,
+                    // skip their mancala
+                    else if ((nextCol == 6 && whichSide == 0) || (nextCol == -1 && whichSide == 1))
+                    {
+                        continue;
+                    }
+
+                    // if it's a hole within the bounds of the board
+                    // place a stone in the hole
+                    // and move to the next hole
+                    else
+                    {
+                        System.out.println(players[whoseTurn].getName() + " has added a stone to hole " + (nextCol + 1) + " on " + (whichSide == nextRow ? "their" : "their opponent's") + " side of the board\n");
+
+                        // take one stone from the player's hand and place it in that hole
+
+                        if (mancalaBoard[nextRow][nextCol].isOccupied() && players[whoseTurn].getNumStonesInHand() == 1)
+                        {
+                            mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+
+                            System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choiceCol].getNumStones() + (mancalaBoard[whichSide][choiceCol].getNumStones() == 1 ? " stone " : " stones ") + "from hole "
+                            + (choiceCol + 1) + "\n");
+
+                            players[whoseTurn].addStonesToHand(mancalaBoard[nextRow][nextCol].getOccupants());
+
+                            mancalaBoard[nextRow][nextCol].clearOccupants();
 
                         }
 
-                        // convert the column value into an integer
-                        choiceCol = Integer.parseInt(c);
+                        // if the hole the player places this stone in is empty
+                        // it is officially the end of their turn
+                        else if (mancalaBoard[nextRow][nextCol].isOccupied() == false && players[whoseTurn].getNumStonesInHand() == 1)
+                        {
+                            // set this variable to true to end the player's turn
+                            endTurn = true;
+
+                            // add the stone to the empty hole
+                            mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+
+                            // if the empty hole happens to be on the player's side
+                            if (nextRow == whichSide)
+                            {
+                                // make sure to that stone to the mancala
+                                players[whoseTurn].addStonesToMancala(mancalaBoard[nextRow][nextCol].getOccupants());
+
+                                // and remove that stone from the empty hole
+                                mancalaBoard[nextRow][nextCol].clearOccupants();
+
+                                // if the current hole is on the second row
+                                if (nextRow == 1)
+                                {
+                                    // pick up all the stones across from the current hole (first row, same column)
+                                    // and put in the player's mancala
+                                    players[whoseTurn].addStonesToMancala(mancalaBoard[0][nextCol].getOccupants());
+
+                                    // make sure to clear the occupants from this hole
+                                    mancalaBoard[0][nextCol].clearOccupants();
+
+                                }
+
+                                // if the current hole is on the first row
+                                else
+                                {
+                                    // pick up all the stones from the hole across from the current hole (second row, same column)
+                                    // and put in the player's mancala
+                                    players[whoseTurn].addStonesToMancala(mancalaBoard[1][nextCol].getOccupants());
+
+                                    // make sure to clear the occupants from this hole
+                                    mancalaBoard[1][nextCol].clearOccupants();
+
+                                }
+                            }
+                        }
+
+                        else
+                        {
+                            mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
+
+                        }
+
+                        // after the player has moved their mancala side, if their side has no stones left
+                        if (board.isThisSideEmpty(whichSide))
+                        { // end their turn
+                            endTurn = true;
+                        }
+
+                        System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
+
                     }
-
-                    // since the choices don't directly represent the array indices
-                    // the choice that the player made has to be converted to an array index
-                    // the way to do is to take whatever choice they made and subtract 1 from it
-                    // and store that value back into the variable
-                    choiceCol -= 1;
-
-                    System.out.println();
-
-                    System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[whichSide][choiceCol].getNumStones() + " stones from hole " + (choiceCol + 1) + "\n");
-
-                    players[whoseTurn].addStonesToHand(mancalaBoard[whichSide][choiceCol].getOccupants());
-
-                    mancalaBoard[whichSide][choiceCol].clearOccupants();
-
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "in their hand\n ");
 
                     String next = "";
 
@@ -196,150 +399,118 @@ public class Mancala
                         next = kbd.nextLine();
                     }
 
-                    System.out.println();
+                    turn++;
 
-                    board.displayBoard();
-
-                    System.out.println();
-
-                    nextRow = whichSide;
-
-                    nextCol = choiceCol;
-
-                    endedInMancala = false;
-
+                    System.out.println("_____________________________________________________________________________________________");
                 }
 
-                // Find the next row and the next column number on the board
-                int[] nextRowNCol = findNextRowAndCol(nextRow, nextCol);
+                while (endTurn == false);
 
-                // the first element has the next row
-                nextRow = nextRowNCol[0];
-
-                // the second element has the next column
-                nextCol = nextRowNCol[1];
-
-                // if the next column that was computed from the method is the player's mancala
-                // it's time to put a stone in the player's mancala
-                if ((nextCol == 6 && whichSide == 1) || (nextCol == -1 && whichSide == 0))
-                {
-
-                    // since the last stone was dropped in the mancala, this variable needs to be set to true
-                    if (players[whoseTurn].getNumStonesInHand() == 1)
-                    {
-
-                        endedInMancala = true;
-                    }
-
-                    // remove the only stone in the player's hand and place it in their store
-                    players[whoseTurn].addStoneToMancala(players[whoseTurn].removeStone());
-
-                    System.out.println(players[whoseTurn].getName() + " has added a stone to their mancala \n");
-
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
-
-                }
-
-                // if the player hits the opponent's mancala,
-                // skip their mancala
-                else if ((nextCol == 6 && whichSide == 0) || (nextCol == -1 && whichSide == 1))
-                {
-                    continue;
-                }
-
-                // if it's a hole within the bounds of the board
-                // place a stone in the hole
-                // and move to the next hole
-                else
-                {
-                    System.out.println(players[whoseTurn].getName() + " has added a stone to hole " + (nextCol + 1) + " on " + (whichSide == nextRow ? "their" : "their opponent's") + " side of the board\n");
-
-                    // take one stone from the player's hand and place it in that hole
-
-                    if (mancalaBoard[nextRow][nextCol].isOccupied() && players[whoseTurn].getNumStonesInHand() == 1)
-                    {
-                        mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
-
-                        System.out.println(players[whoseTurn].getName() + " has grabbed " + mancalaBoard[nextRow][nextCol].getNumStones() + " stones from hole " + (nextCol + 1) + "\n");
-
-                        players[whoseTurn].addStonesToHand(mancalaBoard[nextRow][nextCol].getOccupants());
-
-                        mancalaBoard[nextRow][nextCol].clearOccupants();
-
-                    }
-
-                    // if it the hole the player places this stone is empty
-                    // it is officially the end of their turn
-                    else if (mancalaBoard[nextRow][nextCol].isOccupied() == false && players[whoseTurn].getNumStonesInHand() == 1)
-                    {
-                        // set this variable to true to end the player's turn
-                        endTurn = true;
-
-                        // add the stone to the empty hole
-                        mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
-
-                        // if the empty hole happens to be on the player's side
-                        if (nextRow == whichSide)
-                        {
-                            // make sure to that stone to the mancala
-                            players[whoseTurn].addStonesToMancala(mancalaBoard[nextRow][nextCol].getOccupants());
-
-                            // and remove that stone from the empty hole
-                            mancalaBoard[nextRow][nextCol].clearOccupants();
-
-                            // if the current hole is on the second row
-                            if (nextRow == 1)
-                            {
-                                // pick up all the stones across from the current hole (first row, same column)
-                                // and put in the player's mancala
-                                players[whoseTurn].addStonesToMancala(mancalaBoard[0][nextCol].getOccupants());
-
-                                // make sure to clear the occupants from this hole
-                                mancalaBoard[0][nextCol].clearOccupants();
-
-                            }
-
-                            // if the current hole is on the first row
-                            else
-                            {
-                                // pick up all the stones from the hole across from the current hole (second row, same column)
-                                // and put in the player's mancala
-                                players[whoseTurn].addStonesToMancala(mancalaBoard[1][nextCol].getOccupants());
-
-                                // make sure to clear the occupants from this hole
-                                mancalaBoard[1][nextCol].clearOccupants();
-
-                            }
-                        }
-                    }
-
-                    else
-                    {
-                        mancalaBoard[nextRow][nextCol].addStone(players[whoseTurn].removeStone());
-
-                    }
-
-                    System.out.println(players[whoseTurn].getName() + " has " + players[whoseTurn].getNumStonesInHand() + (players[whoseTurn].getNumStonesInHand() == 1 ? " stone " : " stones ") + "left in their hand\n ");
-
-                }
-
-                String next = "";
-
-                while (!next.equalsIgnoreCase("n"))
-                {
-                    System.out.println("Please enter n for next");
-
-                    next = kbd.nextLine();
-                }
-
-                turn++;
-
-                System.out.println("_____________________________________________________________________________________________");
+                whoseTurn = changeTurn(whoseTurn);
             }
 
-            while (endTurn == false);
+            Player winner = null;
 
-            whoseTurn = changeTurn(whoseTurn);
+            // if the first row of the board isn't empty
+            if (board.isThisSideEmpty(0) == false)
+            {
+                // Calculate how many stones are on that side
+                int stonesOnThisSide = board.sumUpStonesOnThisSide(0);
+
+                // Create an empty list of stones
+                ArrayList<Stone> stones = new ArrayList<Stone>();
+
+                // Add the number of stones on that side to the list
+                for (int i = 0; i < stonesOnThisSide; i++)
+                {
+                    stones.add(new Stone());
+                }
+
+                // if the first player's side is the first row
+                if (players[0].getPlayerSide() == 0)
+                {
+
+                    // add the stones to the player's mancala
+                    players[0].addStonesToMancala(stones);
+                }
+
+                // if the second player's side is the second row
+                else
+                {
+                    // add the stones to the player's mancala
+                    players[1].addStonesToMancala(stones);
+
+                }
+            }
+
+            else if (board.isThisSideEmpty(1) == false)
+            {
+                // Calculate how many stones are on that side
+                int stonesOnThisSide = board.sumUpStonesOnThisSide(0);
+
+                // Create an empty list of stones
+                ArrayList<Stone> stones = new ArrayList<Stone>();
+
+                // Add the number of stones on that side to the list
+                for (int i = 0; i < stonesOnThisSide; i++)
+                {
+                    stones.add(new Stone());
+                }
+
+                // if the first player's side is the second row
+                if (players[0].getPlayerSide() == 1)
+                {
+                    // add the stones to the player's mancala
+                    players[0].addStonesToMancala(stones);
+
+                }
+
+                // if the second player's side is the second row
+                else
+                {
+                    // add the stones to the player's mancala
+                    players[1].addStonesToMancala(stones);
+
+                }
+            }
+
+            // if the first player has more stones in their mancala than their rival
+            if (players[0].getNumMancalaStones() > players[1].getNumMancalaStones())
+            {
+                // make them the winner
+                winner = players[0];
+            }
+
+            // if the second player has more stones in their mancala than their vial
+            else
+            {
+                // make them the winner
+                winner = players[1];
+            }
+
+            // declare winner
+            System.out.println("The winner of round " + currentRound + " is " + winner.getName() + " with " + winner.getNumMancalaStones() + " stones");
+
+            System.out.println("_____________________________________________________________________________________________\n");
+
+            // add one more to the round
+            currentRound++;
+
+            // loop through the list of player
+            for (Player p : players)
+            {
+                // clear the stones in the player's hand
+                p.clearHandStones();
+
+                // clear the stones in the player's mancala
+                p.clearMancalaStones();
+            }
+
+            // reset the board
+            board = new Board();
+
+            // The first player to go in the next round is the winner
+            whoseTurn = winner.getPlayerID() - 1;
         }
 
     }
@@ -424,36 +595,11 @@ public class Mancala
      */
     public boolean endGame(Board board)
     {
-        // get the mancala board
-        Hole[][] mancalaBoard = board.getBoard();
-
-        // loop through the board
-        // first through the rows
-        for (int r = 0; r < mancalaBoard.length; r++)
+        if (board.isThisSideEmpty(0) == true || board.isThisSideEmpty(1) == true)
         {
-            // create a var that keeps track of how many columns don't have any stones in them
-            int allColumnsCleared = 0;
-
-            // then through the columns
-            for (int c = 0; c < mancalaBoard[r].length; c++)
-            {
-
-                // if that specific hole isn't occupied (there aren't any holes in them)
-                if (mancalaBoard[r][c].isOccupied() == false)
-                {
-                    // add one to the var
-                    allColumnsCleared++;
-                }
-
-            }
-
-            // if every column in that row has no stones
-            if (allColumnsCleared == mancalaBoard[r].length)
-            {
-                // the game is over
-                return true;
-            }
+            return true;
         }
+
         return false;
     }
 
@@ -487,6 +633,6 @@ public class Mancala
 
         m.playersSetup();
 
-        m.startGame();
+        m.setUpGame();
     }
 }
