@@ -38,9 +38,9 @@ class playingWithKeys implements KeyListener
 
     public void keyTyped(KeyEvent e)
     {
-        char code = e.getKeyChar();
-        
-        System.out.println(code);
+//        char code = e.getKeyChar();
+//        
+//        System.out.println(code);
     }
 
     public void keyPressed(KeyEvent e)
@@ -48,6 +48,11 @@ class playingWithKeys implements KeyListener
 //        int code = e.getKeyCode();
 //
 //        System.out.println(code);
+
+        char code = e.getKeyChar();
+        
+        System.out.println(code);
+    
     }
 
     public void keyReleased(KeyEvent e)
