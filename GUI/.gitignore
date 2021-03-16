@@ -52,3 +52,11 @@
 /PlayingWithFocusComponents.class
 /PlayingWithFocusWindows.class
 /focusWindow.class
+/PlayingWithAction.class
+/ActionFrame.class
+/actionPanel.class
+/ActionFrame$actionPanel.class
+/actionFrame.class
+/colorAction.class
+/actionPanel$colorAction.class
+/PlayingWithWindowsListener.class

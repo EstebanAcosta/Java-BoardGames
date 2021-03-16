@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Windows_WindowsListener
+public class PlayingWithWindowsListener
 {
 
     public static void main(String[] args)

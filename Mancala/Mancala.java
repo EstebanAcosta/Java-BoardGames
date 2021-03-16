@@ -25,6 +25,10 @@ public class Mancala
             // ask for their name
             String name = kbd.nextLine();
 
+            if(name.matches("[A-Za-z]+"))
+            {
+                System.out.println("here");
+            }
             // Continue prompting the player until they put a name that is less than the character limit
             // and doesn't have a number in it
             while (name.length() > limit || !name.matches("[A-Za-z]+"))
