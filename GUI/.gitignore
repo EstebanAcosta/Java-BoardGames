@@ -60,3 +60,9 @@
 /colorAction.class
 /actionPanel$colorAction.class
 /PlayingWithWindowsListener.class
+/PlayingWithMultipleListeners.class
+/mainFrame.class
+/mainPanel.class
+/newFrame.class
+/mainPanel$newListener.class
+/newFrame$closeEverything.class
