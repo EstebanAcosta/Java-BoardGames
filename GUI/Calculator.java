@@ -29,27 +29,33 @@ class calculatorFrame extends JFrame
     {
         setTitle("Calculator");
 
-//        setBounds(500, 300, 450, 300);
+        // setBounds(500, 300, 450, 300);
 
         calculatorPanel cp = new calculatorPanel();
 
         add(cp);
-        
+
         pack();
     }
 }
 
 class calculatorPanel extends JPanel
 {
-    JPanel myPanel2;
-    
-    JButton window;
+    private JPanel myPanel2;
+
+    private JButton window;
+
+    private boolean initial = true;
+
+    private double result = 0;
+
+    private String lastOperation = "";
     
     public calculatorPanel()
     {
         setLayout(new BorderLayout());
 
-        window = new JButton("");
+        window = new JButton("0");
 
         window.setEnabled(false);
 
@@ -58,120 +64,106 @@ class calculatorPanel extends JPanel
         myPanel2 = new JPanel();
 
         myPanel2.setLayout(new GridLayout(4, 4));
-        
-        String botonesx="789/456*123-0.=+";
-        
-        for(int i=0; i<botonesx.length();i++) 
-        {
-            char sucesion=botonesx.charAt(i);
-            
-            if(sucesion != '+' && sucesion != '-' &&
-               sucesion != '*' && sucesion != '.' &&
-               sucesion != '/'  && sucesion != '=')
-            {
-                placeButtons(Character.toString(sucesion),new insertNumber());
 
+        String botonesx = "789/456*123-0.=+";
+
+        for (int i = 0; i < botonesx.length(); i++)
+        {
+            char sucesion = botonesx.charAt(i);
+
+            if (sucesion != '+' && sucesion != '-' &&
+            sucesion != '*' && sucesion != '.' &&
+            sucesion != '/' && sucesion != '=')
+            {
+                placeButtons(Character.toString(sucesion), new insertNumber());
+
+            }
+
+            else
+            {
+                placeButtons(Character.toString(sucesion), new orderAction());
+
+            }
+
+        }
+
+        add(myPanel2, BorderLayout.CENTER);
+    }
+
+    private class orderAction implements ActionListener
+    {
+
+        public void actionPerformed(ActionEvent e)
+        {
+            String operation = e.getActionCommand();
+            
+            lastOperation = operation;
+            
+            calculate(Double.parseDouble(window.getText()));
+
+            initial = true;
+        }
+
+        public void calculate(double x)
+        {
+            if(lastOperation.equalsIgnoreCase("+"))
+            {
+                result+=x;
+                
+            }
+            
+            else if(lastOperation.equalsIgnoreCase("-"))
+            {
+                result-=x;
+            }
+            
+            else if(lastOperation.equalsIgnoreCase("*"))
+            {
+                result*=x;
+            }
+            
+            else if(lastOperation.equalsIgnoreCase("/"))
+            {
+                result/=x;
             }
             
             else
             {
-                
+                result = x;
             }
-                        
             
+            window.setText(String.valueOf(result));
         }
 
-        
-        add(myPanel2,BorderLayout.CENTER);
     }
-     
+
     private class insertNumber implements ActionListener
     {
 
-    
         public void actionPerformed(ActionEvent e)
         {
             String entry = e.getActionCommand();
-            
+
+            if (initial)
+            {
+                window.setText("");
+
+                initial = false;
+            }
+
             window.setText(window.getText() + entry);
+
         }
-        
+
     }
-    
+
     private void placeButtons(String label, ActionListener listen)
     {
         JButton button = new JButton(label);
-        
+
         button.addActionListener(listen);
-        
+
         myPanel2.add(button);
     }
 
 }
-
-//JButton button1 = new JButton("1");
-//
-//myPanel2.add(button1);
-//
-//JButton button2 = new JButton("2");
-//
-//myPanel2.add(button2);
-//
-//JButton button3 = new JButton("3");
-//
-//myPanel2.add(button3);
-//
-//JButton button4 = new JButton("4");
-//
-//myPanel2.add(button4);
-//
-//
-//JButton button5 = new JButton("5");
-//
-//myPanel2.add(button5);
-//
-//JButton button6 = new JButton("6");
-//
-//myPanel2.add(button6);
-//
-//JButton button7 = new JButton("7");
-//
-//myPanel2.add(button7);
-//
-//JButton button8 = new JButton("8");
-//
-//myPanel2.add(button8);
-//
-//
-//JButton button9 = new JButton("9");
-//
-//myPanel2.add(button9);
-//
-//JButton button0 = new JButton("0");
-//
-//myPanel2.add(button0);
-//
-//JButton buttonPlus = new JButton("+");
-//
-//myPanel2.add(buttonPlus);
-//
-//JButton buttonMinus = new JButton("-");
-//
-//myPanel2.add(buttonMinus);
-//
-//
-//JButton buttonTimes = new JButton("*");
-//
-//myPanel2.add(buttonTimes);
-//
-//JButton buttonDivided = new JButton("/");
-//
-//myPanel2.add(buttonDivided);
-//
-//JButton buttonComma = new JButton(",");
-//
-//myPanel2.add(buttonComma);
-//
-//JButton buttonPeriod = new JButton(".");
-//
-//myPanel2.add(buttonPeriod);
