@@ -3,7 +3,7 @@ package GUI_2048;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.util.Random;
 
 public class Game2048
 {
@@ -38,36 +38,89 @@ class createFrame extends JFrame
 
         setLocation(width / 4, height / 4);
 
-        createPanel cp = new createPanel();
+        framePanel fp = new framePanel();
 
-        add(cp);
-        
-        cp.setBackground(Color.yellow);
+        add(fp);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 }
 
-class createPanel extends JPanel
+class framePanel extends JPanel
+
 {
-    public void paintComponent(Graphics g)
-    {
-        super.paintComponent(g);
+    private JButton score;
+    
+    private JPanel gamePanel;
 
-        Graphics2D g2 = (Graphics2D) g;
+    public framePanel()
+    {   
+        score = new JButton("Score: 0");
+        
+        gamePanel = new JPanel();
+        
+        setLayout(new BorderLayout());
+        
+        add(score,BorderLayout.NORTH);
+        
+        gamePanel.setLayout(new GridLayout(4, 4));
+       
+        Random rand = new Random();
 
-        int height = 500;
+        int whichTile = 0, whichTile2 = 0;
 
-        int width = 500;
+        while (whichTile == whichTile2)
+        {
+            whichTile = rand.nextInt(17);
 
-        Rectangle2D rectangle = new Rectangle2D.Double(height / 4, width / 4, width / 2, height / 2);
+            whichTile2 = rand.nextInt(17);
+        }
+        
+        for (int i = 1; i < 17; i++)
+        {
+            if (i == whichTile || i == whichTile2)
+            {
+                boolean twoOrFour = rand.nextBoolean();
 
-        g2.setPaint(Color.BLUE);
+                if (twoOrFour)
+                {
+                    JButton two = new JButton("2");
 
-//        g2.fill(rectangle);
+                    // two.setBackground(Color.blue);
+                    //
+                    // two.setOpaque(true);
+                    //
+                    //// two.setBorderPainted(false);
 
-//        g2.draw(rectangle);
+                    gamePanel.add(two);
+                }
 
+                else
+                {
+                    JButton four = new JButton("4");
+
+                    // four.setBackground(Color.blue);
+                    //
+                    // four.setOpaque(true);
+                    //
+                    // // four.setBorderPainted(false);
+
+                    gamePanel.add(four);
+                }
+
+            }
+
+            else
+            {
+                gamePanel.add(new JButton());
+            }
+
+        }
+        
+        add(gamePanel, BorderLayout.CENTER);
     }
+    
+
+    
 }
