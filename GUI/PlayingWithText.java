@@ -1,5 +1,7 @@
 package GUI;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -41,15 +43,27 @@ class textPanel extends JPanel
 {
     JTextField field1;
     
+    JLabel result;
+
     public textPanel()
     {
+        setLayout(new BorderLayout());
+        
+        JPanel northPanel = new JPanel();
+        
+        northPanel.setLayout(new FlowLayout());
+        
+        result = new JLabel("",JLabel.CENTER);
+        
         JLabel label = new JLabel("Email: ");
-        
-        add(label);
-        
+
+        northPanel.add(label);
+
         field1 = new JTextField(20);
 
-        add(field1);
+        northPanel.add(field1);
+        
+        add(result, BorderLayout.CENTER);
 
         JButton myButton = new JButton("Validate Email");
 
@@ -57,19 +71,47 @@ class textPanel extends JPanel
 
         myButton.addActionListener(myEvent);
 
-        add(myButton);
+        northPanel.add(myButton);
+        
+        add( northPanel,BorderLayout.NORTH);
 
         // System.out.println(field1.getText().trim());
     }
-    
+
     private class giveMeText implements ActionListener
     {
 
         public void actionPerformed(ActionEvent e)
         {
-            System.out.println(field1.getText().trim());
+
+            int correct = 0;
             
+            String email = field1.getText().trim();
+            
+            for(int i = 0; i < email.length(); i++)
+            {
+                if(email.charAt(i) == '@')
+                {
+                    correct++;
+                }
+            }
+            
+            if(correct != 1)
+            {
+//                 System.out.println("Incorrect Email");
+
+                result.setText("Invalid Email");
+            }
+            
+            else
+            {
+//                System.out.println("Valid Email");
+                
+                result.setText("Valid Email");
+            }
+
+
         }
-        
+
     }
 }
