@@ -3,6 +3,8 @@ package GUI_2048;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class Game2048
@@ -51,21 +53,23 @@ class framePanel extends JPanel
 
 {
     private JButton score;
-    
+
     private JPanel gamePanel;
 
     public framePanel()
-    {   
+    {
         score = new JButton("Score: 0");
         
+        score.setEnabled(false);
+
         gamePanel = new JPanel();
-        
+
         setLayout(new BorderLayout());
-        
-        add(score,BorderLayout.NORTH);
-        
+
+        add(score, BorderLayout.NORTH);
+
         gamePanel.setLayout(new GridLayout(4, 4));
-       
+
         Random rand = new Random();
 
         int whichTile = 0, whichTile2 = 0;
@@ -76,7 +80,7 @@ class framePanel extends JPanel
 
             whichTile2 = rand.nextInt(17);
         }
-        
+
         for (int i = 1; i < 17; i++)
         {
             if (i == whichTile || i == whichTile2)
@@ -87,24 +91,12 @@ class framePanel extends JPanel
                 {
                     JButton two = new JButton("2");
 
-                    // two.setBackground(Color.blue);
-                    //
-                    // two.setOpaque(true);
-                    //
-                    //// two.setBorderPainted(false);
-
                     gamePanel.add(two);
                 }
 
                 else
                 {
                     JButton four = new JButton("4");
-
-                    // four.setBackground(Color.blue);
-                    //
-                    // four.setOpaque(true);
-                    //
-                    // // four.setBorderPainted(false);
 
                     gamePanel.add(four);
                 }
@@ -117,10 +109,22 @@ class framePanel extends JPanel
             }
 
         }
-        
+
         add(gamePanel, BorderLayout.CENTER);
     }
     
-
     
+    private class sliding implements ActionListener
+    {
+
+        public void actionPerformed(ActionEvent e)
+        {
+        
+            
+        }
+        
+    }
+
 }
+
+
