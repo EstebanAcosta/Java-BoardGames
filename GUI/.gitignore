@@ -82,3 +82,15 @@
 /frameText.class
 /textPanel.class
 /textPanel$giveMeText.class
+/PlayingWithDocuments.class
+/frameDocument.class
+/documentPanel.class
+/frameDocument$documentPanel.class
+/documentPanel$listenText.class
+/PasswordChecker.class
+/framePassword.class
+/passwordPanel.class
+/passwordPanel$confirm_password.class
+/PlayingWithAreaText.class
+/areaFrame.class
+/areaPanel.class
