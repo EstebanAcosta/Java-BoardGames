@@ -1,10 +1,13 @@
 package GUI;
 
-import java.awt.*;
+import java.awt.Graphics;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 
 public class PlayingWithFocusComponents
 {
