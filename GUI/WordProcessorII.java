@@ -1,3 +1,4 @@
+
 package GUI;
 
 import java.awt.BorderLayout;
@@ -11,13 +12,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.text.StyledEditorKit;
 
-public class WordProcessor
+public class WordProcessorII
 {
 
     public static void main(String[] args)
     {
-        wordProcessorFrame wpf = new wordProcessorFrame();
+        wordProcessorFrameII wpf = new wordProcessorFrameII();
 
         wpf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -26,22 +28,22 @@ public class WordProcessor
     }
 }
 
-class wordProcessorFrame extends JFrame
+class wordProcessorFrameII extends JFrame
 {
 
-    public wordProcessorFrame()
+    public wordProcessorFrameII()
     {
         setTitle("Slider Frame");
 
         setBounds(600, 300, 600, 350);
 
-        add(new wordProcessorPanel());
+        add(new wordProcessorPanelII());
 
     }
 
 }
 
-class wordProcessorPanel extends JPanel
+class wordProcessorPanelII extends JPanel
 {
 
     private JTextPane areaText;
@@ -52,9 +54,9 @@ class wordProcessorPanel extends JPanel
 
     private String[] fonts = { "Arial", "Verdana", "Times", "Courier", "Times New Roman" };
 
-    private int[] sizes = { 12, 13, 14, 15, 16, 17 };
+    private int[] sizes = { 12, 13, 14, 15, 16, 17, 22, 24, 34 };
 
-    public wordProcessorPanel()
+    public wordProcessorPanelII()
     {
         setLayout(new BorderLayout());
 
@@ -109,77 +111,32 @@ class wordProcessorPanel extends JPanel
         if (menu.equalsIgnoreCase("font"))
         {
             font.add(elem_menu);
+
+            elem_menu.addActionListener(new StyledEditorKit.FontFamilyAction("Change_Letter", fontText));
         }
 
         else if (menu.equalsIgnoreCase("style"))
         {
             style.add(elem_menu);
+
+            if (styleText == Font.BOLD)
+            {
+                elem_menu.addActionListener(new StyledEditorKit.BoldAction());
+
+            }
+            else
+            {
+                elem_menu.addActionListener(new StyledEditorKit.ItalicAction());
+
+            }
+
         }
 
         else if (menu.equalsIgnoreCase("size"))
         {
             size.add(elem_menu);
-        }
 
-        elem_menu.addActionListener(new manageEvents(menuItemText, fontText, styleText, sizeText));
-
-    }
-
-    private class manageEvents implements ActionListener
-    {
-        String fontText, menuItem;
-
-        int textStyle, textSize;
-
-        public manageEvents(String menuItem, String fontText, int textStyle, int textSize)
-        {
-            this.fontText = fontText;
-
-            this.textStyle = textStyle;
-
-            this.textSize = textSize;
-
-            this.menuItem = menuItem;
-
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-            letters = areaText.getFont();
-
-            if (menuItem.matches("[0-9]+"))
-            {
-                textStyle = letters.getStyle();
-
-                fontText = letters.getFontName();
-            }
-
-            else if (menuItem == "Italic" || menuItem == "Bold")
-            {
-
-                if (letters.getStyle() == Font.BOLD || letters.getStyle() == Font.ITALIC)
-                {
-                    textStyle = 3;
-                }
-                fontText = letters.getFontName();
-
-                textSize = letters.getSize();
-            }
-
-            else
-            {
-                for (String s : fonts)
-                {
-                    if (s.equalsIgnoreCase(menuItem))
-                    {
-                        textStyle = letters.getStyle();
-
-                        textSize = letters.getSize();
-                    }
-                }
-            }
-
-            areaText.setFont(new Font(fontText, textStyle, textSize));
+            elem_menu.addActionListener(new StyledEditorKit.FontSizeAction("Change_Size", sizeText));
         }
 
     }
