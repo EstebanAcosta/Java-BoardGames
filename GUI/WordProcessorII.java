@@ -6,11 +6,14 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledEditorKit;
 
@@ -77,15 +80,40 @@ class wordProcessorPanelII extends JPanel
 
         ////////////////////////////////////////////////////////////////////////
 
-        configureMenu("Bold", "style", "", Font.BOLD, 1);
+        // configureMenu("Bold", "style", "", Font.BOLD, 1);
+        //
+        // configureMenu("Italic", "style", "", Font.ITALIC, 1);
 
-        configureMenu("Italic", "style", "", Font.ITALIC, 1);
+        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
+
+        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
+
+        bold.addActionListener(new StyledEditorKit.BoldAction());
+
+        italic.addActionListener(new StyledEditorKit.ItalicAction());
+
+        style.add(bold);
+
+        style.add(italic);
 
         ////////////////////////////////////////////////////////////////////////////
+        //
+        // for (int s : sizes)
+        // {
+        // configureMenu(String.valueOf(s), "size", "", 9, s);
+        // }
+
+        ButtonGroup siz = new ButtonGroup();
 
         for (int s : sizes)
         {
-            configureMenu(String.valueOf(s), "size", "", 9, s);
+            JRadioButtonMenuItem another = new JRadioButtonMenuItem(String.valueOf(s));
+
+            another.addActionListener(new StyledEditorKit.FontSizeAction("Change_Size", s));
+
+            siz.add(another);
+
+            size.add(another);
         }
 
         areaText = new JTextPane();
