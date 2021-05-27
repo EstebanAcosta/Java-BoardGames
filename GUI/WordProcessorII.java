@@ -13,6 +13,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextPane;
 import javax.swing.text.StyledEditorKit;
@@ -80,21 +81,21 @@ class wordProcessorPanelII extends JPanel
 
         ////////////////////////////////////////////////////////////////////////
 
-        // configureMenu("Bold", "style", "", Font.BOLD, 1);
-        //
-        // configureMenu("Italic", "style", "", Font.ITALIC, 1);
+         configureMenu("Bold", "style", "", Font.BOLD, 1);
+        
+         configureMenu("Italic", "style", "", Font.ITALIC, 1);
 
-        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
-
-        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
-
-        bold.addActionListener(new StyledEditorKit.BoldAction());
-
-        italic.addActionListener(new StyledEditorKit.ItalicAction());
-
-        style.add(bold);
-
-        style.add(italic);
+//        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
+//
+//        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
+//
+//        bold.addActionListener(new StyledEditorKit.BoldAction());
+//
+//        italic.addActionListener(new StyledEditorKit.ItalicAction());
+//
+//        style.add(bold);
+//
+//        style.add(italic);
 
         ////////////////////////////////////////////////////////////////////////////
         //
@@ -129,6 +130,22 @@ class wordProcessorPanelII extends JPanel
         add(menuPanel, BorderLayout.NORTH);
 
         add(areaText, BorderLayout.CENTER);
+
+        JPopupMenu popup = new JPopupMenu();
+
+        JMenuItem b = new JMenuItem("Bold");
+
+        JMenuItem i = new JMenuItem("Italic");
+        
+        b.addActionListener(new StyledEditorKit.BoldAction());
+
+        i.addActionListener(new StyledEditorKit.ItalicAction());
+
+        popup.add(b);
+
+        popup.add(i);
+
+        areaText.setComponentPopupMenu(popup);
 
     }
 
