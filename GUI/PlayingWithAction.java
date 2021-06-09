@@ -29,7 +29,7 @@ class actionFrame extends JFrame
 {
     public actionFrame()
     {
-        setTitle("Action Frame");
+        setTitle("ToolBar Frame");
 
         setBounds(300, 300, 600, 400);
 
@@ -121,7 +121,7 @@ class actionPanel extends JPanel
 
             setBackground(c);
 
-            System.out.println("Name; " + getValue(Action.NAME) + " Description: " + getValue(Action.SHORT_DESCRIPTION));
+            System.out.println("Name: " + getValue(Action.NAME) + " Description: " + getValue(Action.SHORT_DESCRIPTION));
         }
 
     }

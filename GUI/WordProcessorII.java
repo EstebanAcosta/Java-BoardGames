@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
@@ -16,7 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.text.StyledEditorKit;
+
+import com.sun.glass.events.KeyEvent;
 
 public class WordProcessorII
 {
@@ -58,7 +62,7 @@ class wordProcessorPanelII extends JPanel
 
     private String[] fonts = { "Arial", "Verdana", "Times", "Courier", "Times New Roman" };
 
-    private int[] sizes = { 12, 13, 14, 15, 16, 17, 22, 24, 34 };
+    private int[] sizes = { 22 };
 
     public wordProcessorPanelII()
     {
@@ -81,21 +85,21 @@ class wordProcessorPanelII extends JPanel
 
         ////////////////////////////////////////////////////////////////////////
 
-         configureMenu("Bold", "style", "", Font.BOLD, 1);
-        
-         configureMenu("Italic", "style", "", Font.ITALIC, 1);
+        configureMenu("Bold", "style", "", Font.BOLD, 1);
 
-//        JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
-//
-//        JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
-//
-//        bold.addActionListener(new StyledEditorKit.BoldAction());
-//
-//        italic.addActionListener(new StyledEditorKit.ItalicAction());
-//
-//        style.add(bold);
-//
-//        style.add(italic);
+        configureMenu("Italic", "style", "", Font.ITALIC, 1);
+
+        // JCheckBoxMenuItem bold = new JCheckBoxMenuItem("Bold");
+        //
+        // JCheckBoxMenuItem italic = new JCheckBoxMenuItem("Italic");
+        //
+        // bold.addActionListener(new StyledEditorKit.BoldAction());
+        //
+        // italic.addActionListener(new StyledEditorKit.ItalicAction());
+        //
+        // style.add(bold);
+        //
+        // style.add(italic);
 
         ////////////////////////////////////////////////////////////////////////////
         //
@@ -109,6 +113,8 @@ class wordProcessorPanelII extends JPanel
         for (int s : sizes)
         {
             JRadioButtonMenuItem another = new JRadioButtonMenuItem(String.valueOf(s));
+
+            another.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.SHIFT_DOWN_MASK));
 
             another.addActionListener(new StyledEditorKit.FontSizeAction("Change_Size", s));
 
@@ -136,7 +142,7 @@ class wordProcessorPanelII extends JPanel
         JMenuItem b = new JMenuItem("Bold");
 
         JMenuItem i = new JMenuItem("Italic");
-        
+
         b.addActionListener(new StyledEditorKit.BoldAction());
 
         i.addActionListener(new StyledEditorKit.ItalicAction());
@@ -166,11 +172,15 @@ class wordProcessorPanelII extends JPanel
 
             if (styleText == Font.BOLD)
             {
+                elem_menu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.SHIFT_DOWN_MASK));
+
                 elem_menu.addActionListener(new StyledEditorKit.BoldAction());
 
             }
             else
             {
+                elem_menu.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.SHIFT_DOWN_MASK));
+
                 elem_menu.addActionListener(new StyledEditorKit.ItalicAction());
 
             }
