@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.text.StyledEditorKit;
 
@@ -152,6 +154,16 @@ class wordProcessorPanelII extends JPanel
         popup.add(i);
 
         areaText.setComponentPopupMenu(popup);
+        
+        JToolBar tool = new JToolBar();
+        
+        JButton boldButton = new JButton("Bold Button");
+        
+        JButton italicButton = new JButton("Italic Button");
+        
+        tool.add(boldButton);
+        
+        tool.add(italicButton);
 
     }
 
