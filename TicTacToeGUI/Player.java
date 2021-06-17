@@ -5,6 +5,8 @@ public class Player
     private String name;
 
     private int playerId;
+    
+    private String XorO;
 
 
     public Player(int id)
@@ -30,6 +32,16 @@ public class Player
     public void setPlayerId(int playerId)
     {
         this.playerId = playerId;
+    }
+
+    public String getXorO()
+    {
+        return XorO;
+    }
+
+    public void setXorO(String xorO)
+    {
+        XorO = xorO;
     }
 
 }

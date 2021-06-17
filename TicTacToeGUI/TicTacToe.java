@@ -9,17 +9,65 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class TicTacToe
 {
+    static Player[] players = new Player[2];
+
     public static void main(String[] args)
     {
         TicTacFrame tt = new TicTacFrame();
 
+        int min = 1;
+
+        int max = 100;
+
+        for (int i = 0; i < 2; i++)
+        {
+            players[i] = new Player(i + 1);
+
+            players[i].setName(JOptionPane.showInputDialog("What's your name, Player " + (i + 1)));
+
+            JOptionPane.showMessageDialog(new JFrame(), "Player " + (i + 1) + "'s name is " + players[i].getName());
+
+            if (i == 0)
+            {
+                String number = JOptionPane.showInputDialog("Pick a number between " + min + " and " + max);
+
+                while (!number.matches("[0-9]+"))
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "Please enter a whole number between " + min + " and " + max);
+
+                    number = JOptionPane.showInputDialog("Pick a whole number between " + min + " and " + max);
+
+                }
+
+                if (Integer.parseInt(number) % 2 == 0)
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + (i + 1) + " " + players[i].getName() + " gets to place an X");
+
+                    players[i].setXorO("X");
+
+                }
+
+                else
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "Player " + (i + 1) + " " + players[i].getName() + " gets to place an O");
+
+                    players[i].setXorO("O");
+
+                }
+
+            }
+
+        }
+
         tt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         tt.setVisible(true);
+
     }
 }
 
