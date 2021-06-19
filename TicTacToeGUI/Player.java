@@ -7,6 +7,8 @@ public class Player
     private int playerId;
     
     private String XorO;
+    
+    private int currentScore;
 
 
     public Player(int id)
@@ -42,6 +44,16 @@ public class Player
     public void setXorO(String xorO)
     {
         XorO = xorO;
+    }
+
+    public int getCurrentScore()
+    {
+        return currentScore;
+    }
+
+    public void setCurrentScore(int currentScore)
+    {
+        this.currentScore = currentScore;
     }
 
 }
