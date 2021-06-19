@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -179,58 +180,88 @@ class TicTacPanel extends JPanel
         // Make the panel layout a border layout
         setLayout(new BorderLayout());
 
-        //create an upper panel
+        // create an upper panel
         JPanel upperPanel = new JPanel();
 
-        //make that upper panel a border layout
+        // make that upper panel a border layout
         upperPanel.setLayout(new BorderLayout());
 
-        //create a panel specifically for the menu bar
+        // create a panel specifically for the menu bar
         JPanel menuPanel = new JPanel();
 
-        //add the menu bar panel to the northern part of the upper panel
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu newGame = new JMenu("New Game");
+
+        JMenu refreshGame = new JMenu("Refresh Game");
+
+        JMenu addRemoveRounds = new JMenu("Rounds");
+
+        JMenuItem addRounds = new JMenuItem("Add Rounds");
+
+        JMenuItem reduceRounds = new JMenuItem("Reduce Rounds");
+
+        addRemoveRounds.add(addRounds);
+
+        addRemoveRounds.add(reduceRounds);
+
+        JMenu exit = new JMenu("Exit");
+
+        menuBar.add(newGame);
+
+        menuBar.add(refreshGame);
+
+        menuBar.add(addRemoveRounds);
+
+        menuBar.add(exit);
+
+        menuPanel.add(menuBar);
+
+        // add the menu bar panel to the northern part of the upper panel
         upperPanel.add(menuPanel, BorderLayout.NORTH);
 
-        //create a panel for keeping track of the current score of each player
+        // create a panel for keeping track of the current score of each player
         JPanel scorePanel = new JPanel();
 
-        //add the score panel to the central part of the upper panel
+        // add the score panel to the central part of the upper panel
         upperPanel.add(scorePanel, BorderLayout.CENTER);
 
-        //create three buttons that keep track of the current round
-        //and the current score for two players
+        // create three buttons that keep track of the current round
+        // and the current score for two players
         round = new JButton("Round " + currentRound);
 
-        P1score = new JButton("Player " + players[0].getPlayerId() + " Score: " + players[0].getCurrentScore());
+        P1score = new JButton("Player " + players[0].getPlayerId() + " Score: " + players[0].getCurrentScore() +
+        (players[0].getCurrentScore() != 1 ? " points" : " point"));
 
-        P2score = new JButton("Player " + players[1].getPlayerId() + " Score: " + players[1].getCurrentScore());
+        P2score = new JButton("Player " + players[1].getPlayerId() + " Score: " + players[1].getCurrentScore() +
+        (players[0].getCurrentScore() != 1 ? " points" : " point"));
 
-        //disable the three buttons
+        // disable the three buttons
         round.setEnabled(false);
 
         P1score.setEnabled(false);
 
         P2score.setEnabled(false);
 
-        //add all three buttons to the score panel
+        // add all three buttons to the score panel
         scorePanel.add(round);
 
         scorePanel.add(P1score);
 
         scorePanel.add(P2score);
 
-        //create a game panel for the main game
+        // create a game panel for the main game
         JPanel gamePanel = new JPanel();
 
-        //the game panel will have a grid layout (3 by 3)
+        // the game panel will have a grid layout (3 by 3)
         gamePanel.setLayout(new GridLayout(3, 3));
 
-        //create a 2D array for all nine buttons
+        // create a 2D array for all nine buttons
         tiles = new JButton[3][3];
 
         Random rand = new Random();
 
-        //randomly determine who goes first
+        // randomly determine who goes first
         whoseTurn = rand.nextInt(2);
 
         // loop through each row in the button grid
@@ -269,6 +300,7 @@ class TicTacPanel extends JPanel
 
                 // add the button to the panel
                 gamePanel.add(tile);
+
             }
 
         }
@@ -279,6 +311,81 @@ class TicTacPanel extends JPanel
 
     }
 
+    /***
+     * Determines if either player has the same letter three times in a row
+     * @param board
+     * @return true if the player has the same letter three times in a row
+     */
+    public boolean hasWonRound(JButton[][] board)
+    {
+        int count = 0;
+
+        for (int row = 0; row < board.length; row++)
+        {
+            for (int col = 0; col < board[row].length; col++)
+            {
+
+                // if the value in the first entry of that row is equal to the current entry of that same row
+                if (board[row][0].getText().equals(board[row][col].getText()) && !board[row][0].getText().equals(""))
+                {
+                    // add one more to count
+                    count++;
+                }
+
+            }
+
+            // if all three numbers in that row are equal return true
+            if (count == 3)
+            {
+
+                return true;
+            }
+
+            // otherwise reset the counter to 0
+            else
+            {
+                count = 0;
+            }
+        }
+
+        count = 0;
+
+        for (int col = 0; col < board[0].length; col++)
+        {
+            for (int row = 0; row < board.length; row++)
+            {
+
+                // if the value in the first entry of that column is equal to the current entry of that same column
+                if (board[0][col].getText().equals(board[row][col].getText()) && !board[0][col].getText().equals(""))
+                {
+                    // add one more to count
+                    count++;
+                }
+
+            }
+
+            // if all three numbers in that column are equal return true
+            if (count == 3)
+            {
+
+                return true;
+            }
+
+            // otherwise reset the counter to 0
+            else
+            {
+                count = 0;
+            }
+        }
+
+        return false;
+    }
+
+    /***
+     * Determines who gets to put down a letter next
+     * @param thisTurn
+     * @return 1 for player 2, 0 for player1
+     */
     public int changeTurns(int thisTurn)
     {
         int whoseTurn;
