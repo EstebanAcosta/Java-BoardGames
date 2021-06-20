@@ -193,19 +193,77 @@ class TicTacPanel extends JPanel
 
         JMenu newGame = new JMenu("New Game");
 
+        newGame.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+
+        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
         JMenu refreshGame = new JMenu("Refresh Game");
+
+        refreshGame.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+
+        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JMenu addRemoveRounds = new JMenu("Rounds");
 
         JMenuItem addRounds = new JMenuItem("Add Rounds");
 
+        addRounds.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+
+        });
+
         JMenuItem reduceRounds = new JMenuItem("Reduce Rounds");
+
+        reduceRounds.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+
+        });
 
         addRemoveRounds.add(addRounds);
 
         addRemoveRounds.add(reduceRounds);
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+
         JMenu exit = new JMenu("Exit");
+
+        exit.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+
+        });
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         menuBar.add(newGame);
 
@@ -216,6 +274,8 @@ class TicTacPanel extends JPanel
         menuBar.add(exit);
 
         menuPanel.add(menuBar);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // add the menu bar panel to the northern part of the upper panel
         upperPanel.add(menuPanel, BorderLayout.NORTH);
