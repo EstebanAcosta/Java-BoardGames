@@ -145,6 +145,7 @@ class wordProcessorPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
+            
             letters = areaText.getFont();
 
             if (menuItem.matches("[0-9]+"))

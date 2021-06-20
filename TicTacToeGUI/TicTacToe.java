@@ -193,21 +193,27 @@ class TicTacPanel extends JPanel
 
         JMenu newGame = new JMenu("New Game");
 
-        newGame.addActionListener(new ActionListener()
+        JMenuItem getNewGame = new JMenuItem("New Game");
+
+        getNewGame.addActionListener(new ActionListener()
         {
 
             public void actionPerformed(ActionEvent e)
             {
-
+                TicTacFrame tt = new TicTacFrame(players, rounds);
             }
 
         });
+
+        newGame.add(getNewGame);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JMenu refreshGame = new JMenu("Refresh Game");
 
-        refreshGame.addActionListener(new ActionListener()
+        JMenuItem refreshIt = new JMenuItem("Refresh Game");
+
+        refreshIt.addActionListener(new ActionListener()
         {
 
             public void actionPerformed(ActionEvent e)
@@ -216,6 +222,8 @@ class TicTacPanel extends JPanel
             }
 
         });
+
+        refreshGame.add(refreshIt);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -226,9 +234,22 @@ class TicTacPanel extends JPanel
         addRounds.addActionListener(new ActionListener()
         {
 
+            int originalX = 300;
+
+            int originalY = 300;
+
             public void actionPerformed(ActionEvent e)
             {
 
+                JFrame addRounds = new JFrame();
+
+                addRounds.setVisible(true);
+
+                addRounds.setBounds(originalX, originalX, 300, 300);
+
+                originalX += 75;
+
+                originalY += 75;
             }
 
         });
@@ -237,10 +258,26 @@ class TicTacPanel extends JPanel
 
         reduceRounds.addActionListener(new ActionListener()
         {
+            int originalX = 300;
+
+            int originalY = 300;
 
             public void actionPerformed(ActionEvent e)
             {
+                
+                JFrame reduceRounds = new JFrame();
+                
+                reduceRounds.setTitle("Reduce Rounds");
 
+                reduceRounds.setBounds(originalX, originalX, 300, 300);
+
+                reduceRounds.setVisible(true);
+
+                
+
+                originalX += 75;
+
+                originalY += 75;
             }
 
         });
@@ -258,7 +295,7 @@ class TicTacPanel extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
-
+                System.out.println("Exut");
             }
 
         });
