@@ -48,8 +48,7 @@ class mainPanel extends JPanel
         add(closebutton);
 
         newListener nL = new newListener();
-        
-        
+
         newbutton.addActionListener(nL);
     }
     

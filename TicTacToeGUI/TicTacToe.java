@@ -145,6 +145,8 @@ public class TicTacToe
 
         tt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        tt.setBounds(500, 200, 500, 500);
+
         tt.setVisible(true);
 
     }
@@ -155,8 +157,6 @@ class TicTacFrame extends JFrame
     public TicTacFrame(Player[] players, int rounds)
     {
         setTitle("Tic-Tac-Toe");
-
-        setBounds(500, 200, 500, 500);
 
         add(new TicTacPanel(players, rounds));
     }
@@ -198,9 +198,27 @@ class TicTacPanel extends JPanel
         getNewGame.addActionListener(new ActionListener()
         {
 
+            int originalX = 500;
+
+            int originalY = 200;
+
             public void actionPerformed(ActionEvent e)
             {
-                TicTacFrame tt = new TicTacFrame(players, rounds);
+
+                TicTacToe ttt = new TicTacToe();
+
+                TicTacFrame ttf = new TicTacFrame(ttt.setUpPlayers(), ttt.setUpRounds());
+
+                originalX += 75;
+
+                originalY += 75;
+
+                ttf.setBounds(originalX, originalY, 500, 500);
+
+                ttf.setVisible(true);
+
+                ttf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
             }
 
         });
@@ -243,9 +261,11 @@ class TicTacPanel extends JPanel
 
                 JFrame addRounds = new JFrame();
 
-                addRounds.setVisible(true);
+                addRounds.setTitle("Add Rounds");
 
                 addRounds.setBounds(originalX, originalX, 300, 300);
+
+                addRounds.setVisible(true);
 
                 originalX += 75;
 
@@ -264,16 +284,14 @@ class TicTacPanel extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
-                
+
                 JFrame reduceRounds = new JFrame();
-                
+
                 reduceRounds.setTitle("Reduce Rounds");
 
                 reduceRounds.setBounds(originalX, originalX, 300, 300);
 
                 reduceRounds.setVisible(true);
-
-                
 
                 originalX += 75;
 
@@ -290,15 +308,19 @@ class TicTacPanel extends JPanel
 
         JMenu exit = new JMenu("Exit");
 
-        exit.addActionListener(new ActionListener()
+        JMenuItem exiting = new JMenuItem("Exit");
+
+        exiting.addActionListener(new ActionListener()
         {
 
             public void actionPerformed(ActionEvent e)
             {
-                System.out.println("Exut");
+
             }
 
         });
+
+        exit.add(exiting);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
