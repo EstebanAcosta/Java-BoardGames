@@ -1,6 +1,7 @@
 package TicTacToeGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class TicTacToe
 {
@@ -163,6 +167,130 @@ class TicTacFrame extends JFrame
 
 }
 
+class addRounds implements ActionListener
+{
+
+    int originalX = 300;
+
+    int originalY = 300;
+
+    int numRounds;
+
+    int maxRound = 5;
+
+    public addRounds(int numRounds)
+    {
+        this.numRounds = numRounds;
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+
+        if (numRounds == maxRound)
+        {
+            JOptionPane.showMessageDialog(new JFrame(), "Can't add more to the number of rounds of the game since 5 is the maximum ",
+            "Can't Go Above The Max Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+        }
+
+        else
+        {
+            JFrame addRounds = new JFrame();
+
+            addRounds.setTitle("Add Rounds");
+
+            addRounds.setBounds(originalX, originalX, 300, 300);
+
+            addRounds.setVisible(true);
+
+            JPanel arPanel = new JPanel();
+
+            addRounds.add(arPanel);
+
+            arPanel.setLayout(new BorderLayout());
+
+            JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, maxRound - this.numRounds, 1));
+
+            reduce.setPreferredSize(new Dimension(200, 20));
+
+            arPanel.add(reduce, BorderLayout.NORTH);
+
+            JButton submit = new JButton("Submit");
+            
+            submit.addActionListener();
+
+            arPanel.add(submit, BorderLayout.SOUTH);
+
+            originalX += 75;
+
+            originalY += 75;
+        }
+
+    }
+
+}
+
+class reduceRounds implements ActionListener
+{
+
+    int originalX = 300;
+
+    int originalY = 300;
+
+    int numRounds;
+
+    int minRound = 1;
+
+    public reduceRounds(int numRounds)
+    {
+        this.numRounds = numRounds;
+    }
+
+    public void actionPerformed(ActionEvent e)
+    {
+
+        if (this.numRounds == minRound)
+        {
+
+            JOptionPane.showMessageDialog(new JFrame(), "Can't reduce the number of rounds of the game since 1 is the mininum ",
+            "Can't Go Below The Min Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+        }
+
+        else
+        {
+            JFrame reduceRounds = new JFrame();
+
+            reduceRounds.setTitle("Reduce Rounds");
+
+            reduceRounds.setBounds(originalX, originalX, 300, 300);
+
+            reduceRounds.setVisible(true);
+
+            JPanel rrPanel = new JPanel();
+
+            reduceRounds.add(rrPanel);
+
+            rrPanel.setLayout(new BorderLayout());
+
+            JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, this.numRounds - minRound, 1));
+
+            reduce.setPreferredSize(new Dimension(200, 20));
+
+            rrPanel.add(reduce, BorderLayout.NORTH);
+
+            JButton submit = new JButton("Submit");
+            
+            submit.addActionListener();
+
+            rrPanel.add(submit, BorderLayout.SOUTH);
+
+            originalX += 75;
+
+            originalY += 75;
+        }
+
+    }
+}
+
 class TicTacPanel extends JPanel
 {
 
@@ -249,56 +377,11 @@ class TicTacPanel extends JPanel
 
         JMenuItem addRounds = new JMenuItem("Add Rounds");
 
-        addRounds.addActionListener(new ActionListener()
-        {
-
-            int originalX = 300;
-
-            int originalY = 300;
-
-            public void actionPerformed(ActionEvent e)
-            {
-
-                JFrame addRounds = new JFrame();
-
-                addRounds.setTitle("Add Rounds");
-
-                addRounds.setBounds(originalX, originalX, 300, 300);
-
-                addRounds.setVisible(true);
-
-                originalX += 75;
-
-                originalY += 75;
-            }
-
-        });
-
         JMenuItem reduceRounds = new JMenuItem("Reduce Rounds");
 
-        reduceRounds.addActionListener(new ActionListener()
-        {
-            int originalX = 300;
+        reduceRounds.addActionListener(new reduceRounds(rounds));
 
-            int originalY = 300;
-
-            public void actionPerformed(ActionEvent e)
-            {
-
-                JFrame reduceRounds = new JFrame();
-
-                reduceRounds.setTitle("Reduce Rounds");
-
-                reduceRounds.setBounds(originalX, originalX, 300, 300);
-
-                reduceRounds.setVisible(true);
-
-                originalX += 75;
-
-                originalY += 75;
-            }
-
-        });
+        addRounds.addActionListener(new addRounds(rounds));
 
         addRemoveRounds.add(addRounds);
 
