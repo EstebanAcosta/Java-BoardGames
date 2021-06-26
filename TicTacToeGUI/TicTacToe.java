@@ -14,7 +14,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -147,7 +146,7 @@ public class TicTacToe
 
         TicTacFrame tt = new TicTacFrame(setUpPlayers(), setUpRounds());
 
-        tt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        tt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         tt.setBounds(500, 200, 500, 500);
 
@@ -167,130 +166,6 @@ class TicTacFrame extends JFrame
 
 }
 
-class addRounds implements ActionListener
-{
-
-    int originalX = 300;
-
-    int originalY = 300;
-
-    int numRounds;
-
-    int maxRound = 5;
-
-    public addRounds(int numRounds)
-    {
-        this.numRounds = numRounds;
-    }
-
-    public void actionPerformed(ActionEvent e)
-    {
-
-        if (numRounds == maxRound)
-        {
-            JOptionPane.showMessageDialog(new JFrame(), "Can't add more to the number of rounds of the game since 5 is the maximum ",
-            "Can't Go Above The Max Number Of Rounds", JOptionPane.ERROR_MESSAGE);
-        }
-
-        else
-        {
-            JFrame addRounds = new JFrame();
-
-            addRounds.setTitle("Add Rounds");
-
-            addRounds.setBounds(originalX, originalX, 300, 300);
-
-            addRounds.setVisible(true);
-
-            JPanel arPanel = new JPanel();
-
-            addRounds.add(arPanel);
-
-            arPanel.setLayout(new BorderLayout());
-
-            JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, maxRound - this.numRounds, 1));
-
-            reduce.setPreferredSize(new Dimension(200, 20));
-
-            arPanel.add(reduce, BorderLayout.NORTH);
-
-            JButton submit = new JButton("Submit");
-            
-            submit.addActionListener();
-
-            arPanel.add(submit, BorderLayout.SOUTH);
-
-            originalX += 75;
-
-            originalY += 75;
-        }
-
-    }
-
-}
-
-class reduceRounds implements ActionListener
-{
-
-    int originalX = 300;
-
-    int originalY = 300;
-
-    int numRounds;
-
-    int minRound = 1;
-
-    public reduceRounds(int numRounds)
-    {
-        this.numRounds = numRounds;
-    }
-
-    public void actionPerformed(ActionEvent e)
-    {
-
-        if (this.numRounds == minRound)
-        {
-
-            JOptionPane.showMessageDialog(new JFrame(), "Can't reduce the number of rounds of the game since 1 is the mininum ",
-            "Can't Go Below The Min Number Of Rounds", JOptionPane.ERROR_MESSAGE);
-        }
-
-        else
-        {
-            JFrame reduceRounds = new JFrame();
-
-            reduceRounds.setTitle("Reduce Rounds");
-
-            reduceRounds.setBounds(originalX, originalX, 300, 300);
-
-            reduceRounds.setVisible(true);
-
-            JPanel rrPanel = new JPanel();
-
-            reduceRounds.add(rrPanel);
-
-            rrPanel.setLayout(new BorderLayout());
-
-            JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, this.numRounds - minRound, 1));
-
-            reduce.setPreferredSize(new Dimension(200, 20));
-
-            rrPanel.add(reduce, BorderLayout.NORTH);
-
-            JButton submit = new JButton("Submit");
-            
-            submit.addActionListener();
-
-            rrPanel.add(submit, BorderLayout.SOUTH);
-
-            originalX += 75;
-
-            originalY += 75;
-        }
-
-    }
-}
-
 class TicTacPanel extends JPanel
 {
 
@@ -298,12 +173,16 @@ class TicTacPanel extends JPanel
 
     int currentRound = 1;
 
+    int totalRounds = 0;
+
     JButton[][] tiles;
 
     JButton round, P1score, P2score;
 
     public TicTacPanel(Player[] players, int rounds)
     {
+
+        this.totalRounds = rounds;
 
         // Make the panel layout a border layout
         setLayout(new BorderLayout());
@@ -345,7 +224,7 @@ class TicTacPanel extends JPanel
 
                 ttf.setVisible(true);
 
-                ttf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                ttf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             }
 
@@ -364,7 +243,7 @@ class TicTacPanel extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
-               
+
             }
 
         });
@@ -379,9 +258,9 @@ class TicTacPanel extends JPanel
 
         JMenuItem reduceRounds = new JMenuItem("Reduce Rounds");
 
-        reduceRounds.addActionListener(new reduceRounds(rounds));
+        reduceRounds.addActionListener(new reduceRounds(totalRounds));
 
-        addRounds.addActionListener(new addRounds(rounds));
+        addRounds.addActionListener(new addRounds(totalRounds));
 
         addRemoveRounds.add(addRounds);
 
@@ -510,11 +389,8 @@ class TicTacPanel extends JPanel
         add(gamePanel, BorderLayout.CENTER);
 
         add(upperPanel, BorderLayout.NORTH);
-        
-   
-    }
-  
 
+    }
 
     /***
      * Determines if either player has the same letter three times in a row
@@ -607,16 +483,178 @@ class TicTacPanel extends JPanel
 
         return whoseTurn;
     }
-    
-    
+
     private class refreshingIt implements ActionListener
     {
 
+        public refreshingIt()
+        {
+
+        }
+
         public void actionPerformed(ActionEvent e)
         {
-            
+
         }
-        
+
+    }
+
+    private class reduceRounds implements ActionListener
+    {
+
+        int originalX = 300;
+
+        int originalY = 300;
+
+        int totalOriginalRounds;
+
+        int minRound = 1;
+
+        public reduceRounds(int totalRounds)
+        {
+            this.totalOriginalRounds = totalRounds;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+
+            if (this.totalOriginalRounds == minRound)
+            {
+
+                JOptionPane.showMessageDialog(new JFrame(), "Can't reduce the number of rounds of the game since 1 is the mininum ",
+                "Can't Go Below The Min Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+            }
+
+            else
+            {
+                System.out.println(totalOriginalRounds);
+
+                JFrame reduceRounds = new JFrame();
+
+                reduceRounds.setTitle("Reduce Rounds");
+
+                reduceRounds.setBounds(originalX, originalX, 300, 300);
+
+                reduceRounds.setVisible(true);
+
+                JPanel rrPanel = new JPanel();
+
+                reduceRounds.add(rrPanel);
+
+                rrPanel.setLayout(new BorderLayout());
+
+                JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, this.totalOriginalRounds - minRound, 1));
+
+                reduce.setPreferredSize(new Dimension(200, 20));
+
+                rrPanel.add(reduce, BorderLayout.NORTH);
+
+                JButton submit = new JButton("Submit");
+
+                submit.addActionListener(new ActionListener()
+                {
+
+                    public void actionPerformed(ActionEvent e)
+                    {
+
+                        JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been changed from " + totalRounds + " rounds to " + Math.abs(totalOriginalRounds - Integer.parseInt(reduce.getValue().toString())) + " rounds",
+                        "New Total Rounds", JOptionPane.INFORMATION_MESSAGE);
+
+                        totalRounds = Math.abs(totalOriginalRounds - Integer.parseInt(reduce.getValue().toString()));
+
+                        reduceRounds.dispose();
+
+                    }
+
+                });
+
+                rrPanel.add(submit, BorderLayout.SOUTH);
+
+                originalX += 75;
+
+                originalY += 75;
+            }
+
+        }
+    }
+
+    private class addRounds implements ActionListener
+    {
+
+        int originalX = 300;
+
+        int originalY = 300;
+
+        int totalOriginalRounds;
+
+        int maxRound = 5;
+
+        public addRounds(int totalRounds)
+        {
+            this.totalOriginalRounds = totalRounds;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+
+            if (this.totalOriginalRounds == maxRound)
+            {
+                JOptionPane.showMessageDialog(new JFrame(), "Can't add more to the number of rounds of the game since 5 is the maximum ",
+                "Can't Go Above The Max Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+            }
+
+            else
+            {
+
+                System.out.println(totalOriginalRounds);
+
+                JFrame addRounds = new JFrame();
+
+                addRounds.setTitle("Add Rounds");
+
+                addRounds.setBounds(originalX, originalX, 300, 300);
+
+                addRounds.setVisible(true);
+
+                JPanel arPanel = new JPanel();
+
+                addRounds.add(arPanel);
+
+                arPanel.setLayout(new BorderLayout());
+
+                JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, maxRound - this.totalOriginalRounds, 1));
+
+                reduce.setPreferredSize(new Dimension(200, 20));
+
+                arPanel.add(reduce, BorderLayout.NORTH);
+
+                JButton submit = new JButton("Submit");
+
+                submit.addActionListener(new ActionListener()
+                {
+
+                    public void actionPerformed(ActionEvent e)
+                    {
+
+                        JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been changed from " + totalRounds + " rounds to " + (totalOriginalRounds + Integer.parseInt(reduce.getValue().toString())) + " rounds",
+                        "New Total Rounds", JOptionPane.INFORMATION_MESSAGE);
+
+                        totalRounds = totalOriginalRounds + Integer.parseInt(reduce.getValue().toString());
+
+                        addRounds.dispose();
+
+                    }
+
+                });
+                arPanel.add(submit, BorderLayout.SOUTH);
+
+                originalX += 75;
+
+                originalY += 75;
+            }
+
+        }
+
     }
 
 }
