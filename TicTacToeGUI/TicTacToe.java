@@ -364,7 +364,7 @@ class TicTacPanel extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
-
+               
             }
 
         });
@@ -510,8 +510,11 @@ class TicTacPanel extends JPanel
         add(gamePanel, BorderLayout.CENTER);
 
         add(upperPanel, BorderLayout.NORTH);
-
+        
+   
     }
+  
+
 
     /***
      * Determines if either player has the same letter three times in a row
@@ -603,6 +606,17 @@ class TicTacPanel extends JPanel
         }
 
         return whoseTurn;
+    }
+    
+    
+    private class refreshingIt implements ActionListener
+    {
+
+        public void actionPerformed(ActionEvent e)
+        {
+            
+        }
+        
     }
 
 }
