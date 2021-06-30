@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 public class TicTacPanel extends JPanel
 {
@@ -29,6 +31,8 @@ public class TicTacPanel extends JPanel
     JButton[][] tiles;
 
     JButton round, P1score, P2score;
+
+    JFrame thisFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
     public TicTacPanel(Player[] players, int rounds)
     {
@@ -89,15 +93,7 @@ public class TicTacPanel extends JPanel
 
         JMenuItem exiting = new JMenuItem("Exit");
 
-        exiting.addActionListener(new ActionListener()
-        {
-
-            public void actionPerformed(ActionEvent e)
-            {
-
-            }
-
-        });
+        exiting.addActionListener(new closeWindow());
 
         exit.add(exiting);
 
@@ -303,25 +299,89 @@ public class TicTacPanel extends JPanel
         return whoseTurn;
     }
 
+    private class closeWindow implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            thisFrame.dispose();
+        }
+
+    }
+
     private class restartingIt implements ActionListener
     {
+        int originalX = 400;
+
+        int originalY = 400;
 
         public void actionPerformed(ActionEvent e)
         {
-            String confirm = JOptionPane.showInputDialog(new JFrame(), "Would you like to restart your game? Press Y for yes "
-            + "or press any other key for no", "Would You Like To Restart The Game?", JOptionPane.INFORMATION_MESSAGE);
 
-            if (confirm.equalsIgnoreCase("Y"))
+            JFrame restart = new JFrame();
+
+            JButton yes = new JButton("Yes");
+
+            JButton no = new JButton("No");
+            
+            yes.addActionListener(new ActionListener()
             {
-                for (int row = 0; row < tiles.length; row++)
-                {
-                    for (int col = 0; col < tiles[row].length; col++)
-                    {
 
-                        tiles[row][col].setText("");
+                public void actionPerformed(ActionEvent e)
+                {
+                    for (int row = 0; row < tiles.length; row++)
+                    {
+                        for (int col = 0; col < tiles[row].length; col++)
+                        {
+
+                            tiles[row][col].setText("");
+                        }
                     }
+
+                    restart.dispose();
                 }
-            }
+
+            });
+
+            no.addActionListener(new ActionListener()
+            {
+
+                public void actionPerformed(ActionEvent e)
+                {
+                    restart.dispose();
+                }
+            });
+            
+            JLabel question = new JLabel("Are you sure you want to restart the game?");
+
+            restart.setBounds(originalX, originalX, 300, 200);
+
+            restart.setVisible(true);
+
+            JPanel restartPanel = new JPanel();
+
+            restart.add(restartPanel);
+
+            restartPanel.setLayout(new BorderLayout());
+
+            JPanel submitPanel = new JPanel();
+
+            submitPanel.add(yes);
+
+            submitPanel.add(no);
+            
+            restartPanel.add(question, BorderLayout.CENTER);
+
+            restartPanel.add(submitPanel, BorderLayout.SOUTH);
+            
+            
+
+            restart.add(restartPanel);
+
+   
+
+            originalX += 75;
+
+            originalY += 75;
 
         }
 
@@ -369,17 +429,7 @@ public class TicTacPanel extends JPanel
 
                 JFrame reduceRounds = new JFrame();
 
-                if (count > 1)
-                {
-                    reduceRounds.setTitle("Reduce Rounds " + count);
-
-                }
-
-                else
-                {
-                    reduceRounds.setTitle("Reduce Rounds ");
-
-                }
+                reduceRounds.setTitle("Reduce Rounds ");
 
                 reduceRounds.setBounds(originalX, originalX, 300, 300);
 
@@ -450,17 +500,7 @@ public class TicTacPanel extends JPanel
             {
                 JFrame addRounds = new JFrame();
 
-                if (count > 1)
-                {
-                    addRounds.setTitle("Add Rounds " + count);
-
-                }
-
-                else
-                {
-                    addRounds.setTitle("Add Rounds ");
-
-                }
+                addRounds.setTitle("Add Rounds ");
 
                 addRounds.setBounds(originalX, originalX, 300, 300);
 

@@ -13,21 +13,7 @@ public class TicTacFrame extends JFrame
     public TicTacFrame(Player[] players, int rounds)
     {
 
-        if (count >= 1)
-        {
-            setTitle("Tic-Tac-Toe");
-
-        }
-
-        else
-        {
-            setTitle("Tic-Tac-Toe " + count);
-
-        }
-
-        originalFrameX += 75;
-
-        originalFrameY += 75;
+        setTitle("Tic-Tac-Toe");
 
         setBounds(originalFrameX, originalFrameY, 700, 500);
 

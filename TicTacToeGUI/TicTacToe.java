@@ -135,8 +135,6 @@ public class TicTacToe
 
         tt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        tt.setBounds(500, 200, 700, 500);
-
         tt.setVisible(true);
 
     }
