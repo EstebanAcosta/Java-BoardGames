@@ -124,10 +124,10 @@ public class TicTacPanel extends JPanel
         // and the current score for two players
         round = new JButton("Round " + currentRound + " of " + totalRounds);
 
-        P1score = new JButton("Player " + players[0].getPlayerId() + " Score: " + players[0].getCurrentScore() +
+        P1score = new JButton("Player " + players[0].getPlayerId() + ": " + players[0].getCurrentScore() +
         (players[0].getCurrentScore() != 1 ? " points" : " point"));
 
-        P2score = new JButton("Player " + players[1].getPlayerId() + " Score: " + players[1].getCurrentScore() +
+        P2score = new JButton("Player " + players[1].getPlayerId() + ": " + players[1].getCurrentScore() +
         (players[0].getCurrentScore() != 1 ? " points" : " point"));
 
         // disable the three buttons
@@ -322,7 +322,7 @@ public class TicTacPanel extends JPanel
             JButton yes = new JButton("Yes");
 
             JButton no = new JButton("No");
-            
+
             yes.addActionListener(new ActionListener()
             {
 
@@ -350,12 +350,16 @@ public class TicTacPanel extends JPanel
                     restart.dispose();
                 }
             });
-            
-            JLabel question = new JLabel("Are you sure you want to restart the game?");
 
-            restart.setBounds(originalX, originalX, 300, 200);
+            JLabel question = new JLabel("Are you sure you want to restart the game?");
+            
+            question.setHorizontalAlignment(JLabel.CENTER);
+
+            restart.setBounds(originalX, originalX, 400, 100);
 
             restart.setVisible(true);
+
+            restart.setTitle("Restart Round?");
 
             JPanel restartPanel = new JPanel();
 
@@ -368,16 +372,12 @@ public class TicTacPanel extends JPanel
             submitPanel.add(yes);
 
             submitPanel.add(no);
-            
+
             restartPanel.add(question, BorderLayout.CENTER);
 
             restartPanel.add(submitPanel, BorderLayout.SOUTH);
-            
-            
 
             restart.add(restartPanel);
-
-   
 
             originalX += 75;
 
@@ -394,12 +394,10 @@ public class TicTacPanel extends JPanel
         {
 
             TicTacToe ttt = new TicTacToe();
-
-            TicTacFrame ttf = new TicTacFrame(ttt.setUpPlayers(), ttt.setUpRounds());
-
-            ttf.setVisible(true);
-
-            ttf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            
+            ttt.players = ttt.setUpPlayers();
+            
+            ttt.settingUpRounds();
 
         }
 

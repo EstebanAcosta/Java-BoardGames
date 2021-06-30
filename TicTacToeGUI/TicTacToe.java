@@ -1,12 +1,22 @@
 package TicTacToeGUI;
 
-import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class TicTacToe
 {
     static Player[] players = new Player[2];
+
+    static String totalRounds = "";
 
     public static Player[] setUpPlayers()
     {
@@ -88,54 +98,77 @@ public class TicTacToe
         return players;
     }
 
-    public static int setUpRounds()
+    public static void settingUpRounds()
     {
-        int minRound = 1;
+
+        JFrame setUpRounds = new JFrame();
+
+        setUpRounds.setTitle("Set Up Rounds");
+
+        setUpRounds.setBounds(400, 400, 400, 150);
 
         int maxRound = 5;
 
-        String rounds = JOptionPane.showInputDialog("Please enter a whole number for the number of rounds both players want to play? Minimum is " + minRound + " and Maximum is " + maxRound);
+        JPanel setUpRoundsPanel = new JPanel();
 
-        // if the response isn't an integer
-        while (!rounds.matches("[0-9]+") || Integer.parseInt(rounds) < minRound || Integer.parseInt(rounds) > maxRound)
+        JPanel spinnerPanel = new JPanel();
+
+        JLabel roundQuestion = new JLabel("Please choose how many rounds both players want to play");
+
+        roundQuestion.setHorizontalAlignment(JLabel.CENTER);
+
+        JButton submit = new JButton("Submit");
+
+        setUpRoundsPanel.setLayout(new BorderLayout());
+
+        JSpinner roundSpinner = new JSpinner(new SpinnerNumberModel(1, 1, maxRound, 1));
+
+        submit.addActionListener(new ActionListener()
         {
 
-            if (rounds.matches("[0-9]+") && Integer.parseInt(rounds) < minRound)
+            public void actionPerformed(ActionEvent e)
             {
-                // display an error message showing that the player hasn't entered an integer between the min and max range
-                JOptionPane.showMessageDialog(new JFrame(), "Please enter a number for the number of rounds that is above or equal to " + minRound,
-                "Number Is Below The Min Number", JOptionPane.ERROR_MESSAGE);
+
+                totalRounds = roundSpinner.getValue().toString();
+
+                JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been set to " + totalRounds + (Integer.parseInt(totalRounds) != 1 ? " rounds" : " round"),
+                "New Total Rounds", JOptionPane.INFORMATION_MESSAGE);
+
+                setUpRounds.dispose();
+                
+                TicTacFrame tt = new TicTacFrame(players, Integer.parseInt(totalRounds));
+
+                tt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                tt.setVisible(true);
+                
             }
 
-            else if (rounds.matches("[0-9]+") && Integer.parseInt(rounds) > maxRound)
-            {
-                // display an error message showing that the player hasn't entered an integer between the min and max range
-                JOptionPane.showMessageDialog(new JFrame(), "Please enter a number for the number of rounds that is below or equal to " + maxRound,
-                "Number Is Above The Max Number", JOptionPane.ERROR_MESSAGE);
-            }
+        });
 
-            else
-            {
-                // display an error message showing that the player hasn't entered an integer
-                JOptionPane.showMessageDialog(new JFrame(), "The response you have provided isn't an integer. Please enter a whole number",
-                "Not An Integer", JOptionPane.ERROR_MESSAGE);
-            }
+        spinnerPanel.add(roundSpinner);
 
-            // try to get an input from this player again
-            rounds = JOptionPane.showInputDialog(new JFrame(), "Please enter a whole number for the number of rounds. Minimum is " + minRound + " and Maximum is " + maxRound, "Enter an integer", JOptionPane.ERROR_MESSAGE);
-        }
+        setUpRoundsPanel.add(spinnerPanel, BorderLayout.CENTER);
 
-        return Integer.parseInt(rounds);
+        setUpRoundsPanel.add(roundQuestion, BorderLayout.NORTH);
+
+        setUpRoundsPanel.add(submit, BorderLayout.SOUTH);
+
+        setUpRounds.add(setUpRoundsPanel);
+
+        setUpRounds.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        setUpRounds.setVisible(true);
+
     }
+
 
     public static void main(String[] args)
     {
 
-        TicTacFrame tt = new TicTacFrame(setUpPlayers(), setUpRounds());
-
-        tt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        tt.setVisible(true);
+        players = setUpPlayers();
+        
+        settingUpRounds();
 
     }
 }
