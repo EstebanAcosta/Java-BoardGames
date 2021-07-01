@@ -34,6 +34,8 @@ public class TicTacPanel extends JPanel
 
     JFrame thisFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
+    String winner = "";
+
     public TicTacPanel(Player[] players, int rounds)
     {
 
@@ -175,6 +177,7 @@ public class TicTacPanel extends JPanel
 
                     public void actionPerformed(ActionEvent e)
                     {
+
                         // if the button is currently empty
                         // (doesn't have any text in it)
                         if (tile.getText().length() == 0)
@@ -184,6 +187,53 @@ public class TicTacPanel extends JPanel
 
                             // change turns
                             whoseTurn = changeTurns(whoseTurn);
+
+                        }
+
+                        if (hasWonRound(tiles))
+                        {
+                            if (players[0].getXorO() == winner)
+                            {
+                                JOptionPane.showMessageDialog(new JFrame(), "Player 1 " + players[0].getName() + " has won round " + currentRound, "Player 1 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
+                            
+                                players[0].setCurrentScore(players[0].getCurrentScore() + 1);
+                                
+                                P1score.setText("Player " + players[0].getPlayerId() + ": " + players[0].getCurrentScore() +
+                                (players[0].getCurrentScore() != 1 ? " points" : " point"));
+                            }
+
+                            else
+                            {
+                                JOptionPane.showMessageDialog(new JFrame(), "Player 2 " + players[1].getName() + " has won round " + currentRound, "Player 2 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
+
+                                players[1].setCurrentScore(players[1].getCurrentScore() + 1);
+                                
+                                P2score.setText("Player " + players[1].getPlayerId() + ": " + players[1].getCurrentScore() +
+                                (players[1].getCurrentScore() != 1 ? " points" : " point"));
+
+                            }
+                            
+                            currentRound++;
+
+                            if (currentRound <= totalRounds)
+                            {
+                                for (int row = 0; row < tiles.length; row++)
+                                {
+                                    for (int col = 0; col < tiles[row].length; col++)
+                                    {
+
+                                        tiles[row][col].setText("");
+                                    }
+                                }
+                                
+                                round.setText("Round " + currentRound + " of " + totalRounds);
+
+                            }
+
+                            else
+                            {
+
+                            }
 
                         }
 
@@ -233,6 +283,7 @@ public class TicTacPanel extends JPanel
             // if all three numbers in that row are equal return true
             if (count == 3)
             {
+                winner = board[row][0].getText();
 
                 return true;
             }
@@ -263,6 +314,7 @@ public class TicTacPanel extends JPanel
             // if all three numbers in that column are equal return true
             if (count == 3)
             {
+                winner = board[0][col].getText();
 
                 return true;
             }
@@ -274,7 +326,26 @@ public class TicTacPanel extends JPanel
             }
         }
 
+        // if the entries in the diagonals are all equal
+        if (!board[0][0].getText().equals("") && board[0][0].getText().equals(board[1][1].getText()) && board[1][1].getText().equals(board[2][2].getText()))
+        {
+
+            winner = board[0][0].getText();
+
+            return true;
+
+        }
+
+        else if (!board[0][2].getText().equals("") && board[0][2].getText().equals(board[1][1].getText()) && board[1][1].getText().equals(board[2][0].getText()))
+        {
+            winner = board[0][2].getText();
+
+            return true;
+
+        }
+
         return false;
+
     }
 
     /***
@@ -352,7 +423,7 @@ public class TicTacPanel extends JPanel
             });
 
             JLabel question = new JLabel("Are you sure you want to restart the game?");
-            
+
             question.setHorizontalAlignment(JLabel.CENTER);
 
             restart.setBounds(originalX, originalX, 400, 100);
@@ -394,9 +465,9 @@ public class TicTacPanel extends JPanel
         {
 
             TicTacToe ttt = new TicTacToe();
-            
+
             ttt.players = ttt.setUpPlayers();
-            
+
             ttt.setUpXO();
 
         }
@@ -415,11 +486,21 @@ public class TicTacPanel extends JPanel
         public void actionPerformed(ActionEvent e)
         {
 
-            if (totalRounds == minRound)
+            if (totalRounds == minRound || totalRounds == currentRound)
             {
+                if(totalRounds == minRound)
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "Can't reduce the number of rounds of the game since 1 is the mininum ",
+                    "Can't Go Below The Min Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+                }
+                
+                else
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "Can't go below the current round ",
+                    "Can't Go Below The Current Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+                }
 
-                JOptionPane.showMessageDialog(new JFrame(), "Can't reduce the number of rounds of the game since 1 is the mininum ",
-                "Can't Go Below The Min Number Of Rounds", JOptionPane.ERROR_MESSAGE);
+         
             }
 
             else
@@ -439,7 +520,7 @@ public class TicTacPanel extends JPanel
 
                 rrPanel.setLayout(new BorderLayout());
 
-                JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, totalRounds - minRound, 1));
+                JSpinner reduce = new JSpinner(new SpinnerNumberModel(0, 0, totalRounds - currentRound, 1));
 
                 reduce.setPreferredSize(new Dimension(200, 20));
 
@@ -453,7 +534,9 @@ public class TicTacPanel extends JPanel
                     public void actionPerformed(ActionEvent e)
                     {
 
-                        JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been changed from " + totalRounds + " rounds to " + Math.abs(totalRounds - Integer.parseInt(reduce.getValue().toString())) + " rounds",
+                        JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been changed from " + totalRounds + " rounds to " +
+                        Math.abs(totalRounds - Integer.parseInt(reduce.getValue().toString())) +
+                        (Math.abs(totalRounds - Integer.parseInt(reduce.getValue().toString())) != 1 ? " rounds" : " round"),
                         "New Total Rounds", JOptionPane.INFORMATION_MESSAGE);
 
                         totalRounds = Math.abs(totalRounds - Integer.parseInt(reduce.getValue().toString()));
@@ -524,7 +607,8 @@ public class TicTacPanel extends JPanel
                     public void actionPerformed(ActionEvent e)
                     {
 
-                        JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been changed from " + totalRounds + " rounds to " + (totalRounds + Integer.parseInt(add.getValue().toString())) + " rounds",
+                        JOptionPane.showMessageDialog(new JFrame(), "The number of rounds has been changed from " + totalRounds +
+                        (totalRounds != 1 ? " rounds " : " round ") + "to " + (totalRounds + Integer.parseInt(add.getValue().toString())) + " rounds",
                         "New Total Rounds", JOptionPane.INFORMATION_MESSAGE);
 
                         totalRounds += Integer.parseInt(add.getValue().toString());

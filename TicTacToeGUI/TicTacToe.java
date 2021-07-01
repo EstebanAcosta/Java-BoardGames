@@ -36,7 +36,7 @@ public class TicTacToe
 
             // ask each player what's their name and set that name for each player
 
-            String name = JOptionPane.showInputDialog(new JFrame(), "What's your name Player " + (i + 1), "Enter Player Name", JOptionPane.INFORMATION_MESSAGE);
+            String name = JOptionPane.showInputDialog(new JFrame(), "What's your name Player " + (i + 1), "Enter Player " + (i+1)+ " Name", JOptionPane.INFORMATION_MESSAGE);
 
             // if the name is a number or contains a number or isn't within the character length
             while (name.matches("[0-9]+") || name.length() < minLen || name.length() > maxLen)
@@ -73,7 +73,7 @@ public class TicTacToe
             players[i].setName(name);
 
             // display the player's name
-            JOptionPane.showMessageDialog(new JFrame(), "Player " + (i + 1) + "'s name is " + players[i].getName(), "Player's Name", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "Player " + (i + 1) + "'s name is " + players[i].getName(), "Player's " + (i+1)+ " Name", JOptionPane.INFORMATION_MESSAGE);
 
         }
 
@@ -86,7 +86,7 @@ public class TicTacToe
 
         determineXO.setTitle("Determine Who Gets X or O");
 
-        determineXO.setBounds(200, 400, 400, 150);
+        determineXO.setBounds(400, 400, 400, 150);
 
         JSpinner randNumSpinner = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
 
