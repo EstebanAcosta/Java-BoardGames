@@ -397,7 +397,7 @@ public class TicTacPanel extends JPanel
             
             ttt.players = ttt.setUpPlayers();
             
-            ttt.settingUpRounds();
+            ttt.setUpXO();
 
         }
 
