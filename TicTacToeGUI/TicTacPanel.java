@@ -34,7 +34,7 @@ public class TicTacPanel extends JPanel
 
     JFrame thisFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
 
-    String winner = "";
+    String winnerXO = "";
 
     public TicTacPanel(Player[] players, int rounds)
     {
@@ -190,29 +190,35 @@ public class TicTacPanel extends JPanel
 
                         }
 
-                        if (hasWonRound(tiles))
+                        if (hasWonRound(tiles) || allOccupied(tiles))
                         {
-                            if (players[0].getXorO() == winner)
+                            if (players[0].getXorO() == winnerXO)
                             {
                                 JOptionPane.showMessageDialog(new JFrame(), "Player 1 " + players[0].getName() + " has won round " + currentRound, "Player 1 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
-                            
+
                                 players[0].setCurrentScore(players[0].getCurrentScore() + 1);
-                                
+
                                 P1score.setText("Player " + players[0].getPlayerId() + ": " + players[0].getCurrentScore() +
                                 (players[0].getCurrentScore() != 1 ? " points" : " point"));
                             }
 
-                            else
+                            else if (players[1].getXorO() == winnerXO)
                             {
                                 JOptionPane.showMessageDialog(new JFrame(), "Player 2 " + players[1].getName() + " has won round " + currentRound, "Player 2 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
 
                                 players[1].setCurrentScore(players[1].getCurrentScore() + 1);
-                                
+
                                 P2score.setText("Player " + players[1].getPlayerId() + ": " + players[1].getCurrentScore() +
                                 (players[1].getCurrentScore() != 1 ? " points" : " point"));
 
                             }
-                            
+
+                            else
+                            {
+                                JOptionPane.showMessageDialog(new JFrame(), "Neither player has won this round", "Tie Game", JOptionPane.INFORMATION_MESSAGE);
+
+                            }
+
                             currentRound++;
 
                             if (currentRound <= totalRounds)
@@ -225,13 +231,34 @@ public class TicTacPanel extends JPanel
                                         tiles[row][col].setText("");
                                     }
                                 }
-                                
+
                                 round.setText("Round " + currentRound + " of " + totalRounds);
 
                             }
 
                             else
                             {
+
+                                if (players[0].getCurrentScore() > players[1].getCurrentScore())
+                                {
+                                    JOptionPane.showMessageDialog(new JFrame(), "Player 1 " + players[0].getName() + " has won Tic-Tac-Toe with " + players[0].getCurrentScore() +
+                                    (players[0].getCurrentScore() != 1 ? " points" : " point"), "Player 1 Wins The Game", JOptionPane.INFORMATION_MESSAGE);
+
+                                }
+
+                                else if (players[1].getCurrentScore() > players[0].getCurrentScore())
+                                {
+                                    JOptionPane.showMessageDialog(new JFrame(), "Player 2 " + players[1].getName() + " has won Tic-Tac-Toe with " +
+                                    players[1].getCurrentScore() + (players[1].getCurrentScore() != 1 ? " points" : " point"), "Player 2 Wins The Game", JOptionPane.INFORMATION_MESSAGE);
+
+                                }
+
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(new JFrame(), "Player 2 " + players[1].getName() + " and Player 1 " + players[0].getName() +
+                                    " scored the same number of points. So there will be no winner ", "No Winner", JOptionPane.INFORMATION_MESSAGE);
+
+                                }
 
                             }
 
@@ -255,6 +282,22 @@ public class TicTacPanel extends JPanel
 
         add(upperPanel, BorderLayout.NORTH);
 
+    }
+
+    public boolean allOccupied(JButton[][] board)
+    {
+        for (int row = 0; row < board.length; row++)
+        {
+            for (int col = 0; col < board[row].length; col++)
+            {
+                if (board[row][col].getText().equalsIgnoreCase(""))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /***
@@ -283,7 +326,7 @@ public class TicTacPanel extends JPanel
             // if all three numbers in that row are equal return true
             if (count == 3)
             {
-                winner = board[row][0].getText();
+                winnerXO = board[row][0].getText();
 
                 return true;
             }
@@ -314,7 +357,7 @@ public class TicTacPanel extends JPanel
             // if all three numbers in that column are equal return true
             if (count == 3)
             {
-                winner = board[0][col].getText();
+                winnerXO = board[0][col].getText();
 
                 return true;
             }
@@ -330,7 +373,7 @@ public class TicTacPanel extends JPanel
         if (!board[0][0].getText().equals("") && board[0][0].getText().equals(board[1][1].getText()) && board[1][1].getText().equals(board[2][2].getText()))
         {
 
-            winner = board[0][0].getText();
+            winnerXO = board[0][0].getText();
 
             return true;
 
@@ -338,7 +381,7 @@ public class TicTacPanel extends JPanel
 
         else if (!board[0][2].getText().equals("") && board[0][2].getText().equals(board[1][1].getText()) && board[1][1].getText().equals(board[2][0].getText()))
         {
-            winner = board[0][2].getText();
+            winnerXO = board[0][2].getText();
 
             return true;
 
@@ -488,19 +531,18 @@ public class TicTacPanel extends JPanel
 
             if (totalRounds == minRound || totalRounds == currentRound)
             {
-                if(totalRounds == minRound)
+                if (totalRounds == minRound)
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Can't reduce the number of rounds of the game since 1 is the mininum ",
                     "Can't Go Below The Min Number Of Rounds", JOptionPane.ERROR_MESSAGE);
                 }
-                
+
                 else
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Can't go below the current round ",
                     "Can't Go Below The Current Number Of Rounds", JOptionPane.ERROR_MESSAGE);
                 }
 
-         
             }
 
             else

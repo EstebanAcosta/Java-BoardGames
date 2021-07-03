@@ -21,6 +21,7 @@ import javax.swing.JTextPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.text.StyledEditorKit;
+import javax.swing.text.StyledEditorKit.ItalicAction;
 
 import com.sun.glass.events.KeyEvent;
 
@@ -154,16 +155,42 @@ class wordProcessorPanelII extends JPanel
         popup.add(i);
 
         areaText.setComponentPopupMenu(popup);
-        
+
         JToolBar tool = new JToolBar();
-        
-        JButton boldButton = new JButton("Bold Button");
-        
-        JButton italicButton = new JButton("Italic Button");
-        
+
+        JButton boldButton = new JButton("B");
+
+        JButton italicButton = new JButton("I");
+
+        JButton underLine = new JButton("U");
+
+        JButton blue = new JButton("Blu");
+
+        JButton red = new JButton("R");
+
+        JButton yellow = new JButton("Y");
+
+        boldButton.addActionListener(new StyledEditorKit.BoldAction());
+
+        italicButton.addActionListener(new StyledEditorKit.ItalicAction());
+
+        underLine.addActionListener(new StyledEditorKit.UnderlineAction());
+
+        tool.setOrientation(1);
+
         tool.add(boldButton);
-        
+
         tool.add(italicButton);
+
+        tool.add(underLine);
+        
+        tool.add(blue);
+        
+        tool.add(red);
+        
+        tool.add(yellow);
+
+        add(tool, BorderLayout.WEST);
 
     }
 
