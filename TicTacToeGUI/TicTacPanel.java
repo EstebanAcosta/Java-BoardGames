@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.util.Random;
 
 import javax.swing.JButton;
@@ -16,8 +17,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.KeyStroke;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
+
+import com.sun.glass.events.KeyEvent;
 
 public class TicTacPanel extends JPanel
 {
@@ -59,6 +63,8 @@ public class TicTacPanel extends JPanel
 
         JMenuItem getNewGame = new JMenuItem("New Game");
 
+        getNewGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.SHIFT_DOWN_MASK));
+
         getNewGame.addActionListener(new startNewGame());
 
         newGame.add(getNewGame);
@@ -68,6 +74,8 @@ public class TicTacPanel extends JPanel
         JMenu restartRound = new JMenu("Restart Round");
 
         JMenuItem restartingRound = new JMenuItem("Restart Round");
+
+        restartingRound.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK));
 
         restartingRound.addActionListener(new restartingIt());
 
@@ -80,6 +88,10 @@ public class TicTacPanel extends JPanel
         JMenuItem addRounds = new JMenuItem("Add Rounds");
 
         JMenuItem reduceRounds = new JMenuItem("Reduce Rounds");
+
+        addRounds.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.SHIFT_DOWN_MASK));
+
+        reduceRounds.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.SHIFT_DOWN_MASK));
 
         reduceRounds.addActionListener(new reduceRounds());
 
@@ -96,6 +108,8 @@ public class TicTacPanel extends JPanel
         JMenuItem exiting = new JMenuItem("Exit");
 
         exiting.addActionListener(new closeWindow());
+
+        exiting.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_DOWN_MASK));
 
         exit.add(exiting);
 
@@ -221,6 +235,7 @@ public class TicTacPanel extends JPanel
 
                             currentRound++;
 
+                            // if there are more rounds to play
                             if (currentRound <= totalRounds)
                             {
                                 for (int row = 0; row < tiles.length; row++)
@@ -228,6 +243,7 @@ public class TicTacPanel extends JPanel
                                     for (int col = 0; col < tiles[row].length; col++)
                                     {
 
+                                        // reset the grid
                                         tiles[row][col].setText("");
                                     }
                                 }
@@ -236,6 +252,7 @@ public class TicTacPanel extends JPanel
 
                             }
 
+                            // if this is the final round
                             else
                             {
 
@@ -259,6 +276,42 @@ public class TicTacPanel extends JPanel
                                     " scored the same number of points. So there will be no winner ", "No Winner", JOptionPane.INFORMATION_MESSAGE);
 
                                 }
+
+                                JFrame continueGame = new JFrame();
+
+                                JLabel continueQuestion = new JLabel("Would you like to start another game?");
+
+                                continueQuestion.setHorizontalAlignment(JLabel.CENTER);
+
+                                continueGame.setLayout(new BorderLayout());
+
+                                JPanel questionArea = new JPanel();
+
+                                questionArea.add(continueQuestion);
+
+                                continueGame.add(questionArea, BorderLayout.NORTH);
+
+                                JButton yes = new JButton("Yes");
+
+                                JButton no = new JButton("No");
+                                
+                                yes.addActionListener(new restartingIt());
+                                
+                                no.addActionListener();
+
+                                JPanel submitArea = new JPanel();
+
+                                submitArea.add(yes);
+
+                                submitArea.add(no);
+
+                                continueGame.add(submitArea, BorderLayout.SOUTH);
+                                
+                                continueGame.setBounds(400, 400, 400, 100);
+
+                                continueGame.setVisible(true);
+
+                                continueGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
                             }
 
