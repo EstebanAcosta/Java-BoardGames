@@ -40,7 +40,7 @@ public class TicTacPanel extends JPanel
 
     String winnerXO = "";
 
-    public TicTacPanel(Player[] players, int rounds)
+    public TicTacPanel(Player[] players, int rounds, JMenuItem exiting, JButton dontStartNewGame)
     {
 
         totalRounds = rounds;
@@ -104,10 +104,6 @@ public class TicTacPanel extends JPanel
         ////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JMenu exit = new JMenu("Exit");
-
-        JMenuItem exiting = new JMenuItem("Exit");
-
-        exiting.addActionListener(new closeWindow());
 
         exiting.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_DOWN_MASK));
 
@@ -206,25 +202,28 @@ public class TicTacPanel extends JPanel
 
                         if (hasWonRound(tiles) || allOccupied(tiles))
                         {
-                            if (players[0].getXorO() == winnerXO)
+                            if (hasWonRound(tiles))
                             {
-                                JOptionPane.showMessageDialog(new JFrame(), "Player 1 " + players[0].getName() + " has won round " + currentRound, "Player 1 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
+                                if (players[0].getXorO() == winnerXO)
+                                {
+                                    JOptionPane.showMessageDialog(new JFrame(), "Player 1 " + players[0].getName() + " has won round " + currentRound, "Player 1 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
 
-                                players[0].setCurrentScore(players[0].getCurrentScore() + 1);
+                                    players[0].setCurrentScore(players[0].getCurrentScore() + 1);
 
-                                P1score.setText("Player " + players[0].getPlayerId() + ": " + players[0].getCurrentScore() +
-                                (players[0].getCurrentScore() != 1 ? " points" : " point"));
-                            }
+                                    P1score.setText("Player " + players[0].getPlayerId() + ": " + players[0].getCurrentScore() +
+                                    (players[0].getCurrentScore() != 1 ? " points" : " point"));
+                                }
 
-                            else if (players[1].getXorO() == winnerXO)
-                            {
-                                JOptionPane.showMessageDialog(new JFrame(), "Player 2 " + players[1].getName() + " has won round " + currentRound, "Player 2 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
+                                else if (players[1].getXorO() == winnerXO)
+                                {
+                                    JOptionPane.showMessageDialog(new JFrame(), "Player 2 " + players[1].getName() + " has won round " + currentRound, "Player 2 Wins " + currentRound, JOptionPane.INFORMATION_MESSAGE);
 
-                                players[1].setCurrentScore(players[1].getCurrentScore() + 1);
+                                    players[1].setCurrentScore(players[1].getCurrentScore() + 1);
 
-                                P2score.setText("Player " + players[1].getPlayerId() + ": " + players[1].getCurrentScore() +
-                                (players[1].getCurrentScore() != 1 ? " points" : " point"));
+                                    P2score.setText("Player " + players[1].getPlayerId() + ": " + players[1].getCurrentScore() +
+                                    (players[1].getCurrentScore() != 1 ? " points" : " point"));
 
+                                }
                             }
 
                             else
@@ -278,7 +277,7 @@ public class TicTacPanel extends JPanel
                                 }
 
                                 JFrame continueGame = new JFrame();
-                                
+
                                 continueGame.setTitle("Continue Game");
 
                                 JLabel continueQuestion = new JLabel("Would you like to start another game?");
@@ -294,8 +293,6 @@ public class TicTacPanel extends JPanel
                                 continueGame.add(questionArea, BorderLayout.NORTH);
 
                                 JButton yes = new JButton("Yes");
-
-                                JButton no = new JButton("No");
 
                                 yes.addActionListener(new ActionListener()
                                 {
@@ -313,13 +310,11 @@ public class TicTacPanel extends JPanel
                                     }
                                 });
 
-                                no.addActionListener(new closeWindow());
-
                                 JPanel submitArea = new JPanel();
 
                                 submitArea.add(yes);
 
-                                submitArea.add(no);
+                                submitArea.add(dontStartNewGame);
 
                                 continueGame.add(submitArea, BorderLayout.SOUTH);
 
@@ -480,15 +475,6 @@ public class TicTacPanel extends JPanel
         }
 
         return whoseTurn;
-    }
-
-    private class closeWindow implements ActionListener
-    {
-        public void actionPerformed(ActionEvent e)
-        {
-            thisFrame.dispose();
-        }
-
     }
 
     private class restartingIt implements ActionListener
