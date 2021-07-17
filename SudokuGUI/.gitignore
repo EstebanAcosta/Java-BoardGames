@@ -2,3 +2,13 @@
 /Sudoku.class
 /SudokuFrame.class
 /SudokuPanel.class
+/Sudoku$SudokuFrame.class
+/SudokuPanel$newGame.class
+/SudokuPanel$restartGame.class
+/SudokuPanel$restartingGame.class
+/SudokuPanel$startingNewGame.class
+/SudokuPanel$changeToHard.class
+/SudokuPanel$changeToEasy.class
+/SudokuPanel$changeToMedium.class
+/SudokuPanel$restartingTheGame.class
+/SudokuFrame$exits.class
