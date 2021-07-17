@@ -278,6 +278,8 @@ public class TicTacPanel extends JPanel
                                 }
 
                                 JFrame continueGame = new JFrame();
+                                
+                                continueGame.setTitle("Continue Game");
 
                                 JLabel continueQuestion = new JLabel("Would you like to start another game?");
 
@@ -294,10 +296,24 @@ public class TicTacPanel extends JPanel
                                 JButton yes = new JButton("Yes");
 
                                 JButton no = new JButton("No");
-                                
-                                yes.addActionListener(new restartingIt());
-                                
-                                no.addActionListener();
+
+                                yes.addActionListener(new ActionListener()
+                                {
+                                    public void actionPerformed(ActionEvent e)
+                                    {
+
+                                        continueGame.dispose();
+
+                                        TicTacToe ttt = new TicTacToe();
+
+                                        ttt.players = ttt.setUpPlayers();
+
+                                        ttt.setUpXO();
+
+                                    }
+                                });
+
+                                no.addActionListener(new closeWindow());
 
                                 JPanel submitArea = new JPanel();
 
@@ -306,7 +322,7 @@ public class TicTacPanel extends JPanel
                                 submitArea.add(no);
 
                                 continueGame.add(submitArea, BorderLayout.SOUTH);
-                                
+
                                 continueGame.setBounds(400, 400, 400, 100);
 
                                 continueGame.setVisible(true);
