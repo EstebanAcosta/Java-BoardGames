@@ -45,7 +45,7 @@ class SudokuFrame extends JFrame
 
     private class exits implements ActionListener
     {
-        @Override
+        
         public void actionPerformed(ActionEvent e)
         {
             dispose();
