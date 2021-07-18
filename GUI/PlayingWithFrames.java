@@ -16,26 +16,26 @@ public class PlayingWithFrames
     public static void main(String[] args)
     {
 
-        //
-        // myWindow2 myW2 = new myWindow2();
+        
+         myWindow2 myW2 = new myWindow2();
 
-        // myW2.setVisible(true);
-        //
-        // myW2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+//         myW2.setVisible(true);
+//        
+//         myW2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-        // centeredFrame cf = new centeredFrame();
-        //
-        // cf.setVisible(true);
-        //
-        // cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         centeredFrame cf = new centeredFrame();
+        
+         cf.setVisible(true);
+        
+         cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // windowWithText wt = new windowWithText();
-        //
-        // wt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//         windowWithText wt = new windowWithText();
+//        
+//         wt.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // windowWithDrawings wd = new windowWithDrawings();
-        //
-        // wd.setVisible(true);
+         windowWithDrawings wd = new windowWithDrawings();
+        
+         wd.setVisible(true);
         //
         // wd.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

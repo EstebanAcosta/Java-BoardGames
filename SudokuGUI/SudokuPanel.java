@@ -26,10 +26,15 @@ public class SudokuPanel extends JPanel
 
     JButton[][] sudoku;
 
-    JButton submit;
+    JButton finalSubmit;
 
-    public SudokuPanel(JMenuItem exiting)
+    String level;
+
+    public SudokuPanel(String level, JMenuItem exiting)
     {
+
+        this.level = level;
+
         setLayout(new BorderLayout());
 
         JPanel upperPanel = new JPanel();
@@ -38,9 +43,9 @@ public class SudokuPanel extends JPanel
 
         JPanel lowerPanel = new JPanel();
 
-        submit = new JButton("Submit");
+        finalSubmit = new JButton("Submit");
 
-        lowerPanel.add(submit);
+        lowerPanel.add(finalSubmit);
 
         JMenu newGame = new JMenu("New Game");
 
@@ -69,14 +74,20 @@ public class SudokuPanel extends JPanel
         JMenu difficulty = new JMenu("Adjust Difficulty");
 
         JMenuItem hard = new JMenuItem("Hard");
+        
+        hard.addActionListener(new setToHard());
 
         hard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
 
         JMenuItem medium = new JMenuItem("Medium");
+        
+        medium.addActionListener(new setToMedium());
 
         medium.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK));
 
         JMenuItem easy = new JMenuItem("Easy");
+        
+        easy.addActionListener(new setToEasy());
 
         easy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
 
@@ -134,6 +145,18 @@ public class SudokuPanel extends JPanel
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        JPanel lvlPanel = new JPanel();
+
+        JLabel lvl = new JLabel("Level: " + level);
+
+        lvl.setHorizontalAlignment(JLabel.CENTER);
+
+        lvlPanel.add(lvl);
+
+        upperPanel.add(lvl, BorderLayout.CENTER);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         JLabel timer = new JLabel("Timer:");
 
         JPanel timerPanel = new JPanel();
@@ -142,7 +165,7 @@ public class SudokuPanel extends JPanel
 
         timerPanel.add(timer);
 
-        upperPanel.add(timerPanel, BorderLayout.CENTER);
+        upperPanel.add(timerPanel, BorderLayout.SOUTH);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -171,8 +194,21 @@ public class SudokuPanel extends JPanel
                     tile.addActionListener(new setNumber());
 
                     box.add(tile);
+                    
+                    if(i != 0 && i % 2 == 0)
+                    {
 
-                    // sudoku[][] = tile;
+                    }
+                    
+                    else
+                    {
+//                        sudoku[][] = tile;
+
+                    }
+                        
+
+                     
+                     
                 }
 
                 game.add(box);
@@ -186,6 +222,12 @@ public class SudokuPanel extends JPanel
         add(game, BorderLayout.CENTER);
 
         add(lowerPanel, BorderLayout.SOUTH);
+    }
+
+    public boolean isSudokuComplete(JButton[][] sudoku)
+    {
+        return false;
+
     }
 
     private class addTime implements ActionListener
@@ -213,7 +255,9 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-
+            Sudoku s = new Sudoku();
+            
+            s.chooseDifficulty();
         }
 
     }
@@ -298,7 +342,7 @@ public class SudokuPanel extends JPanel
 
     }
 
-    private class changeToHard implements ActionListener
+    private class setToHard implements ActionListener
     {
 
         public void actionPerformed(ActionEvent e)
@@ -308,7 +352,7 @@ public class SudokuPanel extends JPanel
 
     }
 
-    private class changeToMedium implements ActionListener
+    private class setToMedium implements ActionListener
     {
 
         public void actionPerformed(ActionEvent e)
@@ -318,7 +362,7 @@ public class SudokuPanel extends JPanel
 
     }
 
-    private class changeToEasy implements ActionListener
+    private class setToEasy implements ActionListener
     {
 
         public void actionPerformed(ActionEvent e)
@@ -340,6 +384,14 @@ public class SudokuPanel extends JPanel
             JButton sourceButton = (JButton) e.getSource();
 
             JFrame num = new JFrame();
+
+            JPanel upperPanel = new JPanel();
+
+            JLabel question = new JLabel("Please enter a number for this box");
+
+            question.setHorizontalAlignment(JLabel.CENTER);
+
+            upperPanel.add(question);
 
             JPanel spinnerPanel = new JPanel();
 
@@ -374,11 +426,13 @@ public class SudokuPanel extends JPanel
 
             num.setLayout(new BorderLayout());
 
-            num.setBounds(originalX, originalX, 300, 100);
+            num.setBounds(originalX, originalX, 300, 150);
 
             num.setVisible(true);
 
             num.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+            num.add(upperPanel, BorderLayout.NORTH);
 
             num.add(spinnerPanel, BorderLayout.CENTER);
 
