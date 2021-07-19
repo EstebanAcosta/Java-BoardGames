@@ -33,15 +33,15 @@ public class Sudoku
         upperPanel.add(question);
 
         JPanel centerPanel = new JPanel();
-        
+
         JComboBox options = new JComboBox();
 
-        options.addItem("Hard");
+        options.addItem("Easy");
 
         options.addItem("Medium");
 
-        options.addItem("Easy");
-        
+        options.addItem("Hard");
+
         centerPanel.add(options);
 
         JButton submit = new JButton("Submit");
@@ -56,13 +56,13 @@ public class Sudoku
                 difficulty.dispose();
 
                 SudokuFrame sf = new SudokuFrame(options.getSelectedItem().toString());
-                
+
             }
 
         });
 
         difficulty.add(upperPanel, BorderLayout.NORTH);
-        
+
         difficulty.add(centerPanel, BorderLayout.CENTER);
 
         difficulty.add(submit, BorderLayout.SOUTH);
@@ -75,7 +75,7 @@ public class Sudoku
 
         int width = screenSize.width;
 
-        difficulty.setBounds(width / 4 + 200, (height / 4) + 100, 300, 120);
+        difficulty.setBounds(width / 4 + 200, (height / 4) + 100, 300, 140);
 
         difficulty.setTitle("Sudoku Difficulty");
 

@@ -32,6 +32,8 @@ public class SudokuPanel extends JPanel
 
     JLabel lvl;
 
+    ArrayList<JPanel> boxes = new ArrayList<JPanel>();
+
     public SudokuPanel(String level, JMenuItem exiting)
     {
 
@@ -175,40 +177,65 @@ public class SudokuPanel extends JPanel
 
         game.setLayout(new GridLayout(3, 3));
 
-        // loop through each row in the button grid
+                
+        int startRow = 0;
+        
+        int startCol = 0;
+        
+        // loop through each row in the sudoku board
         for (int row = 0; row < 3; row++)
         {
-            // loop through each column in the button grid
+            // loop through each column in the sudoku board
             for (int col = 0; col < 3; col++)
             {
 
+                //create a panel that will store each of the six boxes in the sudoku board
                 JPanel box = new JPanel(new GridLayout(3, 3));
 
                 box.setBorder(LineBorder.createGrayLineBorder());
-
-                for (int i = 0; i < 9; i++)
+                
+                //loop through each row of the box
+                for(int boxRow = startRow; boxRow < startRow + 3; boxRow++)
                 {
-                    // create a new button
-                    JButton tile = new JButton();
-
-                    tile.addActionListener(new setNumber());
-
-                    box.add(tile);
-
-                    if (i != 0 && i % 2 == 0)
+                    //loop through each column of the box
+                    for(int boxCol = startCol; boxCol < startCol+3; boxCol++)
                     {
 
+                        // create a new button
+                        JButton tile = new JButton();
+
+                        tile.addActionListener(new setNumber());
+
+                        //add this button to the box
+                        box.add(tile);
+
+                        //store the button to the 2D array
+                        sudoku[boxRow][boxCol] = tile;
                     }
-
-                    else
-                    {
-                        // sudoku[][] = tile;
-
-                    }
-
                 }
 
+                //since we are keeping track of all the boxes in the grid, add the box to the list of boxes
+                boxes.add(box);
+
+                //add this panel to the main grid panel
                 game.add(box);
+                             
+                //if we are on the last box
+                if(startCol == 6)
+                {
+                    //reset the starting column number to the first column of the sudoku grid
+                    startCol = 0;
+                    
+                    //add three to the starting row since we are going to start looping at the second row of boxes
+                    startRow+=3;
+                }
+                
+                //if we are on the first two boxes of the row
+                else
+                {
+                    //add three to starting column # to get to the next box in that row
+                    startCol+=3;
+                }
 
             }
 
@@ -446,21 +473,23 @@ public class SudokuPanel extends JPanel
         }
 
     }
-    
+
     private class confirmChangeInDifficulty implements ActionListener
     {
 
         int originalX = 300;
 
         int originalY = 300;
-        
+
         public void actionPerformed(ActionEvent e)
         {
-            JFrame questionUser = new JFrame();
-            
-            questionUser.setLayout(new BorderLayout());
+            JMenuItem source = (JMenuItem) e.getSource();
 
-            JLabel question = new JLabel("Are you sure you want to change the difficulty to ");
+            JFrame questionUserFrame = new JFrame();
+
+            questionUserFrame.setLayout(new BorderLayout());
+
+            JLabel question = new JLabel("Are you sure you want to change the difficulty to " + source.getText() + "?");
 
             question.setHorizontalAlignment(JLabel.CENTER);
 
@@ -471,45 +500,69 @@ public class SudokuPanel extends JPanel
             JPanel lowerPanel = new JPanel();
 
             JButton yes = new JButton("Yes");
-            
-//            yes.addActionListener();
+
+            if (source.getText().equalsIgnoreCase("Easy"))
+            {
+                yes.addActionListener(new setToEasy(questionUserFrame));
+
+            }
+
+            else if (source.getText().equalsIgnoreCase("Medium"))
+            {
+                yes.addActionListener(new setToMedium(questionUserFrame));
+
+            }
+
+            else
+            {
+                yes.addActionListener(new setToHard(questionUserFrame));
+
+            }
 
             JButton no = new JButton("No");
-            
+
             no.addActionListener(new ActionListener()
             {
 
-                
                 public void actionPerformed(ActionEvent e)
                 {
-                    questionUser.dispose();
+                    questionUserFrame.dispose();
                 }
-                
+
             });
 
             lowerPanel.add(yes);
 
             lowerPanel.add(no);
-            
-            questionUser.setTitle("Confirmation of Change In Difficulty");
 
-            questionUser.add(lowerPanel,BorderLayout.SOUTH);
+            questionUserFrame.setTitle("Confirmation of Change In Difficulty");
 
-            questionUser.setBounds(originalX, originalX, 300, 130);;
+            questionUserFrame.add(centerPanel, BorderLayout.CENTER);
 
-            questionUser.setVisible(true);
+            questionUserFrame.add(lowerPanel, BorderLayout.SOUTH);
 
-            questionUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);            
+            questionUserFrame.setBounds(originalX, originalX, 400, 100);;
+
+            questionUserFrame.setVisible(true);
+
+            questionUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
-        
+
     }
 
     private class setToHard implements ActionListener
     {
-    
+
+        JFrame confirm;
+
+        public setToHard(JFrame confirm)
+        {
+            this.confirm = confirm;
+        }
 
         public void actionPerformed(ActionEvent e)
         {
+            confirm.dispose();
 
             lvl.setText("Level: Hard");
         }
@@ -519,8 +572,17 @@ public class SudokuPanel extends JPanel
     private class setToMedium implements ActionListener
     {
 
+        JFrame confirm;
+
+        public setToMedium(JFrame confirm)
+        {
+            this.confirm = confirm;
+        }
+
         public void actionPerformed(ActionEvent e)
         {
+            confirm.dispose();
+
             lvl.setText("Level: Medium");
         }
 
@@ -529,8 +591,17 @@ public class SudokuPanel extends JPanel
     private class setToEasy implements ActionListener
     {
 
+        JFrame confirm;
+
+        public setToEasy(JFrame confirm)
+        {
+            this.confirm = confirm;
+        }
+
         public void actionPerformed(ActionEvent e)
         {
+            confirm.dispose();
+
             lvl.setText("Level: Easy");
 
         }
@@ -577,7 +648,7 @@ public class SudokuPanel extends JPanel
                 {
 
                     sourceButton.setText(spinner.getValue().toString());
-
+                    
                     num.dispose();
                 }
 
