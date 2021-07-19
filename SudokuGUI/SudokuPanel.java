@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,7 +34,6 @@ public class SudokuPanel extends JPanel
 
     public SudokuPanel(String level, JMenuItem exiting)
     {
-
 
         setLayout(new BorderLayout());
 
@@ -73,20 +74,20 @@ public class SudokuPanel extends JPanel
         JMenu difficulty = new JMenu("Adjust Difficulty");
 
         JMenuItem hard = new JMenuItem("Hard");
-        
-        hard.addActionListener(new setToHard());
+
+        hard.addActionListener(new confirmChangeInDifficulty());
 
         hard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_DOWN_MASK));
 
         JMenuItem medium = new JMenuItem("Medium");
-        
-        medium.addActionListener(new setToMedium());
+
+        medium.addActionListener(new confirmChangeInDifficulty());
 
         medium.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK));
 
         JMenuItem easy = new JMenuItem("Easy");
-        
-        easy.addActionListener(new setToEasy());
+
+        easy.addActionListener(new confirmChangeInDifficulty());
 
         easy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_DOWN_MASK));
 
@@ -193,21 +194,18 @@ public class SudokuPanel extends JPanel
                     tile.addActionListener(new setNumber());
 
                     box.add(tile);
-                    
-                    if(i != 0 && i % 2 == 0)
+
+                    if (i != 0 && i % 2 == 0)
                     {
 
                     }
-                    
+
                     else
                     {
-//                        sudoku[][] = tile;
+                        // sudoku[][] = tile;
 
                     }
-                        
 
-                     
-                     
                 }
 
                 game.add(box);
@@ -223,28 +221,120 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * This method checks to see if the entire board is completed, if each row only has unique numbers,
+     * if each column only has unique numbers and if each box only has unique numbers.
+     * @param sudoku
+     * @return true if the board is completed and unique numbers only appear in each row, in each column and in each box
+     *         false if none of these tests pass
+     */
     public boolean isSudokuCompleted(JButton[][] sudoku)
     {
-        if(isHorizontalRight(sudoku) && isVerticalRight(sudoku))
+
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                if (sudoku[row][col].getText() == "")
+                {
+                    return false;
+                }
+            }
+        }
+
+        if (doesHorizontalHaveUniqueNumbers(sudoku) && doesVertifcalHaveUniqueNumbers(sudoku)
+        && doesEachBoxHaveUniqueNumbers(sudoku))
         {
             return true;
         }
-        
+
         return false;
 
     }
-    
-    public boolean isHorizontalRight(JButton [][] sudoku)
+
+    /***
+     * Method goes through each row of the board and checks if each row doesn't have a number that appears more than once
+     * @param sudoku
+     * @return
+     */
+    public boolean doesHorizontalHaveUniqueNumbers(JButton[][] sudoku)
+    {
+        for (int row = 0; row < sudoku.length; row++)
+        {
+            // grab this row from the sudoku board
+            JButton[] eachRow = sudoku[row];
+
+            // create an empty array list
+            ArrayList<Integer> checking = new ArrayList<Integer>();
+
+            // loop through each number in this specific row
+            for (int rowNum = 0; rowNum < eachRow.length; rowNum++)
+            {
+                int thisNum = Integer.parseInt(eachRow[rowNum].getText());
+
+                // if the number that we are currently on isn't in the empty array list
+                if (!checking.contains(thisNum))
+                {
+                    // add it to the list
+                    checking.add(thisNum);
+                }
+
+                // if the number that we are currently on is in the empty list, then we know this number
+                // appears more than once in the row
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /***
+     * Method goes through each columnof the board and checks if each column doesn't have a number that appears more than once
+     * @param sudoku
+     * @return
+     */
+    public boolean doesVertifcalHaveUniqueNumbers(JButton[][] sudoku)
+    {
+        // loop through each column
+        for (int col = 0; col < sudoku[0].length; col++)
+        {
+            // create an empty array list
+            ArrayList<Integer> checking = new ArrayList<Integer>();
+
+            // loop through each row
+            for (int row = 0; row < sudoku.length; row++)
+            {
+                // get the value of the JButton and convert into an integer
+                int thisNum = Integer.parseInt(sudoku[row][col].getText());
+
+                // if the number that we are currently on isn't in the empty array list
+                if (!checking.contains(thisNum))
+                {
+                    // add it to the list
+                    checking.add(thisNum);
+                }
+
+                // if the number that we are currently on is in the empty list, then we know this number
+                // appears more than once in the row
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
+
+    public boolean doesEachBoxHaveUniqueNumbers(JButton[][] sudoku)
     {
         return false;
+
     }
-    
-    public boolean isVerticalRight(JButton [][] sudoku)
-    {
-        return false;
-        
-    }
-    
+
     private class addTime implements ActionListener
     {
 
@@ -271,7 +361,7 @@ public class SudokuPanel extends JPanel
         public void actionPerformed(ActionEvent e)
         {
             Sudoku s = new Sudoku();
-            
+
             s.chooseDifficulty();
         }
 
@@ -356,12 +446,71 @@ public class SudokuPanel extends JPanel
         }
 
     }
+    
+    private class confirmChangeInDifficulty implements ActionListener
+    {
+
+        int originalX = 300;
+
+        int originalY = 300;
+        
+        public void actionPerformed(ActionEvent e)
+        {
+            JFrame questionUser = new JFrame();
+            
+            questionUser.setLayout(new BorderLayout());
+
+            JLabel question = new JLabel("Are you sure you want to change the difficulty to ");
+
+            question.setHorizontalAlignment(JLabel.CENTER);
+
+            JPanel centerPanel = new JPanel();
+
+            centerPanel.add(question);
+
+            JPanel lowerPanel = new JPanel();
+
+            JButton yes = new JButton("Yes");
+            
+//            yes.addActionListener();
+
+            JButton no = new JButton("No");
+            
+            no.addActionListener(new ActionListener()
+            {
+
+                
+                public void actionPerformed(ActionEvent e)
+                {
+                    questionUser.dispose();
+                }
+                
+            });
+
+            lowerPanel.add(yes);
+
+            lowerPanel.add(no);
+            
+            questionUser.setTitle("Confirmation of Change In Difficulty");
+
+            questionUser.add(lowerPanel,BorderLayout.SOUTH);
+
+            questionUser.setBounds(originalX, originalX, 300, 130);;
+
+            questionUser.setVisible(true);
+
+            questionUser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);            
+        }
+        
+    }
 
     private class setToHard implements ActionListener
     {
+    
 
         public void actionPerformed(ActionEvent e)
         {
+
             lvl.setText("Level: Hard");
         }
 
@@ -372,7 +521,7 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-           lvl.setText("Level: Medium");
+            lvl.setText("Level: Medium");
         }
 
     }
