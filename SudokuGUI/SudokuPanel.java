@@ -28,12 +28,11 @@ public class SudokuPanel extends JPanel
 
     JButton finalSubmit;
 
-    String level;
+    JLabel lvl;
 
     public SudokuPanel(String level, JMenuItem exiting)
     {
 
-        this.level = level;
 
         setLayout(new BorderLayout());
 
@@ -147,7 +146,7 @@ public class SudokuPanel extends JPanel
 
         JPanel lvlPanel = new JPanel();
 
-        JLabel lvl = new JLabel("Level: " + level);
+        lvl = new JLabel("Level: " + level);
 
         lvl.setHorizontalAlignment(JLabel.CENTER);
 
@@ -224,12 +223,28 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
-    public boolean isSudokuComplete(JButton[][] sudoku)
+    public boolean isSudokuCompleted(JButton[][] sudoku)
     {
+        if(isHorizontalRight(sudoku) && isVerticalRight(sudoku))
+        {
+            return true;
+        }
+        
         return false;
 
     }
-
+    
+    public boolean isHorizontalRight(JButton [][] sudoku)
+    {
+        return false;
+    }
+    
+    public boolean isVerticalRight(JButton [][] sudoku)
+    {
+        return false;
+        
+    }
+    
     private class addTime implements ActionListener
     {
 
@@ -347,7 +362,7 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-
+            lvl.setText("Level: Hard");
         }
 
     }
@@ -357,7 +372,7 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-
+           lvl.setText("Level: Medium");
         }
 
     }
@@ -367,6 +382,7 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
+            lvl.setText("Level: Easy");
 
         }
 
@@ -395,13 +411,11 @@ public class SudokuPanel extends JPanel
 
             JPanel spinnerPanel = new JPanel();
 
-            spinnerPanel.setLayout(new BorderLayout());
-
             JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 9, 1));
 
-            spinner.setPreferredSize(new Dimension(200, 20));
+            spinner.setPreferredSize(new Dimension(150, 20));
 
-            spinnerPanel.add(spinner, BorderLayout.NORTH);
+            spinnerPanel.add(spinner);
 
             JPanel lowerPanel = new JPanel();
 
@@ -426,7 +440,7 @@ public class SudokuPanel extends JPanel
 
             num.setLayout(new BorderLayout());
 
-            num.setBounds(originalX, originalX, 300, 150);
+            num.setBounds(originalX, originalX, 300, 130);
 
             num.setVisible(true);
 
