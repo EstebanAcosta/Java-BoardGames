@@ -275,18 +275,16 @@ public class SudokuPanel extends JPanel
     public boolean isSudokuCompleted(JButton[][] sudoku)
     {
 
-        // for (int row = 0; row < 9; row++)
-        // {
-        // for (int col = 0; col < 9; col++)
-        // {
-        // if (sudoku[row][col].getText() == "")
-        // {
-        // return false;
-        // }
-        // }
-        // }
-
-        doesEachBoxHaveUniqueNumbers(sudoku);
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                if (sudoku[row][col].getText() == "")
+                {
+                    return false;
+                }
+            }
+        }
 
         if (doesEachRowHaveUniqueNumbers(sudoku) || doesEachColumnHaveUniqueNumbers(sudoku)
         && doesEachBoxHaveUniqueNumbers(sudoku))
@@ -307,8 +305,6 @@ public class SudokuPanel extends JPanel
         {
             int num = (number.getText() == "" ? 0 : Integer.parseInt(number.getText()));
 
-            System.out.println(num);
-
             // if the number that we are currently on isn't in the empty array list
             if (!checking.contains(num))
             {
@@ -326,7 +322,7 @@ public class SudokuPanel extends JPanel
     }
 
     /***
-     * Method goes through each row of the board and checks if each row doesn't have a number that appears more than once
+     * Method goes through each row of the board and checks if each row doesn't have any repeated numbers
      * @param sudoku
      * @return
      */
@@ -361,7 +357,7 @@ public class SudokuPanel extends JPanel
     }
 
     /***
-     * Method goes through each columnof the board and checks if each column doesn't have a number that appears more than once
+     * Method goes through each columnof the board and checks if each column doesn't have any repeated numbers
      * @param sudoku
      * @return
      */
@@ -408,16 +404,23 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /***
+     * Methods goes through each box of the board and checks if each box doesn't have any repeated numbers
+     * @param sudoku
+     * @return
+     */
     public boolean doesEachBoxHaveUniqueNumbers(JButton[][] sudoku)
     {
 
         System.out.println(boxes.size() + "\n");
-        
+
         // loop through each box in the six boxes
         for (JPanel box : boxes)
         {
             // get the components in the panel and store it in the list of components
             Component[] components = box.getComponents();
+
+            System.out.println(box.getComponents().length + " cp");
 
             // create a new JButton list whiich stores all the JButtons in that box
             JButton[] boxNums = new JButton[9];
@@ -452,7 +455,7 @@ public class SudokuPanel extends JPanel
             // if the box does have repeated numbers
             else
             {
-                System.out.println();
+                System.out.println("false");
 
                 return false;
             }
