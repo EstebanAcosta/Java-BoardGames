@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.LineBorder;
@@ -242,8 +243,8 @@ public class SudokuPanel extends JPanel
             {
                 if (isSudokuCompleted(sudoku))
                 {
-
-                }
+                    JOptionPane.showMessageDialog(new JFrame(), "Congratulatons on completing the sudoku puzzle",
+                    "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);                }
 
                 else
                 {
@@ -261,6 +262,13 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
+    
+    public JButton[][] sudokuGenerator()
+    {
+        JButton[][] randSudoku = new JButton[9][9];
+        
+        return randSudoku;
+    }
     /**
      * This method checks to see if the entire board is completed, if each row only has unique numbers,
      * if each column only has unique numbers and if each box only has unique numbers.
