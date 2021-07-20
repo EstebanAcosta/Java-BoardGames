@@ -1,9 +1,7 @@
 package SudokuGUI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,9 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.KeyStroke;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 
 import com.sun.glass.events.KeyEvent;
@@ -200,7 +196,7 @@ public class SudokuPanel extends JPanel
                         // create a new button
                         JButton tile = new JButton();
 
-                        tile.addActionListener(new setNumber());
+                        tile.addActionListener(new setNumber(boxRow, boxCol));
 
                         // add this button to the box
                         box.add(tile);
@@ -296,6 +292,58 @@ public class SudokuPanel extends JPanel
 
     }
 
+    public JButton[] getAllNumbersInCol(int col)
+    {
+        // create an empty array list
+        JButton[] eachCol = new JButton[9];
+
+        int count = 0;
+
+        // loop through each row
+        for (int row = 0; row < sudoku.length; row++)
+        {
+            // add the number in that column to the array
+            eachCol[count] = sudoku[row][col];
+
+            // move to the next position
+            count++;
+        }
+
+        return eachCol;
+    }
+
+    public JButton[] getAllNumbersInBox(JPanel box)
+    {
+        // get the components in the panel and store it in the list of components
+        Component[] components = box.getComponents();
+
+        // create a new JButton list whiich stores all the JButtons in that box
+        JButton[] boxNums = new JButton[9];
+
+        int count = 0;
+
+        // loop through each component
+        for (Component c : components)
+        {
+            // if this component is a JButton
+            if (c instanceof JButton)
+            {
+                // cast each component to a JButton and store it in the list of JButtons
+                boxNums[count] = (JButton) c;
+
+                count++;
+
+            }
+        }
+
+        return boxNums;
+
+    }
+
+    /***
+     * @param numbers
+     * @return
+     */
     public boolean isUniqueSet(JButton[] numbers)
     {
         // create an empty array list
@@ -319,6 +367,46 @@ public class SudokuPanel extends JPanel
         }
 
         return true;
+    }
+
+    public boolean placedRepeatedNumberInRow(int row)
+    {
+        JButton[] thisRow = sudoku[row];
+
+        if (isUniqueSet(thisRow))
+        {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean placedRepeatedNumberInColumn(int col)
+    {
+
+        JButton[] thisCol = getAllNumbersInCol(col);
+
+        if (isUniqueSet(thisCol))
+        {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public boolean placedRepeatedNumberInABox(int box)
+    {
+        JButton[] numInBox = getAllNumbersInBox(boxes.get(box));
+
+        if (isUniqueSet(numInBox))
+        {
+            return false;
+        }
+
+        return true;
+
     }
 
     /***
@@ -357,7 +445,7 @@ public class SudokuPanel extends JPanel
     }
 
     /***
-     * Method goes through each columnof the board and checks if each column doesn't have any repeated numbers
+     * Method goes through each column of the board and checks if each column doesn't have any repeated numbers
      * @param sudoku
      * @return
      */
@@ -367,23 +455,9 @@ public class SudokuPanel extends JPanel
         // loop through each column
         for (int col = 0; col < sudoku[0].length; col++)
         {
-            // create an empty array list
-            JButton[] eachCol = new JButton[9];
-
-            int count = 0;
-
-            // loop through each row
-            for (int row = 0; row < sudoku.length; row++)
-            {
-                // add the number in that column to the array
-                eachCol[count] = sudoku[row][col];
-
-                // move to the next position
-                count++;
-            }
 
             // check if the list of column numbers doens't have any repeated numbers
-            if (isUniqueSet(eachCol))
+            if (isUniqueSet(getAllNumbersInCol(col)))
             {
                 // move on to the next column
                 continue;
@@ -398,8 +472,6 @@ public class SudokuPanel extends JPanel
 
         }
 
-        System.out.println("COL END");
-
         return true;
 
     }
@@ -412,50 +484,22 @@ public class SudokuPanel extends JPanel
     public boolean doesEachBoxHaveUniqueNumbers(JButton[][] sudoku)
     {
 
-        System.out.println(boxes.size() + "\n");
-
         // loop through each box in the six boxes
         for (JPanel box : boxes)
         {
-            // get the components in the panel and store it in the list of components
-            Component[] components = box.getComponents();
-
-            System.out.println(box.getComponents().length + " cp");
-
-            // create a new JButton list whiich stores all the JButtons in that box
-            JButton[] boxNums = new JButton[9];
-
-            int count = 0;
-
-            // loop through each component
-            for (Component c : components)
-            {
-
-                // if this component is a JButton
-                if (c instanceof JButton)
-                {
-                    // cast each component to a JButton and store it in the list of JButtons
-                    boxNums[count] = (JButton) c;
-
-                    count++;
-
-                }
-            }
 
             // check if the list of box numbers doens't have any repeated numbers
-            if (isUniqueSet(boxNums))
+            if (isUniqueSet(getAllNumbersInBox(box)))
             {
-                System.out.println();
 
                 // move on to the next row
                 continue;
 
             }
 
-            // if the box does have repeated numbers
+            // if the box has repeated numbers
             else
             {
-                System.out.println("false");
 
                 return false;
             }
@@ -713,67 +757,79 @@ public class SudokuPanel extends JPanel
 
     private class setNumber implements ActionListener
     {
-        int originalX = 300;
+        int originalX = 200;
 
-        int originalY = 300;
+        int originalY = 200;
+
+        int row;
+
+        int col;
+
+        public setNumber(int row, int col)
+        {
+            this.row = row + 1;
+
+            this.col = col + 1;
+        }
 
         public void actionPerformed(ActionEvent e)
 
         {
             JButton sourceButton = (JButton) e.getSource();
 
-            JFrame num = new JFrame();
+            JFrame chooseNumFrame = new JFrame();
 
             JPanel upperPanel = new JPanel();
 
-            JLabel question = new JLabel("Please enter a number for this box");
+            JLabel question = new JLabel("Please click on a number for this box in row " + row + " and column " + col);
 
             question.setHorizontalAlignment(JLabel.CENTER);
 
             upperPanel.add(question);
 
-            JPanel spinnerPanel = new JPanel();
+            JPanel centerPanel = new JPanel();
 
-            JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, 9, 1));
+            centerPanel.setLayout(new GridLayout(3, 3));
 
-            spinner.setPreferredSize(new Dimension(150, 20));
+            for (int i = 0; i < 9; i++)
+            {
+                JButton setNumber = new JButton(Integer.toString(i + 1));
 
-            spinnerPanel.add(spinner);
+                setNumber.addActionListener(new ActionListener()
+                {
+
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        sourceButton.setText(setNumber.getText());
+
+                        chooseNumFrame.dispose();
+                    }
+
+                });
+
+                centerPanel.add(setNumber);
+
+            }
 
             JPanel lowerPanel = new JPanel();
 
-            JButton submit = new JButton("Submit");
+            chooseNumFrame.pack();
 
-            submit.addActionListener(new ActionListener()
-            {
+            chooseNumFrame.setTitle("Set Number");
 
-                public void actionPerformed(ActionEvent e)
-                {
+            chooseNumFrame.setLayout(new BorderLayout());
 
-                    sourceButton.setText(spinner.getValue().toString());
+            chooseNumFrame.setBounds(originalX, originalY, 400, 130);
 
-                    num.dispose();
-                }
+            chooseNumFrame.setVisible(true);
 
-            });
+            chooseNumFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-            lowerPanel.add(submit);
+            chooseNumFrame.add(upperPanel, BorderLayout.NORTH);
 
-            num.setTitle("Set Number");
+            chooseNumFrame.add(centerPanel, BorderLayout.CENTER);
 
-            num.setLayout(new BorderLayout());
-
-            num.setBounds(originalX, originalX, 300, 130);
-
-            num.setVisible(true);
-
-            num.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            num.add(upperPanel, BorderLayout.NORTH);
-
-            num.add(spinnerPanel, BorderLayout.CENTER);
-
-            num.add(lowerPanel, BorderLayout.SOUTH);
+            chooseNumFrame.add(lowerPanel, BorderLayout.SOUTH);
 
             originalX += 50;
 
