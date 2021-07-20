@@ -1,6 +1,7 @@
 package SudokuGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -34,6 +35,8 @@ public class SudokuPanel extends JPanel
 
     public SudokuPanel(String level, JMenuItem exiting)
     {
+        
+        sudoku = new JButton[9][9];
 
         setLayout(new BorderLayout());
 
@@ -165,8 +168,6 @@ public class SudokuPanel extends JPanel
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        sudoku = new JButton[9][9];
-
         JPanel game = new JPanel();
 
         game.setLayout(new GridLayout(3, 3));
@@ -174,6 +175,8 @@ public class SudokuPanel extends JPanel
         int startRow = 0;
 
         int startCol = 0;
+
+        int countBox = 0;
 
         // loop through each row in the sudoku board
         for (int row = 0; row < 3; row++)
@@ -193,11 +196,102 @@ public class SudokuPanel extends JPanel
                     // loop through each column of the box
                     for (int boxCol = startCol; boxCol < startCol + 3; boxCol++)
                     {
+                        int thisRow = boxRow;
+
+                        int thisCol = boxCol;
+
+                        int thisBox = countBox;
 
                         // create a new button
                         JButton tile = new JButton();
 
-                        tile.addActionListener(new setNumber(boxRow, boxCol));
+                        tile.addActionListener(new ActionListener()
+                        {
+
+                            public void actionPerformed(ActionEvent e)
+                            {
+
+                                JButton sourceButton = (JButton) e.getSource();
+
+                                JFrame chooseNumFrame = new JFrame();
+
+                                JPanel upperPanel = new JPanel();
+
+                                JLabel question = new JLabel("Please click on a number for this box in row " + (thisRow + 1) + " and column " + (thisCol + 1));
+
+                                question.setHorizontalAlignment(JLabel.CENTER);
+
+                                upperPanel.add(question);
+
+                                JPanel centerPanel = new JPanel();
+
+                                centerPanel.setLayout(new GridLayout(3, 3));
+
+                                for (int i = 0; i < 9; i++)
+                                {
+
+                                    JButton setNumber = new JButton(Integer.toString(i + 1));
+
+                                    setNumber.addActionListener(new ActionListener()
+                                    {
+
+                                        public void actionPerformed(ActionEvent e)
+                                        {
+                                            sourceButton.setText(setNumber.getText());
+
+                                            int newNum = Integer.parseInt(setNumber.getText());
+
+                                            if (placedRepeatedNumberInRow(sudoku, thisRow, newNum) || placedRepeatedNumberInColumn(sudoku, thisCol, newNum)
+                                            || placedRepeatedNumberInABox(thisBox, newNum))
+                                            {
+
+                                                sourceButton.setForeground(Color.RED);
+
+                                                sourceButton.setOpaque(true);
+                                            }
+
+                                            else
+                                            {
+                                                if (sourceButton.getForeground() == Color.RED)
+                                                {
+                                                    sourceButton.setForeground(Color.BLACK);
+                                                }
+                                            }
+
+                                            chooseNumFrame.dispose();
+                                        }
+
+                                    });
+
+                                    centerPanel.add(setNumber);
+
+                                }
+
+                                JPanel lowerPanel = new JPanel();
+
+                                chooseNumFrame.pack();
+
+                                chooseNumFrame.setResizable(false);
+
+                                chooseNumFrame.setTitle("Set Number");
+
+                                chooseNumFrame.setLayout(new BorderLayout());
+
+                                chooseNumFrame.setBounds(200, 200, 400, 130);
+
+                                chooseNumFrame.setVisible(true);
+
+                                chooseNumFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                                chooseNumFrame.add(upperPanel, BorderLayout.NORTH);
+
+                                chooseNumFrame.add(centerPanel, BorderLayout.CENTER);
+
+                                chooseNumFrame.add(lowerPanel, BorderLayout.SOUTH);
+
+                            }
+
+                        });
 
                         // add this button to the box
                         box.add(tile);
@@ -206,6 +300,8 @@ public class SudokuPanel extends JPanel
                         sudoku[boxRow][boxCol] = tile;
                     }
                 }
+
+                countBox++;
 
                 // since we are keeping track of all the boxes in the grid, add the box to the list of boxes
                 boxes.add(box);
@@ -244,7 +340,8 @@ public class SudokuPanel extends JPanel
                 if (isSudokuCompleted(sudoku))
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Congratulatons on completing the sudoku puzzle",
-                    "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);                }
+                    "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
+                }
 
                 else
                 {
@@ -262,13 +359,13 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
-    
     public JButton[][] sudokuGenerator()
     {
         JButton[][] randSudoku = new JButton[9][9];
-        
+
         return randSudoku;
     }
+
     /**
      * This method checks to see if the entire board is completed, if each row only has unique numbers,
      * if each column only has unique numbers and if each box only has unique numbers.
@@ -377,43 +474,66 @@ public class SudokuPanel extends JPanel
         return true;
     }
 
-    public boolean placedRepeatedNumberInRow(int row)
+    public boolean placedRepeatedNumberInRow(JButton[][] sudoku, int row, int number)
     {
+
         JButton[] thisRow = sudoku[row];
 
-        if (isUniqueSet(thisRow))
+        int countThisNum = 0;
+
+        for (JButton eachNumInRow : thisRow)
         {
-            return false;
+            int numInRow = (eachNumInRow.getText() == "" ? 0 : Integer.parseInt(eachNumInRow.getText()));
+
+            if (numInRow == number)
+            {
+                countThisNum++;
+            }
+
         }
 
-        return true;
+        return countThisNum > 1 ? true : false;
 
     }
 
-    public boolean placedRepeatedNumberInColumn(int col)
+    public boolean placedRepeatedNumberInColumn(JButton[][] sudoku, int col, int number)
     {
 
         JButton[] thisCol = getAllNumbersInCol(col);
 
-        if (isUniqueSet(thisCol))
+        int countThisNum = 0;
+
+        for (JButton eachNumInCol : thisCol)
         {
-            return false;
+            int numInCol = (eachNumInCol.getText() == "" ? 0 : Integer.parseInt(eachNumInCol.getText()));
+
+            if (numInCol == number)
+            {
+                countThisNum++;
+            }
         }
 
-        return true;
+        return countThisNum > 1 ? true : false;
 
     }
 
-    public boolean placedRepeatedNumberInABox(int box)
+    public boolean placedRepeatedNumberInABox(int box, int number)
     {
-        JButton[] numInBox = getAllNumbersInBox(boxes.get(box));
+        JButton[] thisBox = getAllNumbersInBox(boxes.get(box));
 
-        if (isUniqueSet(numInBox))
+        int countThisNum = 0;
+
+        for (JButton eachNumInBox : thisBox)
         {
-            return false;
+            int numInBox = (eachNumInBox.getText() == "" ? 0 : Integer.parseInt(eachNumInBox.getText()));
+
+            if (numInBox == number)
+            {
+                countThisNum++;
+            }
         }
 
-        return true;
+        return countThisNum > 1 ? true : false;
 
     }
 
@@ -759,89 +879,6 @@ public class SudokuPanel extends JPanel
 
             lvl.setText("Level: Easy");
 
-        }
-
-    }
-
-    private class setNumber implements ActionListener
-    {
-        int originalX = 200;
-
-        int originalY = 200;
-
-        int row;
-
-        int col;
-
-        public setNumber(int row, int col)
-        {
-            this.row = row + 1;
-
-            this.col = col + 1;
-        }
-
-        public void actionPerformed(ActionEvent e)
-
-        {
-            JButton sourceButton = (JButton) e.getSource();
-
-            JFrame chooseNumFrame = new JFrame();
-
-            JPanel upperPanel = new JPanel();
-
-            JLabel question = new JLabel("Please click on a number for this box in row " + row + " and column " + col);
-
-            question.setHorizontalAlignment(JLabel.CENTER);
-
-            upperPanel.add(question);
-
-            JPanel centerPanel = new JPanel();
-
-            centerPanel.setLayout(new GridLayout(3, 3));
-
-            for (int i = 0; i < 9; i++)
-            {
-                JButton setNumber = new JButton(Integer.toString(i + 1));
-
-                setNumber.addActionListener(new ActionListener()
-                {
-
-                    public void actionPerformed(ActionEvent e)
-                    {
-                        sourceButton.setText(setNumber.getText());
-
-                        chooseNumFrame.dispose();
-                    }
-
-                });
-
-                centerPanel.add(setNumber);
-
-            }
-
-            JPanel lowerPanel = new JPanel();
-
-            chooseNumFrame.pack();
-
-            chooseNumFrame.setTitle("Set Number");
-
-            chooseNumFrame.setLayout(new BorderLayout());
-
-            chooseNumFrame.setBounds(originalX, originalY, 400, 130);
-
-            chooseNumFrame.setVisible(true);
-
-            chooseNumFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            chooseNumFrame.add(upperPanel, BorderLayout.NORTH);
-
-            chooseNumFrame.add(centerPanel, BorderLayout.CENTER);
-
-            chooseNumFrame.add(lowerPanel, BorderLayout.SOUTH);
-
-            originalX += 50;
-
-            originalY += 50;
         }
 
     }

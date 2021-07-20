@@ -1,6 +1,7 @@
 package SudokuGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -101,7 +102,7 @@ class SudokuFrame extends JFrame
         setBounds(500, 200, 700, 500);
 
         JMenuItem exitingGame = new JMenuItem("Exit");
-
+        
         exitingGame.addActionListener(new exits());
 
         exitingGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_DOWN_MASK));
@@ -111,7 +112,8 @@ class SudokuFrame extends JFrame
         setVisible(true);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        
+        
     }
 
     private class exits implements ActionListener
