@@ -35,8 +35,8 @@ public class SudokuPanel extends JPanel
 
     public SudokuPanel(String level, JMenuItem exiting)
     {
-        
-        sudoku = new JButton[9][9];
+
+        sudoku = sudokuGenerator();
 
         setLayout(new BorderLayout());
 
@@ -58,15 +58,15 @@ public class SudokuPanel extends JPanel
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JMenu restartGame = new JMenu("Restart Game");
+        JMenu resetGame = new JMenu("Reset Game");
 
-        JMenuItem restartingGame = new JMenuItem("Restart Game");
+        JMenuItem resettingGame = new JMenuItem("Reset Game");
 
-        restartingGame.addActionListener(new restartingTheGame());
+        resettingGame.addActionListener(new resettingTheGame());
 
-        restartingGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK));
+        resettingGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.SHIFT_DOWN_MASK));
 
-        restartGame.add(restartingGame);
+        resetGame.add(resettingGame);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -106,21 +106,35 @@ public class SudokuPanel extends JPanel
 
         JMenu time = new JMenu("Time");
 
-        JMenuItem addTime = new JMenuItem("Add Time");
+        JMenu addTime = new JMenu("Add Time");
 
-        addTime.addActionListener(new addTime());
+        JMenuItem fifteenSec = new JMenuItem("15 secs");
 
-        addTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.SHIFT_DOWN_MASK));
+        fifteenSec.addActionListener(new addTime(15));
+
+        JMenuItem thirtySec = new JMenuItem("30 secs");
+
+        thirtySec.addActionListener(new addTime(30));
+
+        JMenuItem oneMinute = new JMenuItem("60 secs");
+
+        oneMinute.addActionListener(new addTime(60));
 
         JMenuItem resetTime = new JMenuItem("Reset Time");
+
+        addTime.add(fifteenSec);
+
+        addTime.add(thirtySec);
+
+        addTime.add(oneMinute);
 
         resetTime.addActionListener(new resetTime());
 
         resetTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK));
 
-        time.add(addTime);
-
         time.add(resetTime);
+
+        time.add(addTime);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,7 +144,7 @@ public class SudokuPanel extends JPanel
 
         menu.add(newGame);
 
-        menu.add(restartGame);
+        menu.add(resetGame);
 
         menu.add(difficulty);
 
@@ -339,7 +353,7 @@ public class SudokuPanel extends JPanel
             {
                 if (isSudokuCompleted(sudoku))
                 {
-                    JOptionPane.showMessageDialog(new JFrame(), "Congratulatons on completing the sudoku puzzle",
+                    JOptionPane.showMessageDialog(new JFrame(), "Congratulatons On Completing The Sudoku Puzzle",
                     "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
                 }
 
@@ -639,6 +653,12 @@ public class SudokuPanel extends JPanel
 
     private class addTime implements ActionListener
     {
+        int addTime;
+
+        public addTime(int time)
+        {
+            addTime = time;
+        }
 
         public void actionPerformed(ActionEvent e)
         {
@@ -650,9 +670,66 @@ public class SudokuPanel extends JPanel
     private class resetTime implements ActionListener
     {
 
+        int originalX = 300;
+
+        int originalY = 300;
+
         public void actionPerformed(ActionEvent e)
         {
+            JMenuItem source = (JMenuItem) e.getSource();
 
+            JFrame questionUserFrame = new JFrame();
+
+            questionUserFrame.setLayout(new BorderLayout());
+
+            JLabel question = new JLabel("Are you sure you want to reset the timer?");
+
+            question.setHorizontalAlignment(JLabel.CENTER);
+
+            JPanel centerPanel = new JPanel();
+
+            centerPanel.add(question);
+
+            JPanel lowerPanel = new JPanel();
+
+            JButton yes = new JButton("Yes");
+
+            yes.addActionListener(new ActionListener()
+            {
+
+                public void actionPerformed(ActionEvent e)
+                {
+
+                }
+            });
+
+            JButton no = new JButton("No");
+
+            no.addActionListener(new ActionListener()
+            {
+
+                public void actionPerformed(ActionEvent e)
+                {
+                    questionUserFrame.dispose();
+                }
+
+            });
+
+            lowerPanel.add(yes);
+
+            lowerPanel.add(no);
+
+            questionUserFrame.setTitle("Confirmation of Reset Timer");
+
+            questionUserFrame.add(centerPanel, BorderLayout.CENTER);
+
+            questionUserFrame.add(lowerPanel, BorderLayout.SOUTH);
+
+            questionUserFrame.setBounds(originalX, originalX, 400, 100);;
+
+            questionUserFrame.setVisible(true);
+
+            questionUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         }
 
     }
@@ -669,7 +746,7 @@ public class SudokuPanel extends JPanel
 
     }
 
-    private class restartingTheGame implements ActionListener
+    private class resettingTheGame implements ActionListener
     {
 
         int originalX = 400;
@@ -713,7 +790,7 @@ public class SudokuPanel extends JPanel
                 }
             });
 
-            JLabel question = new JLabel("Are you sure you want to restart the game?");
+            JLabel question = new JLabel("Are you sure you want to reset the game?");
 
             question.setHorizontalAlignment(JLabel.CENTER);
 
