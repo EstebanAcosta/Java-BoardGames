@@ -30,13 +30,11 @@ public class calculatorPanel extends JPanel
 
     JButton screen;
 
+    String lastOperation;
+
     public calculatorPanel()
     {
         setLayout(new BorderLayout());
-
-        JPanel centralPanel = new JPanel();
-
-        centralPanel.setLayout(new BorderLayout());
 
         JPanel upperPanel = new JPanel();
 
@@ -52,7 +50,35 @@ public class calculatorPanel extends JPanel
 
         upperPanel.add(screen);
 
-        for (int i = 0; i < 9; i++)
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JPanel centralPanel = new JPanel();
+
+        centralPanel.setLayout(new GridLayout(4, 6));
+
+        String[] operations = { "x!", "+", "-", "*", "/", "E", "%","x","sqrt,log,ln" };
+
+        String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
+
+        String[] inverseFunctions = {"arcsin","arcos","arctan"};
+        
+        String [] constants = {"π","e"};
+
+        JButton inv = new JButton("Inv");
+
+        inv.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+
+        });
+
+        centralPanel.add(inv);
+
+        for (int i = 0; i < 10; i++)
         {
             JButton num = new JButton(Integer.toString(i));
 
@@ -61,11 +87,11 @@ public class calculatorPanel extends JPanel
 
                 public void actionPerformed(ActionEvent e)
                 {
-                    if(screen.getText() == "")
+                    if (screen.getText() == "")
                     {
                         screen.setText(num.getText());
                     }
-                    
+
                     else
                     {
                         screen.setText(screen.getText() + num.getText());
@@ -74,11 +100,14 @@ public class calculatorPanel extends JPanel
                 }
 
             });
+
+            centralPanel.add(num);
+
         }
 
         add(upperPanel, BorderLayout.NORTH);
 
-        add(centralPanel, BorderLayout.SOUTH);
+        add(centralPanel, BorderLayout.CENTER);
 
     }
 }
