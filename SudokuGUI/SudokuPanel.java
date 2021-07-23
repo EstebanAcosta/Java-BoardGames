@@ -33,6 +33,10 @@ public class SudokuPanel extends JPanel
 
     JButton finalSubmit, autoFill;
 
+    long startTime;
+
+    long start;
+
     JLabel lvl;
 
     JLabel timerLabel = new JLabel();
@@ -133,6 +137,8 @@ public class SudokuPanel extends JPanel
 
         timer = new Timer(1000, new countDown(timeLeft));
 
+        start = System.currentTimeMillis();
+
         timer.start();
 
         JPanel timerPanel = new JPanel();
@@ -147,63 +153,51 @@ public class SudokuPanel extends JPanel
 
         JMenu time = new JMenu("Time");
 
-        JMenuItem pause = new JMenuItem("Pause");
+        JMenuItem pauseOrResume = new JMenuItem("Pause");
 
-        pause.addActionListener(new ActionListener()
+        pauseOrResume.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+
+        pauseOrResume.addActionListener(new ActionListener()
         {
 
             public void actionPerformed(ActionEvent e)
             {
-                timer.stop();
+
+                JMenuItem pause_or_resume = (JMenuItem) e.getSource();
+
+                if (pause_or_resume.getText().equalsIgnoreCase("Pause"))
+                {
+                    timer.stop();
+
+                    pause_or_resume.setText("Resume");
+
+                    pause_or_resume.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
+
+                }
+
+                else
+                {
+                    timer.start();
+
+                    pause_or_resume.setText("Pause");
+
+                    pause_or_resume.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK));
+
+                }
+
             }
 
         });
-
-        JMenuItem resume = new JMenuItem("Resume");
-
-        resume.addActionListener(new ActionListener()
-        {
-
-            public void actionPerformed(ActionEvent e)
-            {
-                timer.start();
-            }
-
-        });
-
-        JMenu addTime = new JMenu("Add Time");
-
-        JMenuItem fifteenSec = new JMenuItem("15 secs");
-
-        fifteenSec.addActionListener(new addTime(15 * 1000));
-
-        JMenuItem thirtySec = new JMenuItem("30 secs");
-
-        thirtySec.addActionListener(new addTime(30 * 1000));
-
-        JMenuItem oneMinute = new JMenuItem("60 secs");
-
-        oneMinute.addActionListener(new addTime(60 * 1000));
 
         JMenuItem resetTime = new JMenuItem("Reset Time");
-
-        addTime.add(fifteenSec);
-
-        addTime.add(thirtySec);
-
-        addTime.add(oneMinute);
 
         resetTime.addActionListener(new resetTime());
 
         resetTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK));
 
-        time.add(pause);
-
-        time.add(resume);
+        time.add(pauseOrResume);
 
         time.add(resetTime);
-
-        time.add(addTime);
 
         ////////////////////////////////////////////////// ADDING ALL THE COMPONENTS TO THE PANEL ////////////////////////////////////////////////////////////
 
@@ -568,6 +562,7 @@ public class SudokuPanel extends JPanel
     }
 
     /***
+     * Method checks to see if a given list on;y has unique numbers(if the numbers don't appear in a given list more than once)
      * @param numbers
      * @return
      */
@@ -756,22 +751,6 @@ public class SudokuPanel extends JPanel
 
         }
         return true;
-
-    }
-
-    private class addTime implements ActionListener
-    {
-        int addTime;
-
-        public addTime(int time)
-        {
-            addTime = time;
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-
-        }
 
     }
 
