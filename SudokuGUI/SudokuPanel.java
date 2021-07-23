@@ -7,7 +7,9 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
+import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 import com.sun.glass.events.KeyEvent;
@@ -32,6 +35,14 @@ public class SudokuPanel extends JPanel
     JLabel lvl;
 
     ArrayList<JPanel> boxes = new ArrayList<JPanel>();
+
+    JLabel timerLabel = new JLabel();
+    
+    int min = 20;
+
+    int timeLeft = min * 60 * 1000;
+    
+    Timer timer;
 
     public SudokuPanel(String level, JMenuItem exiting)
     {
@@ -170,13 +181,15 @@ public class SudokuPanel extends JPanel
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JLabel timer = new JLabel("Timer:");
+        timer = new Timer(2000, new countDown(timeLeft));
+
+        timer.start();
 
         JPanel timerPanel = new JPanel();
 
-        timer.setHorizontalAlignment(JLabel.CENTER);
+        timerLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        timerPanel.add(timer);
+        timerPanel.add(timerLabel);
 
         upperPanel.add(timerPanel, BorderLayout.SOUTH);
 
@@ -662,6 +675,38 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
+            
+        }
+
+    }
+
+    private class countDown implements ActionListener
+    {
+
+        int timeLeft;
+
+        public countDown(int timeLeft)
+        {
+
+            this.timeLeft = timeLeft;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+            timeLeft -= 1000;
+
+            Timer timer = (Timer) e.getSource();
+
+            SimpleDateFormat df = new SimpleDateFormat("mm:ss");
+
+            timerLabel.setText("Timer: " + df.format(timeLeft));
+
+            if (timeLeft <= 0)
+            {
+
+                timer.stop();
+
+            }
 
         }
 
@@ -699,7 +744,9 @@ public class SudokuPanel extends JPanel
 
                 public void actionPerformed(ActionEvent e)
                 {
-
+                    timer.stop();
+                    
+                    System.out.println(timeLeft);
                 }
             });
 
