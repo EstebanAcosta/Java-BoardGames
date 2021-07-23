@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,19 +27,17 @@ import com.sun.glass.events.KeyEvent;
 public class SudokuPanel extends JPanel
 {
 
+    ArrayList<JPanel> boxes = new ArrayList<JPanel>();
+
     JButton[][] sudoku;
 
-    JButton finalSubmit;
+    JButton finalSubmit, autoFill;
 
     JLabel lvl;
 
-    ArrayList<JPanel> boxes = new ArrayList<JPanel>();
-
     JLabel timerLabel = new JLabel();
 
-    int min;
-
-    int timeLeft;
+    int min, timeLeft;
 
     Timer timer;
 
@@ -57,6 +54,8 @@ public class SudokuPanel extends JPanel
 
         JPanel lowerPanel = new JPanel();
 
+        /////////////////////////////////////// NEW GAME MENU ///////////////////////////////////////////////////////////////////////
+
         JMenu newGame = new JMenu("New Game");
 
         JMenuItem startNewGame = new JMenuItem("New Game");
@@ -67,7 +66,7 @@ public class SudokuPanel extends JPanel
 
         newGame.add(startNewGame);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////// RESET GAME MENU ////////////////////////////////////////////////////////////////////
 
         JMenu resetGame = new JMenu("Reset Game");
 
@@ -79,7 +78,7 @@ public class SudokuPanel extends JPanel
 
         resetGame.add(resettingGame);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////// ADJUST DIFFICULTY ////////////////////////////////////////////////////////////////
 
         JMenu difficulty = new JMenu("Adjust Difficulty");
 
@@ -107,29 +106,84 @@ public class SudokuPanel extends JPanel
 
         difficulty.add(easy);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////// EXIT MENU ///////////////////////////////////////////////////////////
 
         JMenu exit = new JMenu("Exit");
 
         exit.add(exiting);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////// STARTING TIMER ///////////////////////////////////////////////////////////
+
+        if (level == "Hard")
+        {
+            min = 20;
+        }
+
+        else if (level == "Medium")
+        {
+            min = 25;
+        }
+
+        else
+        {
+            min = 30;
+        }
+
+        timeLeft = min * 60 * 1000;
+
+        timer = new Timer(1000, new countDown(timeLeft));
+
+        timer.start();
+
+        JPanel timerPanel = new JPanel();
+
+        timerLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        timerPanel.add(timerLabel);
+
+        upperPanel.add(timerPanel, BorderLayout.SOUTH);
+
+        ///////////////////////////////////////////////// TIME MENU/////////////////////////////////////////////////////////////
 
         JMenu time = new JMenu("Time");
+
+        JMenuItem pause = new JMenuItem("Pause");
+
+        pause.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                timer.stop();
+            }
+
+        });
+
+        JMenuItem resume = new JMenuItem("Resume");
+
+        resume.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                timer.start();
+            }
+
+        });
 
         JMenu addTime = new JMenu("Add Time");
 
         JMenuItem fifteenSec = new JMenuItem("15 secs");
 
-        fifteenSec.addActionListener(new addTime(15));
+        fifteenSec.addActionListener(new addTime(15 * 1000));
 
         JMenuItem thirtySec = new JMenuItem("30 secs");
 
-        thirtySec.addActionListener(new addTime(30));
+        thirtySec.addActionListener(new addTime(30 * 1000));
 
         JMenuItem oneMinute = new JMenuItem("60 secs");
 
-        oneMinute.addActionListener(new addTime(60));
+        oneMinute.addActionListener(new addTime(60 * 1000));
 
         JMenuItem resetTime = new JMenuItem("Reset Time");
 
@@ -143,11 +197,15 @@ public class SudokuPanel extends JPanel
 
         resetTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK));
 
+        time.add(pause);
+
+        time.add(resume);
+
         time.add(resetTime);
 
         time.add(addTime);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////// ADDING ALL THE COMPONENTS TO THE PANEL ////////////////////////////////////////////////////////////
 
         JPanel menuPanel = new JPanel();
 
@@ -167,50 +225,23 @@ public class SudokuPanel extends JPanel
 
         upperPanel.add(menuPanel, BorderLayout.NORTH);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////// SETTUNG UP LABELS AT THE TOP OF THE PUZZLE //////////////////////////////////////////////////////////
 
         JPanel lvlPanel = new JPanel();
 
-        if (level == "Hard")
-        {
-            min = 20;
-        }
+        JLabel labelHeader = new JLabel("Level:");
 
-        else if (level == "Medium")
-        {
-            min = 25;
-        }
-
-        else
-        {
-            min = 30;
-        }
-
-        timeLeft = min * 60 * 1000;
-
-        lvl = new JLabel("Level: " + level);
+        lvl = new JLabel(level);
 
         lvl.setHorizontalAlignment(JLabel.CENTER);
 
+        lvlPanel.add(labelHeader);
+
         lvlPanel.add(lvl);
 
-        upperPanel.add(lvl, BorderLayout.CENTER);
+        upperPanel.add(lvlPanel, BorderLayout.CENTER);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        timer = new Timer(1000, new countDown(timeLeft));
-
-        timer.start();
-
-        JPanel timerPanel = new JPanel();
-
-        timerLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        timerPanel.add(timerLabel);
-
-        upperPanel.add(timerPanel, BorderLayout.SOUTH);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////// CREATING 81 CELLS IN THE SUDOKU PUZZLE //////////////////////////////////////////////////////////
 
         JPanel game = new JPanel();
 
@@ -246,7 +277,7 @@ public class SudokuPanel extends JPanel
 
                         int thisBox = countBox;
 
-                        // create a new button
+                        // create a new button for each cell
                         JButton tile = new JButton();
 
                         tile.addActionListener(new ActionListener()
@@ -257,6 +288,7 @@ public class SudokuPanel extends JPanel
 
                                 JButton sourceButton = (JButton) e.getSource();
 
+                                // create a new frame
                                 JFrame chooseNumFrame = new JFrame();
 
                                 JPanel upperPanel = new JPanel();
@@ -271,24 +303,32 @@ public class SudokuPanel extends JPanel
 
                                 centerPanel.setLayout(new GridLayout(3, 3));
 
+                                // loop nine times to create nine buttons
                                 for (int i = 0; i < 9; i++)
                                 {
 
+                                    // Give each a button a number
                                     JButton setNumber = new JButton(Integer.toString(i + 1));
 
+                                    // Make sure that each buttpn has a listener
                                     setNumber.addActionListener(new ActionListener()
                                     {
 
                                         public void actionPerformed(ActionEvent e)
                                         {
+                                            // When the user presses this button in the new window, whatever number that is stored in the pressed button
+                                            // will be stored in the sudoku cell
                                             sourceButton.setText(setNumber.getText());
 
+                                            // Get the number the user pressed and convert it into an integer
                                             int newNum = Integer.parseInt(setNumber.getText());
 
+                                            // if the number the user put in that new cell happens to be in the same row, column or box as the same number
                                             if (placedRepeatedNumberInRow(sudoku, thisRow, newNum) || placedRepeatedNumberInColumn(sudoku, thisCol, newNum)
                                             || placedRepeatedNumberInABox(thisBox, newNum))
                                             {
 
+                                                // Color the number red
                                                 sourceButton.setForeground(Color.RED);
 
                                                 sourceButton.setOpaque(true);
@@ -394,7 +434,29 @@ public class SudokuPanel extends JPanel
 
         });
 
+        autoFill = new JButton("Autofill");
+
+        autoFill.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                JButton[][] solution = solutionGenerator();
+
+                for (int r = 0; r < 9; r++)
+                {
+                    for (int col = 0; col < 9; col++)
+                    {
+                        sudoku[r][col].setText(solution[r][col].getText());
+                    }
+                }
+            }
+
+        });
+
         lowerPanel.add(finalSubmit);
+
+        lowerPanel.add(autoFill);
 
         add(upperPanel, BorderLayout.NORTH);
 
@@ -408,6 +470,22 @@ public class SudokuPanel extends JPanel
         JButton[][] randSudoku = new JButton[9][9];
 
         return randSudoku;
+    }
+
+    public JButton[][] solutionGenerator()
+    {
+        JButton[][] solution = new JButton[9][9];
+
+        for (int r = 0; r < 9; r++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                solution[r][col] = new JButton("");
+            }
+        }
+
+        return solution;
+
     }
 
     /**
@@ -720,6 +798,10 @@ public class SudokuPanel extends JPanel
 
             if (timeLeft <= 0)
             {
+                if (isSudokuCompleted(sudoku))
+                {
+
+                }
 
                 timer.stop();
 
@@ -767,6 +849,23 @@ public class SudokuPanel extends JPanel
                 public void actionPerformed(ActionEvent e)
                 {
                     timer.stop();
+
+                    if (lvl.getText() == "Hard")
+                    {
+                        min = 20;
+                    }
+
+                    else if (lvl.getText() == "Medium")
+                    {
+                        min = 25;
+                    }
+
+                    else
+                    {
+                        min = 30;
+                    }
+
+                    timeLeft = min * 60 * 1000;
 
                     timer = new Timer(1000, new countDown(timeLeft));
 
@@ -858,6 +957,29 @@ public class SudokuPanel extends JPanel
                         }
                     }
 
+                    if (lvl.getText() == "Hard")
+                    {
+                        min = 20;
+                    }
+
+                    else if (lvl.getText() == "Medium")
+                    {
+                        min = 25;
+                    }
+
+                    else
+                    {
+                        min = 30;
+                    }
+
+                    timeLeft = min * 60 * 1000;
+
+                    timer.stop();
+
+                    timer = new Timer(1000, new countDown(timeLeft));
+
+                    timer.start();
+
                     restartGame.dispose();
                 }
 
@@ -917,13 +1039,13 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-            JMenuItem source = (JMenuItem) e.getSource();
+            JMenuItem newLevel = (JMenuItem) e.getSource();
 
             JFrame questionUserFrame = new JFrame();
 
             questionUserFrame.setLayout(new BorderLayout());
 
-            JLabel question = new JLabel("Are you sure you want to change the difficulty to " + source.getText() + "?");
+            JLabel question = new JLabel("Are you sure you want to change the difficulty to " + newLevel.getText() + "?");
 
             question.setHorizontalAlignment(JLabel.CENTER);
 
@@ -935,7 +1057,40 @@ public class SudokuPanel extends JPanel
 
             JButton yes = new JButton("Yes");
 
-            yes.addActionListener(new setDifficulty(source.getText(), questionUserFrame));
+            yes.addActionListener(new ActionListener()
+            {
+
+                public void actionPerformed(ActionEvent e)
+                {
+                    questionUserFrame.dispose();
+
+                    lvl.setText(newLevel.getText());
+
+                    timer.stop();
+
+                    if (newLevel.getText() == "Hard")
+                    {
+                        min = 20;
+                    }
+
+                    else if (newLevel.getText() == "Medium")
+                    {
+                        min = 25;
+                    }
+
+                    else
+                    {
+                        min = 30;
+                    }
+
+                    timeLeft = min * 60 * 1000;
+
+                    timer = new Timer(1000, new countDown(timeLeft));
+
+                    timer.start();
+                }
+
+            });
 
             JButton no = new JButton("No");
 
@@ -964,53 +1119,6 @@ public class SudokuPanel extends JPanel
             questionUserFrame.setVisible(true);
 
             questionUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        }
-
-    }
-
-    private class setDifficulty implements ActionListener
-    {
-
-        private JFrame confirm;
-
-        private String level;
-
-        public setDifficulty(String level, JFrame confirm)
-        {
-            this.confirm = confirm;
-
-            this.level = level;
-
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-            confirm.dispose();
-
-            lvl.setText("Level: " + level);
-
-            timer.stop();
-            
-            if (level == "Hard")
-            {
-                min = 20;
-            }
-
-            else if (level == "Medium")
-            {
-                min = 25;
-            }
-
-            else
-            {
-                min = 30;
-            }
-
-            timeLeft = min * 60 * 1000;
-
-            timer = new Timer(1000, new countDown(timeLeft));
-
-            timer.start();
         }
 
     }
