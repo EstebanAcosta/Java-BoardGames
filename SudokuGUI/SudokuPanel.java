@@ -37,11 +37,11 @@ public class SudokuPanel extends JPanel
     ArrayList<JPanel> boxes = new ArrayList<JPanel>();
 
     JLabel timerLabel = new JLabel();
-    
-    int min = 20;
 
-    int timeLeft = min * 60 * 1000;
-    
+    int min;
+
+    int timeLeft;
+
     Timer timer;
 
     public SudokuPanel(String level, JMenuItem exiting)
@@ -171,6 +171,23 @@ public class SudokuPanel extends JPanel
 
         JPanel lvlPanel = new JPanel();
 
+        if (level == "Hard")
+        {
+            min = 20;
+        }
+
+        else if (level == "Medium")
+        {
+            min = 25;
+        }
+
+        else
+        {
+            min = 30;
+        }
+
+        timeLeft = min * 60 * 1000;
+
         lvl = new JLabel("Level: " + level);
 
         lvl.setHorizontalAlignment(JLabel.CENTER);
@@ -181,7 +198,7 @@ public class SudokuPanel extends JPanel
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        timer = new Timer(2000, new countDown(timeLeft));
+        timer = new Timer(1000, new countDown(timeLeft));
 
         timer.start();
 
@@ -675,7 +692,7 @@ public class SudokuPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-            
+
         }
 
     }
@@ -712,6 +729,11 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /**
+     * Methods resets the timer back to the original time. 25 mins for Easy,
+     * 20 mins for Medium and 15 mins for Hard
+     * @author estebanacosta
+     */
     private class resetTime implements ActionListener
     {
 
@@ -745,8 +767,13 @@ public class SudokuPanel extends JPanel
                 public void actionPerformed(ActionEvent e)
                 {
                     timer.stop();
-                    
-                    System.out.println(timeLeft);
+
+                    timer = new Timer(1000, new countDown(timeLeft));
+
+                    timer.start();
+
+                    questionUserFrame.dispose();
+
                 }
             });
 
@@ -781,6 +808,10 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /**
+     * Methods starts a new game
+     * @author estebanacosta
+     */
     private class startingNewGame implements ActionListener
     {
 
@@ -793,6 +824,10 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /**
+     * Method erases all the numbers in each cell and returns an empty sudoku board
+     * @author estebanacosta
+     */
     private class resettingTheGame implements ActionListener
     {
 
@@ -900,23 +935,7 @@ public class SudokuPanel extends JPanel
 
             JButton yes = new JButton("Yes");
 
-            if (source.getText().equalsIgnoreCase("Easy"))
-            {
-                yes.addActionListener(new setToEasy(questionUserFrame));
-
-            }
-
-            else if (source.getText().equalsIgnoreCase("Medium"))
-            {
-                yes.addActionListener(new setToMedium(questionUserFrame));
-
-            }
-
-            else
-            {
-                yes.addActionListener(new setToHard(questionUserFrame));
-
-            }
+            yes.addActionListener(new setDifficulty(source.getText(), questionUserFrame));
 
             JButton no = new JButton("No");
 
@@ -949,60 +968,49 @@ public class SudokuPanel extends JPanel
 
     }
 
-    private class setToHard implements ActionListener
+    private class setDifficulty implements ActionListener
     {
 
-        JFrame confirm;
+        private JFrame confirm;
 
-        public setToHard(JFrame confirm)
+        private String level;
+
+        public setDifficulty(String level, JFrame confirm)
         {
             this.confirm = confirm;
+
+            this.level = level;
+
         }
 
         public void actionPerformed(ActionEvent e)
         {
             confirm.dispose();
 
-            lvl.setText("Level: Hard");
-        }
+            lvl.setText("Level: " + level);
 
-    }
+            timer.stop();
+            
+            if (level == "Hard")
+            {
+                min = 20;
+            }
 
-    private class setToMedium implements ActionListener
-    {
+            else if (level == "Medium")
+            {
+                min = 25;
+            }
 
-        JFrame confirm;
+            else
+            {
+                min = 30;
+            }
 
-        public setToMedium(JFrame confirm)
-        {
-            this.confirm = confirm;
-        }
+            timeLeft = min * 60 * 1000;
 
-        public void actionPerformed(ActionEvent e)
-        {
-            confirm.dispose();
+            timer = new Timer(1000, new countDown(timeLeft));
 
-            lvl.setText("Level: Medium");
-        }
-
-    }
-
-    private class setToEasy implements ActionListener
-    {
-
-        JFrame confirm;
-
-        public setToEasy(JFrame confirm)
-        {
-            this.confirm = confirm;
-        }
-
-        public void actionPerformed(ActionEvent e)
-        {
-            confirm.dispose();
-
-            lvl.setText("Level: Easy");
-
+            timer.start();
         }
 
     }
