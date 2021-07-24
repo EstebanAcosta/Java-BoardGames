@@ -33,10 +33,6 @@ public class SudokuPanel extends JPanel
 
     JButton finalSubmit, autoFill;
 
-    long startTime;
-
-    long start;
-
     JLabel lvl;
 
     JLabel timerLabel = new JLabel();
@@ -136,8 +132,6 @@ public class SudokuPanel extends JPanel
         timeLeft = min * 60 * 1000;
 
         timer = new Timer(1000, new countDown(timeLeft));
-
-        start = System.currentTimeMillis();
 
         timer.start();
 
@@ -374,6 +368,21 @@ public class SudokuPanel extends JPanel
                         // add this button to the box
                         box.add(tile);
 
+                        if (sudoku[boxRow][boxCol].getText() == "0")
+                        {
+                            tile.setText("");
+
+                        }
+
+                        else
+                        {
+                            tile.setText(sudoku[boxRow][boxCol].getText());
+                            
+                            tile.setForeground(Color.blue);
+
+                        }
+
+
                         // store the button to the 2D array
                         sudoku[boxRow][boxCol] = tile;
                     }
@@ -463,7 +472,11 @@ public class SudokuPanel extends JPanel
     {
         JButton[][] randSudoku = new JButton[9][9];
 
-        return randSudoku;
+        int N = 9, K = 30;
+
+        SudokuGenerator generator = new SudokuGenerator(N, K);
+
+        return generator.getFilledCells();
     }
 
     public JButton[][] solutionGenerator()
@@ -1009,6 +1022,10 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /**
+     * A confirmation window will appear whenever the player decides to change the difficulty of the game
+     * @author estebanacosta
+     */
     private class confirmChangeInDifficulty implements ActionListener
     {
 

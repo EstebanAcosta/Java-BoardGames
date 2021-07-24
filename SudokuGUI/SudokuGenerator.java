@@ -24,15 +24,41 @@ public class SudokuGenerator
         Double SRNd = Math.sqrt(N);
 
         SRN = SRNd.intValue();
+
+        for (int r = 0; r < 9; r++)
+        {
+            for (int c = 0; c < 9; c++)
+            {
+                sudoku[r][c] = new JButton("0");
+            }
+        }
     }
 
-    public void fillCells()
+    // // Print sudoku
+    // public void printSudoku()
+    // {
+    // for (int i = 0; i<N; i++)
+    // {
+    // for (int j = 0; j<N; j++)
+    // System.out.print(sudoku[i][j].getText());
+    // System.out.println();
+    // }
+    // System.out.println();
+    // }
+    //
+
+    public JButton[][] getFilledCells()
     {
         fillDiagonal();
 
         fillRemaining(0, SRN);
 
         removeKDigits();
+
+        // printSudoku();
+
+        return sudoku;
+
     }
 
     public void fillDiagonal()
@@ -91,9 +117,9 @@ public class SudokuGenerator
     }
 
     // check in the row for existence
-    boolean unUsedInRow(int i,int num)
+    boolean unUsedInRow(int i, int num)
     {
-        for (int j = 0; j<N; j++)
+        for (int j = 0; j < N; j++)
         {
             if (Integer.parseInt(sudoku[i][j].getText()) == num)
             {
@@ -101,22 +127,22 @@ public class SudokuGenerator
 
             }
         }
-           
+
         return true;
     }
 
-    // check in the row for existence
-    boolean unUsedInCol(int j,int num)
+    // check in the col for existence
+    boolean unUsedInCol(int j, int num)
     {
-        for (int i = 0; i<N; i++)
+        for (int i = 0; i < N; i++)
         {
             if (Integer.parseInt(sudoku[i][j].getText()) == num)
             {
                 return false;
 
-            } 
+            }
         }
-         
+
         return true;
     }
 
@@ -174,12 +200,38 @@ public class SudokuGenerator
 
     public boolean CheckIfSafe(int i, int j, int num)
     {
-        return false;
+        return (unUsedInRow(i, num) &&
+        unUsedInCol(j, num) &&
+        unUsedInBox(i - i % SRN, j - j % SRN, num));
     }
 
     public void removeKDigits()
     {
+        int count = K;
+        while (count != 0)
+        {
+            int cellId = randomGenerator(N * N) - 1;
 
+            // System.out.println(cellId);
+            // extract coordinates i and j
+            int i = (cellId / N);
+
+            int j = cellId % 9;
+
+            if (j != 0)
+            {
+                j = j - 1;
+
+            }
+
+            // System.out.println(i+" "+j);
+            if (Integer.parseInt(sudoku[i][j].getText()) != 0)
+            {
+                count--;
+
+                sudoku[i][j].setText("0");
+            }
+        }
     }
 
 }
