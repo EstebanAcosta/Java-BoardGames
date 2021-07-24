@@ -12,6 +12,8 @@ public class SudokuGenerator
 
     private JButton[][] sudoku;
 
+    private JButton[][] solution;
+
     public SudokuGenerator(int N, int K)
     {
         this.N = N;
@@ -45,20 +47,39 @@ public class SudokuGenerator
     // }
     // System.out.println();
     // }
-    //
 
-    public JButton[][] getFilledCells()
+    public void generateSudokuSolution(JButton[][] sudoku)
+    {
+        solution = new JButton[9][9];
+
+        for (int r = 0; r < 9; r++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                solution[r][col] = new JButton(sudoku[r][col].getText());
+
+            }
+        }
+
+    }
+
+    public JButton[][] generateIncompleteSudoku()
     {
         fillDiagonal();
 
         fillRemaining(0, SRN);
 
-        removeKDigits();
+        generateSudokuSolution(sudoku);
 
-        // printSudoku();
+        removeKDigits();
 
         return sudoku;
 
+    }
+
+    public JButton[][] returnSudokuSolution()
+    {
+        return this.solution;
     }
 
     public void fillDiagonal()

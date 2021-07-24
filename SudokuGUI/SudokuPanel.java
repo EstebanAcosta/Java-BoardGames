@@ -24,12 +24,14 @@ import javax.swing.border.LineBorder;
 
 import com.sun.glass.events.KeyEvent;
 
+import TicTacToeGUI.TicTacToe;
+
 public class SudokuPanel extends JPanel
 {
 
     ArrayList<JPanel> boxes = new ArrayList<JPanel>();
 
-    JButton[][] sudoku;
+    JButton[][] sudoku,solution;
 
     JButton finalSubmit, autoFill;
 
@@ -41,10 +43,10 @@ public class SudokuPanel extends JPanel
 
     Timer timer;
 
-    public SudokuPanel(String level, JMenuItem exiting)
+    public SudokuPanel(String level, JMenuItem exiting, JButton endGameButton)
     {
 
-        sudoku = sudokuGenerator();
+        sudokuGenerator();
 
         setLayout(new BorderLayout());
 
@@ -427,11 +429,54 @@ public class SudokuPanel extends JPanel
                 if (isSudokuCompleted(sudoku))
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Congratulatons On Completing The Sudoku Puzzle",
-                    "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
+                    "Puzzle Completed",JOptionPane.INFORMATION_MESSAGE);
+                    
+                    JFrame continueGame = new JFrame();
+
+                    continueGame.setTitle("Continue Game");
+
+                    JLabel continueQuestion = new JLabel("Would you like to start another game?");
+
+                    continueQuestion.setHorizontalAlignment(JLabel.CENTER);
+
+                    continueGame.setLayout(new BorderLayout());
+
+                    JPanel questionArea = new JPanel();
+
+                    questionArea.add(continueQuestion);
+
+                    continueGame.add(questionArea, BorderLayout.NORTH);
+
+                    JButton yes = new JButton("Yes");
+
+                    yes.addActionListener(new ActionListener()
+                    {
+                        public void actionPerformed(ActionEvent e)
+                        {
+
+
+                        }
+                    });
+
+                    JPanel submitArea = new JPanel();
+
+                    submitArea.add(yes);
+
+                    submitArea.add(endGameButton);
+
+                    continueGame.add(submitArea, BorderLayout.SOUTH);
+
+                    continueGame.setBounds(400, 400, 400, 100);
+
+                    continueGame.setVisible(true);
+
+                    continueGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
                 }
 
                 else
                 {
+                    
                 }
             }
 
@@ -444,12 +489,13 @@ public class SudokuPanel extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
-                JButton[][] solution = solutionGenerator();
 
                 for (int r = 0; r < 9; r++)
                 {
                     for (int col = 0; col < 9; col++)
                     {
+                        System.out.println(solution[r][col].getText());
+                        
                         sudoku[r][col].setText(solution[r][col].getText());
                     }
                 }
@@ -468,30 +514,16 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
-    public JButton[][] sudokuGenerator()
+    public void sudokuGenerator()
     {
-        JButton[][] randSudoku = new JButton[9][9];
-
         int N = 9, K = 30;
 
         SudokuGenerator generator = new SudokuGenerator(N, K);
-
-        return generator.getFilledCells();
-    }
-
-    public JButton[][] solutionGenerator()
-    {
-        JButton[][] solution = new JButton[9][9];
-
-        for (int r = 0; r < 9; r++)
-        {
-            for (int col = 0; col < 9; col++)
-            {
-                solution[r][col] = new JButton("");
-            }
-        }
-
-        return solution;
+        
+        sudoku  = generator.generateIncompleteSudoku();
+          
+        solution = generator.returnSudokuSolution();
+        
 
     }
 

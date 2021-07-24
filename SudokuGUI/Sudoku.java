@@ -102,18 +102,21 @@ class SudokuFrame extends JFrame
         setBounds(500, 200, 700, 500);
 
         JMenuItem exitingGame = new JMenuItem("Exit");
-        
+
+        JButton endButton = new JButton("No");
+
+        endButton.addActionListener(new exits());
+
         exitingGame.addActionListener(new exits());
 
         exitingGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_DOWN_MASK));
 
-        add(new SudokuPanel(level, exitingGame));
+        add(new SudokuPanel(level, exitingGame, endButton));
 
         setVisible(true);
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        
+
     }
 
     private class exits implements ActionListener
