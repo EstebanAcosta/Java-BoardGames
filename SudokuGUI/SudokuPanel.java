@@ -31,7 +31,7 @@ public class SudokuPanel extends JPanel
 
     ArrayList<JPanel> boxes = new ArrayList<JPanel>();
 
-    JButton[][] sudoku,solution;
+    JButton[][] sudoku, solution;
 
     JButton finalSubmit, autoFill;
 
@@ -45,8 +45,6 @@ public class SudokuPanel extends JPanel
 
     public SudokuPanel(String level, JMenuItem exiting, JButton endGameButton)
     {
-
-        sudokuGenerator();
 
         setLayout(new BorderLayout());
 
@@ -185,15 +183,7 @@ public class SudokuPanel extends JPanel
 
         });
 
-        JMenuItem resetTime = new JMenuItem("Reset Time");
-
-        resetTime.addActionListener(new resetTime());
-
-        resetTime.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.SHIFT_DOWN_MASK));
-
         time.add(pauseOrResume);
-
-        time.add(resetTime);
 
         ////////////////////////////////////////////////// ADDING ALL THE COMPONENTS TO THE PANEL ////////////////////////////////////////////////////////////
 
@@ -234,6 +224,8 @@ public class SudokuPanel extends JPanel
         //////////////////////////////////////////////////// CREATING 81 CELLS IN THE SUDOKU PUZZLE //////////////////////////////////////////////////////////
 
         JPanel game = new JPanel();
+
+        sudokuGenerator(lvl.getText());
 
         game.setLayout(new GridLayout(3, 3));
 
@@ -379,11 +371,10 @@ public class SudokuPanel extends JPanel
                         else
                         {
                             tile.setText(sudoku[boxRow][boxCol].getText());
-                            
+
                             tile.setForeground(Color.blue);
 
                         }
-
 
                         // store the button to the 2D array
                         sudoku[boxRow][boxCol] = tile;
@@ -429,8 +420,8 @@ public class SudokuPanel extends JPanel
                 if (isSudokuCompleted(sudoku))
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Congratulatons On Completing The Sudoku Puzzle",
-                    "Puzzle Completed",JOptionPane.INFORMATION_MESSAGE);
-                    
+                    "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
+
                     JFrame continueGame = new JFrame();
 
                     continueGame.setTitle("Continue Game");
@@ -449,14 +440,7 @@ public class SudokuPanel extends JPanel
 
                     JButton yes = new JButton("Yes");
 
-                    yes.addActionListener(new ActionListener()
-                    {
-                        public void actionPerformed(ActionEvent e)
-                        {
-
-
-                        }
-                    });
+                    yes.addActionListener(new startingNewGame());
 
                     JPanel submitArea = new JPanel();
 
@@ -476,7 +460,7 @@ public class SudokuPanel extends JPanel
 
                 else
                 {
-                    
+                    System.out.println("");
                 }
             }
 
@@ -494,8 +478,6 @@ public class SudokuPanel extends JPanel
                 {
                     for (int col = 0; col < 9; col++)
                     {
-                        System.out.println(solution[r][col].getText());
-                        
                         sudoku[r][col].setText(solution[r][col].getText());
                     }
                 }
@@ -514,16 +496,30 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
-    public void sudokuGenerator()
+    public void sudokuGenerator(String level)
     {
-        int N = 9, K = 30;
+        int N = 9, K = 0;
+
+        if (level == "Hard")
+        {
+            K = 50;
+        }
+
+        else if (level == "Medium")
+        {
+            K = 40;
+        }
+
+        else
+        {
+            K = 30;
+        }
 
         SudokuGenerator generator = new SudokuGenerator(N, K);
-        
-        sudoku  = generator.generateIncompleteSudoku();
-          
+
+        sudoku = generator.generateIncompleteSudoku();
+
         solution = generator.returnSudokuSolution();
-        
 
     }
 
@@ -836,102 +832,6 @@ public class SudokuPanel extends JPanel
     }
 
     /**
-     * Methods resets the timer back to the original time. 25 mins for Easy,
-     * 20 mins for Medium and 15 mins for Hard
-     * @author estebanacosta
-     */
-    private class resetTime implements ActionListener
-    {
-
-        int originalX = 300;
-
-        int originalY = 300;
-
-        public void actionPerformed(ActionEvent e)
-        {
-            JMenuItem source = (JMenuItem) e.getSource();
-
-            JFrame questionUserFrame = new JFrame();
-
-            questionUserFrame.setLayout(new BorderLayout());
-
-            JLabel question = new JLabel("Are you sure you want to reset the timer?");
-
-            question.setHorizontalAlignment(JLabel.CENTER);
-
-            JPanel centerPanel = new JPanel();
-
-            centerPanel.add(question);
-
-            JPanel lowerPanel = new JPanel();
-
-            JButton yes = new JButton("Yes");
-
-            yes.addActionListener(new ActionListener()
-            {
-
-                public void actionPerformed(ActionEvent e)
-                {
-                    timer.stop();
-
-                    if (lvl.getText() == "Hard")
-                    {
-                        min = 20;
-                    }
-
-                    else if (lvl.getText() == "Medium")
-                    {
-                        min = 25;
-                    }
-
-                    else
-                    {
-                        min = 30;
-                    }
-
-                    timeLeft = min * 60 * 1000;
-
-                    timer = new Timer(1000, new countDown(timeLeft));
-
-                    timer.start();
-
-                    questionUserFrame.dispose();
-
-                }
-            });
-
-            JButton no = new JButton("No");
-
-            no.addActionListener(new ActionListener()
-            {
-
-                public void actionPerformed(ActionEvent e)
-                {
-                    questionUserFrame.dispose();
-                }
-
-            });
-
-            lowerPanel.add(yes);
-
-            lowerPanel.add(no);
-
-            questionUserFrame.setTitle("Confirmation of Reset Timer");
-
-            questionUserFrame.add(centerPanel, BorderLayout.CENTER);
-
-            questionUserFrame.add(lowerPanel, BorderLayout.SOUTH);
-
-            questionUserFrame.setBounds(originalX, originalX, 400, 100);;
-
-            questionUserFrame.setVisible(true);
-
-            questionUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        }
-
-    }
-
-    /**
      * Methods starts a new game
      * @author estebanacosta
      */
@@ -977,7 +877,11 @@ public class SudokuPanel extends JPanel
                         for (int col = 0; col < sudoku[row].length; col++)
                         {
 
-                            sudoku[row][col].setText("");
+                            if (sudoku[row][col].getForeground() != Color.blue)
+                            {
+                                sudoku[row][col].setText("");
+
+                            }
                         }
                     }
 
@@ -1099,6 +1003,7 @@ public class SudokuPanel extends JPanel
                     if (newLevel.getText() == "Hard")
                     {
                         min = 20;
+
                     }
 
                     else if (newLevel.getText() == "Medium")
@@ -1109,6 +1014,18 @@ public class SudokuPanel extends JPanel
                     else
                     {
                         min = 30;
+                    }
+
+                    sudokuGenerator(lvl.getText());
+
+                    for (int r = 0; r < 9; r++)
+                    {
+                        for (int col = 0; col < 9; col++)
+                        {
+                            System.out.print(sudoku[r][col].getText() + " ");
+                        }
+
+                        System.out.println();
                     }
 
                     timeLeft = min * 60 * 1000;
