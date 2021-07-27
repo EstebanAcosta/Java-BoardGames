@@ -440,7 +440,7 @@ public class SudokuPanel extends JPanel
 
                     JButton yes = new JButton("Yes");
 
-                    yes.addActionListener(new startingNewGame());
+                    yes.addActionListener(new startingNewGame(continueGame));
 
                     JPanel submitArea = new JPanel();
 
@@ -460,7 +460,30 @@ public class SudokuPanel extends JPanel
 
                 else
                 {
-                    System.out.println("");
+
+                    if (isMissingNumbers(sudoku))
+                    {
+                        JOptionPane.showMessageDialog(new JFrame(), "There are some cells that haven't been filled in yet",
+                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    else if (doesEachRowHaveUniqueNumbers(sudoku))
+                    {
+                        JOptionPane.showMessageDialog(new JFrame(), "A number has appearede more than once in the same row",
+                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    else if (doesEachColumnHaveUniqueNumbers(sudoku))
+                    {
+                        JOptionPane.showMessageDialog(new JFrame(), "A number has appeared more than once in the same column",
+                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
+                    else if (doesEachBoxHaveUniqueNumbers(sudoku))
+                    {
+                        JOptionPane.showMessageDialog(new JFrame(), "A number has appeared more than once in the same box",
+                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
+                    }
                 }
             }
 
@@ -522,8 +545,8 @@ public class SudokuPanel extends JPanel
         solution = generator.returnSudokuSolution();
 
     }
-    
-    public boolean isMissingNumbers(JButton [][] sudoku)
+
+    public boolean isMissingNumbers(JButton[][] sudoku)
     {
         for (int row = 0; row < 9; row++)
         {
@@ -531,12 +554,12 @@ public class SudokuPanel extends JPanel
             {
                 if (sudoku[row][col].getText() == "")
                 {
-                    return false;
+                    return true;
                 }
             }
         }
-        
-        return true;
+
+        return false;
     }
 
     /**
@@ -549,24 +572,8 @@ public class SudokuPanel extends JPanel
     public boolean isSudokuCompleted(JButton[][] sudoku)
     {
 
-        for (int row = 0; row < 9; row++)
-        {
-            for (int col = 0; col < 9; col++)
-            {
-                if (sudoku[row][col].getText() == "")
-                {
-                    return false;
-                }
-            }
-        }
-
-        if (doesEachRowHaveUniqueNumbers(sudoku) || doesEachColumnHaveUniqueNumbers(sudoku)
-        && doesEachBoxHaveUniqueNumbers(sudoku))
-        {
-            return true;
-        }
-
-        return false;
+        return !isMissingNumbers(sudoku) && doesEachRowHaveUniqueNumbers(sudoku) && doesEachColumnHaveUniqueNumbers(sudoku) &&
+        doesEachBoxHaveUniqueNumbers(sudoku);
 
     }
 
@@ -854,9 +861,24 @@ public class SudokuPanel extends JPanel
     private class startingNewGame implements ActionListener
     {
 
+        private JFrame newGameFrame;
+        
+        public startingNewGame()
+        {
+        }
+        
+        public startingNewGame(JFrame frame)
+        {
+            newGameFrame = frame;
+        }
         public void actionPerformed(ActionEvent e)
         {
             Sudoku s = new Sudoku();
+            
+            if(newGameFrame != null)
+            {
+                newGameFrame.dispose();
+            }
 
             s.chooseDifficulty();
         }
