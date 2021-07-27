@@ -522,6 +522,22 @@ public class SudokuPanel extends JPanel
         solution = generator.returnSudokuSolution();
 
     }
+    
+    public boolean isMissingNumbers(JButton [][] sudoku)
+    {
+        for (int row = 0; row < 9; row++)
+        {
+            for (int col = 0; col < 9; col++)
+            {
+                if (sudoku[row][col].getText() == "")
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
 
     /**
      * This method checks to see if the entire board is completed, if each row only has unique numbers,
