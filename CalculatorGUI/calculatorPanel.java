@@ -52,19 +52,32 @@ public class calculatorPanel extends JPanel
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JPanel centralPanel = new JPanel();
+        JPanel centralLeftPanel = new JPanel();
 
-        centralPanel.setLayout(new GridLayout(4, 6));
+        centralLeftPanel.setLayout(new GridLayout(3, 3));
 
-        String[] operations = { "x!", "+", "-", "*", "/", "E", "%","x","sqrt,log,ln" };
+        String[] operations = { "x!", "+", "-", "*", "/", "E", "%", "x", "sqrt,log,ln" };
 
         String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
 
-        String[] inverseFunctions = {"arcsin","arcos","arctan"};
-        
-        String [] constants = {"π","e"};
+        String[] inverseFunctions = { "arcsin", "arcos", "arctan" };
+
+        String[] constants = { "π", "e" };
 
         JButton inv = new JButton("Inv");
+
+        for (String trig : trigFunctions)
+        {
+            JButton tFunct = new JButton(trig);
+
+            centralLeftPanel.add(tFunct);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JPanel centralCentralPanel = new JPanel();
+
+        centralCentralPanel.setLayout(new GridLayout(4, 6));
 
         inv.addActionListener(new ActionListener()
         {
@@ -76,7 +89,7 @@ public class calculatorPanel extends JPanel
 
         });
 
-        centralPanel.add(inv);
+        centralCentralPanel.add(inv);
 
         for (int i = 0; i < 10; i++)
         {
@@ -101,13 +114,27 @@ public class calculatorPanel extends JPanel
 
             });
 
-            centralPanel.add(num);
+            centralCentralPanel.add(num);
 
+        }
+        
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JPanel centralRightPanel = new JPanel(new GridLayout());
+        
+        
+        for (String operation : operations)
+        {
+            JButton = new JButton(operation);
+            
+            centralRightPanel.add();
         }
 
         add(upperPanel, BorderLayout.NORTH);
 
-        add(centralPanel, BorderLayout.CENTER);
+        add(centralLeftPanel, BorderLayout.WEST);
+
+        add(centralCentralPanel, BorderLayout.CENTER);
 
     }
 }
