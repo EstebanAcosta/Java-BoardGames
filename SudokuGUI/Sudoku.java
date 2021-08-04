@@ -111,7 +111,7 @@ class SudokuFrame extends JFrame
 
         exitingGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_DOWN_MASK));
 
-        add(new SudokuPanel(level, exitingGame, endButton));
+        add(new SudokuPanel(level, exitingGame));
 
         setVisible(true);
 

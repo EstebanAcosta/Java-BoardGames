@@ -15,10 +15,9 @@ class calculatorFrame extends JFrame
 {
     public calculatorFrame()
     {
-        
         setTitle("Calculator");
 
-        setBounds(500, 300, 500, 400);
+        setBounds(500, 300, 700, 500);
 
         add(new calculatorPanel());
         

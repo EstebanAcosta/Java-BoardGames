@@ -24,8 +24,6 @@ import javax.swing.border.LineBorder;
 
 import com.sun.glass.events.KeyEvent;
 
-import TicTacToeGUI.TicTacToe;
-
 public class SudokuPanel extends JPanel
 {
 
@@ -43,7 +41,7 @@ public class SudokuPanel extends JPanel
 
     Timer timer;
 
-    public SudokuPanel(String level, JMenuItem exiting, JButton endGameButton)
+    public SudokuPanel(String level, JMenuItem exiting)
     {
 
         setLayout(new BorderLayout());
@@ -225,7 +223,11 @@ public class SudokuPanel extends JPanel
 
         JPanel game = new JPanel();
 
-        sudokuGenerator(lvl.getText());
+        ArrayList<JButton[][]> puzzleNSolution = sudokuGenerator(lvl.getText());
+
+        sudoku = puzzleNSolution.get(0);
+
+        solution = puzzleNSolution.get(1);
 
         game.setLayout(new GridLayout(3, 3));
 
@@ -419,7 +421,7 @@ public class SudokuPanel extends JPanel
             {
                 if (isSudokuCompleted(sudoku))
                 {
-                    JOptionPane.showMessageDialog(new JFrame(), "Congratulatons On Completing The Sudoku Puzzle",
+                    JOptionPane.showMessageDialog(new JFrame(), "Congratulations On Completing The Sudoku Puzzle",
                     "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
 
                     JFrame continueGame = new JFrame();
@@ -440,13 +442,26 @@ public class SudokuPanel extends JPanel
 
                     JButton yes = new JButton("Yes");
 
+                    JButton no = new JButton("No");
+
                     yes.addActionListener(new startingNewGame(continueGame));
+
+                    no.addActionListener(new ActionListener()
+                    {
+
+                        public void actionPerformed(ActionEvent e)
+                        {
+
+                            System.exit(0);
+                        }
+
+                    });
 
                     JPanel submitArea = new JPanel();
 
                     submitArea.add(yes);
 
-                    submitArea.add(endGameButton);
+                    submitArea.add(no);
 
                     continueGame.add(submitArea, BorderLayout.SOUTH);
 
@@ -469,7 +484,7 @@ public class SudokuPanel extends JPanel
 
                     else if (doesEachRowHaveUniqueNumbers(sudoku))
                     {
-                        JOptionPane.showMessageDialog(new JFrame(), "A number has appearede more than once in the same row",
+                        JOptionPane.showMessageDialog(new JFrame(), "A number has appeared more than once in the same row",
                         "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
                     }
 
@@ -519,8 +534,11 @@ public class SudokuPanel extends JPanel
         add(lowerPanel, BorderLayout.SOUTH);
     }
 
-    public void sudokuGenerator(String level)
+    public ArrayList<JButton[][]> sudokuGenerator(String level)
     {
+
+        ArrayList<JButton[][]> puzzleAndSolution = new ArrayList<JButton[][]>();
+
         int N = 9, K = 0;
 
         if (level == "Hard")
@@ -540,9 +558,11 @@ public class SudokuPanel extends JPanel
 
         SudokuGenerator generator = new SudokuGenerator(N, K);
 
-        sudoku = generator.generateIncompleteSudoku();
+        puzzleAndSolution.add(generator.generateIncompleteSudoku());
 
-        solution = generator.returnSudokuSolution();
+        puzzleAndSolution.add(generator.returnSudokuSolution());
+
+        return puzzleAndSolution;
 
     }
 
@@ -862,20 +882,21 @@ public class SudokuPanel extends JPanel
     {
 
         private JFrame newGameFrame;
-        
+
         public startingNewGame()
         {
         }
-        
+
         public startingNewGame(JFrame frame)
         {
             newGameFrame = frame;
         }
+
         public void actionPerformed(ActionEvent e)
         {
             Sudoku s = new Sudoku();
-            
-            if(newGameFrame != null)
+
+            if (newGameFrame != null)
             {
                 newGameFrame.dispose();
             }
@@ -1054,16 +1075,57 @@ public class SudokuPanel extends JPanel
                         min = 30;
                     }
 
-                    sudokuGenerator(lvl.getText());
+                    ArrayList<JButton[][]> puzzleNSolution = sudokuGenerator(newLevel.getText());
+
+                    JButton[][] generatedPuzzle = puzzleNSolution.get(0);
+
+                    JButton[][] generatedSolution = puzzleNSolution.get(1);
 
                     for (int r = 0; r < 9; r++)
                     {
                         for (int col = 0; col < 9; col++)
                         {
-                            System.out.print(sudoku[r][col].getText() + " ");
+                            String num = generatedPuzzle[r][col].getText();
+
+                            if (Integer.parseInt(num) == 0)
+                            {
+                                sudoku[r][col].setText("");
+
+                            }
+
+                            else
+                            {
+                                sudoku[r][col].setText(num);
+
+                                sudoku[r][col].setForeground(Color.blue);
+
+                            }
                         }
 
-                        System.out.println();
+                    }
+
+                    for (int r = 0; r < 9; r++)
+                    {
+                        for (int col = 0; col < 9; col++)
+                        {
+                            String num = generatedSolution[r][col].getText();
+
+                            if (Integer.parseInt(num) == 0)
+                            {
+                                solution[r][col].setText("");
+
+                            }
+
+                            else
+                            {
+                                solution[r][col].setText(num);
+
+                                solution[r][col].setForeground(Color.black);
+
+                            }
+
+                        }
+
                     }
 
                     timeLeft = min * 60 * 1000;

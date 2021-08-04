@@ -50,19 +50,19 @@ public class calculatorPanel extends JPanel
 
         upperPanel.add(screen);
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        JPanel centralLeftPanel = new JPanel();
-
-        centralLeftPanel.setLayout(new GridLayout(3, 3));
-
-        String[] operations = { "x!", "+", "-", "*", "/", "E", "%", "x", "sqrt,log,ln" };
+        String[] operations = { "x!", "+", "-", "*", "/", "E", "%", "x", "sqrt", "log", "ln" };
 
         String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
 
         String[] inverseFunctions = { "arcsin", "arcos", "arctan" };
 
         String[] constants = { "π", "e" };
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JPanel centralLeftPanel = new JPanel();
+
+        centralLeftPanel.setLayout(new GridLayout(4, 6));
 
         JButton inv = new JButton("Inv");
 
@@ -117,17 +117,16 @@ public class calculatorPanel extends JPanel
             centralCentralPanel.add(num);
 
         }
-        
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        JPanel centralRightPanel = new JPanel(new GridLayout());
-        
-        
+        JPanel centralRightPanel = new JPanel(new GridLayout(4, 6));
+
         for (String operation : operations)
         {
-            JButton = new JButton(operation);
-            
-            centralRightPanel.add();
+            JButton op = new JButton(operation);
+
+            centralRightPanel.add(op);
         }
 
         add(upperPanel, BorderLayout.NORTH);
@@ -135,6 +134,8 @@ public class calculatorPanel extends JPanel
         add(centralLeftPanel, BorderLayout.WEST);
 
         add(centralCentralPanel, BorderLayout.CENTER);
+
+        add(centralRightPanel, BorderLayout.EAST);
 
     }
 }
