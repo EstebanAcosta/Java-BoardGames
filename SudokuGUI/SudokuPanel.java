@@ -255,114 +255,9 @@ public class SudokuPanel extends JPanel
                     // loop through each column of the box
                     for (int boxCol = startCol; boxCol < startCol + 3; boxCol++)
                     {
-                        int thisRow = boxRow;
-
-                        int thisCol = boxCol;
-
-                        int thisBox = countBox;
 
                         // create a new button for each cell
                         JButton tile = new JButton();
-
-                        tile.addActionListener(new ActionListener()
-                        {
-
-                            public void actionPerformed(ActionEvent e)
-                            {
-
-                                JButton sourceButton = (JButton) e.getSource();
-
-                                // create a new frame
-                                JFrame chooseNumFrame = new JFrame();
-
-                                JPanel upperPanel = new JPanel();
-
-                                JLabel question = new JLabel("Please click on a number for this box in row " + (thisRow + 1) + " and column " + (thisCol + 1));
-
-                                question.setHorizontalAlignment(JLabel.CENTER);
-
-                                upperPanel.add(question);
-
-                                JPanel centerPanel = new JPanel();
-
-                                centerPanel.setLayout(new GridLayout(3, 3));
-
-                                // loop nine times to create nine buttons
-                                for (int i = 0; i < 9; i++)
-                                {
-
-                                    // Give each a button a number
-                                    JButton setNumber = new JButton(Integer.toString(i + 1));
-
-                                    // Make sure that each buttpn has a listener
-                                    setNumber.addActionListener(new ActionListener()
-                                    {
-
-                                        public void actionPerformed(ActionEvent e)
-                                        {
-                                            // When the user presses this button in the new window, whatever number that is stored in the pressed button
-                                            // will be stored in the sudoku cell
-                                            sourceButton.setText(setNumber.getText());
-
-                                            // Get the number the user pressed and convert it into an integer
-                                            int newNum = Integer.parseInt(setNumber.getText());
-
-                                            // if the number the user put in that new cell happens to be in the same row, column or box as the same number
-                                            if (placedRepeatedNumberInRow(sudoku, thisRow, newNum) || placedRepeatedNumberInColumn(sudoku, thisCol, newNum)
-                                            || placedRepeatedNumberInABox(thisBox, newNum))
-                                            {
-
-                                                // Color the number red
-                                                sourceButton.setForeground(Color.RED);
-
-                                                sourceButton.setOpaque(true);
-                                            }
-
-                                            else
-                                            {
-                                                if (sourceButton.getForeground() == Color.RED)
-                                                {
-                                                    sourceButton.setForeground(Color.BLACK);
-                                                }
-                                            }
-
-                                            chooseNumFrame.dispose();
-                                        }
-
-                                    });
-
-                                    centerPanel.add(setNumber);
-
-                                }
-
-                                JPanel lowerPanel = new JPanel();
-
-                                chooseNumFrame.pack();
-
-                                chooseNumFrame.setResizable(false);
-
-                                chooseNumFrame.setTitle("Set Number");
-
-                                chooseNumFrame.setLayout(new BorderLayout());
-
-                                chooseNumFrame.setBounds(200, 200, 400, 130);
-
-                                chooseNumFrame.setVisible(true);
-
-                                chooseNumFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-                                chooseNumFrame.add(upperPanel, BorderLayout.NORTH);
-
-                                chooseNumFrame.add(centerPanel, BorderLayout.CENTER);
-
-                                chooseNumFrame.add(lowerPanel, BorderLayout.SOUTH);
-
-                            }
-
-                        });
-
-                        // add this button to the box
-                        box.add(tile);
 
                         if (sudoku[boxRow][boxCol].getText() == "0")
                         {
@@ -377,6 +272,14 @@ public class SudokuPanel extends JPanel
                             tile.setForeground(Color.blue);
 
                         }
+
+                        if (tile.getForeground() != Color.blue)
+                        {
+                            tile.addActionListener(new setNumber(boxRow, boxCol, countBox));
+                        }
+
+                        // add this button to the box
+                        box.add(tile);
 
                         // store the button to the 2D array
                         sudoku[boxRow][boxCol] = tile;
@@ -1017,6 +920,118 @@ public class SudokuPanel extends JPanel
 
     }
 
+    private class setNumber implements ActionListener
+    {
+
+        private int thisRow;
+
+        private int thisCol;
+
+        private int thisBox;
+
+        public setNumber(int thisRow, int thisCol, int thisBox)
+        {
+            this.thisRow = thisRow;
+
+            this.thisCol = thisCol;
+
+            this.thisBox = thisBox;
+        }
+
+        public void actionPerformed(ActionEvent e)
+        {
+
+            JButton sourceButton = (JButton) e.getSource();
+
+            // create a new frame
+            JFrame chooseNumFrame = new JFrame();
+
+            JPanel upperPanel = new JPanel();
+
+            JLabel question = new JLabel("Please click on a number for this box in row " + (thisRow + 1) + " and column " + (thisCol + 1));
+
+            question.setHorizontalAlignment(JLabel.CENTER);
+
+            upperPanel.add(question);
+
+            JPanel centerPanel = new JPanel();
+
+            centerPanel.setLayout(new GridLayout(3, 3));
+
+            // loop nine times to create nine buttons
+            for (int i = 0; i < 9; i++)
+            {
+
+                // Give each a button a number
+                JButton setNumber = new JButton(Integer.toString(i + 1));
+
+                // Make sure that each buttpn has a listener
+                setNumber.addActionListener(new ActionListener()
+                {
+
+                    public void actionPerformed(ActionEvent e)
+                    {
+                        // When the user presses this button in the new window, whatever number that is stored in the pressed button
+                        // will be stored in the sudoku cell
+                        sourceButton.setText(setNumber.getText());
+
+                        // Get the number the user pressed and convert it into an integer
+                        int newNum = Integer.parseInt(setNumber.getText());
+
+                        // if the number the user put in that new cell happens to be in the same row, column or box as the same number
+                        if (placedRepeatedNumberInRow(sudoku, thisRow, newNum) || placedRepeatedNumberInColumn(sudoku, thisCol, newNum)
+                        || placedRepeatedNumberInABox(thisBox, newNum))
+                        {
+
+                            // Color the number red
+                            sourceButton.setForeground(Color.RED);
+
+                            sourceButton.setOpaque(true);
+                        }
+
+                        else
+                        {
+                            if (sourceButton.getForeground() == Color.RED)
+                            {
+                                sourceButton.setForeground(Color.BLACK);
+                            }
+                        }
+
+                        chooseNumFrame.dispose();
+                    }
+
+                });
+
+                centerPanel.add(setNumber);
+
+            }
+
+            JPanel lowerPanel = new JPanel();
+
+            chooseNumFrame.pack();
+
+            chooseNumFrame.setResizable(false);
+
+            chooseNumFrame.setTitle("Set Number");
+
+            chooseNumFrame.setLayout(new BorderLayout());
+
+            chooseNumFrame.setBounds(200, 200, 400, 130);
+
+            chooseNumFrame.setVisible(true);
+
+            chooseNumFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+            chooseNumFrame.add(upperPanel, BorderLayout.NORTH);
+
+            chooseNumFrame.add(centerPanel, BorderLayout.CENTER);
+
+            chooseNumFrame.add(lowerPanel, BorderLayout.SOUTH);
+
+        }
+
+    }
+
     /**
      * A confirmation window will appear whenever the player decides to change the difficulty of the game
      * @author estebanacosta
@@ -1087,14 +1102,21 @@ public class SudokuPanel extends JPanel
                         {
                             String num = generatedPuzzle[r][col].getText();
 
+                            sudoku[r][col] = new JButton();
+
                             if (Integer.parseInt(num) == 0)
                             {
                                 sudoku[r][col].setText("");
+
+                                sudoku[r][col].addActionListener(new setNumber(r,col,));
+
 
                             }
 
                             else
                             {
+
+
                                 sudoku[r][col].setText(num);
 
                                 sudoku[r][col].setForeground(Color.blue);
