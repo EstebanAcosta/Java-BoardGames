@@ -203,7 +203,7 @@ public class SudokuPanel extends JPanel
 
         upperPanel.add(menuPanel, BorderLayout.NORTH);
 
-        //////////////////////////////////////////////////// SETTUNG UP LABELS AT THE TOP OF THE PUZZLE //////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////// SETTING UP LABELS AT THE TOP OF THE PUZZLE //////////////////////////////////////////////////////////
 
         JPanel lvlPanel = new JPanel();
 
@@ -276,6 +276,7 @@ public class SudokuPanel extends JPanel
                         if (tile.getForeground() != Color.blue)
                         {
                             tile.addActionListener(new setNumber(boxRow, boxCol, countBox));
+
                         }
 
                         // add this button to the box
@@ -469,6 +470,11 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /**
+     * Method loops through the entire sudoku grid to determine if there are an empty cells
+     * @param sudoku
+     * @returns true if there is an empty cell, otherwise returns false
+     */
     public boolean isMissingNumbers(JButton[][] sudoku)
     {
         for (int row = 0; row < 9; row++)
@@ -500,6 +506,11 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /**
+     * Loops through a given column, collects all the number in that column, stores and returns them all those numbers in an array
+     * @param col
+     * @returns list of all numbers in a given column
+     */
     public JButton[] getAllNumbersInCol(int col)
     {
         // create an empty array list
@@ -520,6 +531,11 @@ public class SudokuPanel extends JPanel
         return eachCol;
     }
 
+    /****
+     * Loops through a given box, collects all the number in that box, stores and returns them all those numbers in an array
+     * @param box
+     * @returns list of all numbers in a given box
+     */
     public JButton[] getAllNumbersInBox(JPanel box)
     {
         // get the components in the panel and store it in the list of components
@@ -549,9 +565,9 @@ public class SudokuPanel extends JPanel
     }
 
     /***
-     * Method checks to see if a given list on;y has unique numbers(if the numbers don't appear in a given list more than once)
+     * Method checks to see if a given list only has unique numbers(if the numbers don't appear in a given list more than once)
      * @param numbers
-     * @return
+     * @returns true if it is a unique set, false if it isn't
      */
     public boolean isUniqueSet(JButton[] numbers)
     {
@@ -578,7 +594,14 @@ public class SudokuPanel extends JPanel
         return true;
     }
 
-    public boolean placedRepeatedNumberInRow(JButton[][] sudoku, int row, int number)
+    /****
+     * Method that checks if the parameter number is in that given row
+     * @param sudoku
+     * @param row
+     * @param number
+     * @return true if the parameter number is in the row, otherwise returns false
+     */
+    public boolean placedRepeatedNumberInRow(int row, int number)
     {
 
         JButton[] thisRow = sudoku[row];
@@ -600,7 +623,14 @@ public class SudokuPanel extends JPanel
 
     }
 
-    public boolean placedRepeatedNumberInColumn(JButton[][] sudoku, int col, int number)
+    /****
+     * Method that checks if the parameter number is in that given row
+     * @param sudoku
+     * @param col
+     * @param number
+     * @returns true if the parameter number is in the column, otherwise returns false
+     */
+    public boolean placedRepeatedNumberInColumn(int col, int number)
     {
 
         JButton[] thisCol = getAllNumbersInCol(col);
@@ -621,6 +651,13 @@ public class SudokuPanel extends JPanel
 
     }
 
+    /****
+     * Method that checks if the parameter number is in that given box
+     * @param sudoku
+     * @param box
+     * @param number
+     * @returns true if the parameter number is in the box, otherwise returns false
+     */
     public boolean placedRepeatedNumberInABox(int box, int number)
     {
         JButton[] thisBox = getAllNumbersInBox(boxes.get(box));
@@ -778,7 +815,7 @@ public class SudokuPanel extends JPanel
     }
 
     /**
-     * Methods starts a new game
+     * When button is pressed, this starts a new game
      * @author estebanacosta
      */
     private class startingNewGame implements ActionListener
@@ -810,7 +847,7 @@ public class SudokuPanel extends JPanel
     }
 
     /**
-     * Method erases all the numbers in each cell and returns an empty sudoku board
+     * When button is pressed, this erases all the numbers in each cell and returns an empty sudoku board
      * @author estebanacosta
      */
     private class resettingTheGame implements ActionListener
@@ -839,8 +876,11 @@ public class SudokuPanel extends JPanel
                         for (int col = 0; col < sudoku[row].length; col++)
                         {
 
+                            // if this cell doesn't contains a blue number (blue numbers are numbers that the sudoku puzzle generator created
+                            // that shouldn't be changed)
                             if (sudoku[row][col].getForeground() != Color.blue)
                             {
+                                // erase that number
                                 sudoku[row][col].setText("");
 
                             }
@@ -978,8 +1018,8 @@ public class SudokuPanel extends JPanel
                         // Get the number the user pressed and convert it into an integer
                         int newNum = Integer.parseInt(setNumber.getText());
 
-                        // if the number the user put in that new cell happens to be in the same row, column or box as the same number
-                        if (placedRepeatedNumberInRow(sudoku, thisRow, newNum) || placedRepeatedNumberInColumn(sudoku, thisCol, newNum)
+                        // if the number the user put in that new cell happens to appear more than once in the same row, column or box
+                        if (placedRepeatedNumberInRow(thisRow, newNum) || placedRepeatedNumberInColumn(thisCol, newNum)
                         || placedRepeatedNumberInABox(thisBox, newNum))
                         {
 
@@ -1043,6 +1083,72 @@ public class SudokuPanel extends JPanel
 
         int originalY = 300;
 
+        public int findBoxNum(int row, int col)
+        {
+            if (row >= 0 && row < 3)
+            {
+                if (col >= 0 && col < 3)
+                {
+                    return 1;
+                }
+
+                else if (col >= 3 && col < 6)
+                {
+                    return 2;
+
+                }
+
+                else
+                {
+                    return 3;
+
+                }
+            }
+
+            else if (row >= 3 && row < 6)
+            {
+                if (col >= 0 && col < 3)
+                {
+                    return 4;
+
+                }
+
+                else if (col >= 3 && col < 6)
+                {
+                    return 5;
+
+                }
+
+                else
+                {
+                    return 6;
+
+                }
+            }
+
+            else
+            {
+                if (col >= 0 && col < 3)
+                {
+                    return 7;
+
+                }
+
+                else if (col >= 3 && col < 6)
+                {
+                    return 8;
+
+                }
+
+                else
+                {
+                    return 9;
+
+                }
+            }
+
+        }
+
         public void actionPerformed(ActionEvent e)
         {
             JMenuItem newLevel = (JMenuItem) e.getSource();
@@ -1102,24 +1208,20 @@ public class SudokuPanel extends JPanel
                         {
                             String num = generatedPuzzle[r][col].getText();
 
-                            sudoku[r][col] = new JButton();
-
                             if (Integer.parseInt(num) == 0)
                             {
                                 sudoku[r][col].setText("");
-
-                                sudoku[r][col].addActionListener(new setNumber(r,col,));
-
 
                             }
 
                             else
                             {
 
-
                                 sudoku[r][col].setText(num);
 
                                 sudoku[r][col].setForeground(Color.blue);
+
+                                sudoku[r][col].removeActionListener(new setNumber(r, col, findBoxNum(r, col)));
 
                             }
                         }
