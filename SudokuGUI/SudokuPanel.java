@@ -76,7 +76,7 @@ public class SudokuPanel extends JPanel
 
         resetGame.add(resettingGame);
 
-        ////////////////////////////////////////////// ADJUST DIFFICULTY ////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////// ADJUST DIFFICULTY MENU////////////////////////////////////////////////////////////////
 
         JMenu difficulty = new JMenu("Adjust Difficulty");
 
@@ -110,6 +110,149 @@ public class SudokuPanel extends JPanel
 
         exit.add(exiting);
 
+        //////////////////////////////////////////////////// SETTING UP LABELS AT THE TOP OF THE PUZZLE //////////////////////////////////////////////////////////
+
+        JPanel lvlPanel = new JPanel();
+
+        JLabel labelHeader = new JLabel("Level:");
+
+        lvl = new JLabel(level);
+
+        lvl.setHorizontalAlignment(JLabel.CENTER);
+
+        lvlPanel.add(labelHeader);
+
+        lvlPanel.add(lvl);
+
+        upperPanel.add(lvlPanel, BorderLayout.CENTER);
+
+        //////////////////////////////////////////////////// CREATING 81 CELLS IN THE SUDOKU PUZZLE //////////////////////////////////////////////////////////
+
+        JPanel gamePanel = new JPanel();
+
+        // generate a sudoku puzzle with its solution
+        ArrayList<JButton[][]> puzzleNSolution = sudokuGenerator(lvl.getText());
+
+        sudoku = puzzleNSolution.get(0);
+
+        solution = puzzleNSolution.get(1);
+
+        gamePanel.setLayout(new GridLayout(3, 3));
+
+        int startRow = 0;
+
+        int startCol = 0;
+
+        int countBox = 0;
+
+        // loop through each row in the sudoku board
+        for (int row = 0; row < 3; row++)
+        {
+            // loop through each column in the sudoku board
+            for (int col = 0; col < 3; col++)
+            {
+
+                // create a panel that will represent each of the six boxes in the sudoku board
+                JPanel box = new JPanel(new GridLayout(3, 3));
+
+                box.setBorder(LineBorder.createGrayLineBorder());
+
+                // loop through each row of the box
+                for (int boxRow = startRow; boxRow < startRow + 3; boxRow++)
+                {
+                    // loop through each column of the box
+                    for (int boxCol = startCol; boxCol < startCol + 3; boxCol++)
+                    {
+
+                        // create a new button for each cell
+                        JButton tile = new JButton();
+
+                        // if this 2D element has a zero
+                        if (sudoku[boxRow][boxCol].getText() == "0")
+                        {
+                            // set that cell to an empty string
+                            tile.setText("");
+
+                        }
+
+                        // if this 2D element has a non-zero number
+                        else
+                        {
+                            // set that cell to that non-zero number
+                            tile.setText(sudoku[boxRow][boxCol].getText());
+
+                            // set the color of this cell to blue
+                            tile.setForeground(Color.blue);
+
+                        }
+
+                        // adding this action listener gives the user the ability to choose a number from 1-9
+                        tile.addActionListener(new setNumber(boxRow, boxCol, countBox));
+
+                        // add this button to the box
+                        box.add(tile);
+
+                        // store the button to the 2D array
+                        sudoku[boxRow][boxCol] = tile;
+                    }
+                }
+
+                countBox++;
+
+                // since we are keeping track of all the boxes in the grid, add the box to the list of boxes
+                boxes.add(box);
+
+                // add this panel to the main grid panel
+                gamePanel.add(box);
+
+                // if we are on the last box
+                if (startCol == 6)
+                {
+                    // reset the starting column number to the first column of the sudoku grid
+                    startCol = 0;
+
+                    // add three to the starting row since we are going to start looping at the next row of boxes
+                    startRow += 3;
+                }
+
+                // if we are on the first two boxes of the row
+                else
+                {
+                    // add three to starting column # to get to the next box in that row
+                    startCol += 3;
+                }
+
+            }
+
+        }
+
+        finalSubmit = new JButton("Submit");
+
+        finalSubmit.addActionListener(new endGame());
+
+        autoFill = new JButton("Autofill");
+
+        autoFill.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+                for (int r = 0; r < 9; r++)
+                {
+                    for (int col = 0; col < 9; col++)
+                    {
+                        sudoku[r][col].setText(solution[r][col].getText());
+                    }
+                }
+            }
+
+        });
+
+        lowerPanel.add(finalSubmit);
+
+        lowerPanel.add(autoFill);
+
         ///////////////////////////////////////////////// STARTING TIMER ///////////////////////////////////////////////////////////
 
         if (level == "Hard")
@@ -141,7 +284,7 @@ public class SudokuPanel extends JPanel
 
         upperPanel.add(timerPanel, BorderLayout.SOUTH);
 
-        ///////////////////////////////////////////////// TIME MENU/////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////// TIME MENU /////////////////////////////////////////////////////////////
 
         JMenu time = new JMenu("Time");
 
@@ -161,6 +304,12 @@ public class SudokuPanel extends JPanel
                 {
                     timer.stop();
 
+                    gamePanel.setVisible(false);
+                    
+                    lowerPanel.setVisible(false);
+                    
+                    JLabel paused = new JLabel("Paused");
+
                     pause_or_resume.setText("Resume");
 
                     pause_or_resume.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK));
@@ -170,6 +319,10 @@ public class SudokuPanel extends JPanel
                 else
                 {
                     timer.start();
+
+                    gamePanel.setVisible(true);
+                    
+                    lowerPanel.setVisible(true);
 
                     pause_or_resume.setText("Pause");
 
@@ -183,7 +336,7 @@ public class SudokuPanel extends JPanel
 
         time.add(pauseOrResume);
 
-        ////////////////////////////////////////////////// ADDING ALL THE COMPONENTS TO THE PANEL ////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////// ADDING ALL THE COMPONENTS TO THE MENU PANEL ////////////////////////////////////////////////////////////
 
         JPanel menuPanel = new JPanel();
 
@@ -203,240 +356,11 @@ public class SudokuPanel extends JPanel
 
         upperPanel.add(menuPanel, BorderLayout.NORTH);
 
-        //////////////////////////////////////////////////// SETTING UP LABELS AT THE TOP OF THE PUZZLE //////////////////////////////////////////////////////////
-
-        JPanel lvlPanel = new JPanel();
-
-        JLabel labelHeader = new JLabel("Level:");
-
-        lvl = new JLabel(level);
-
-        lvl.setHorizontalAlignment(JLabel.CENTER);
-
-        lvlPanel.add(labelHeader);
-
-        lvlPanel.add(lvl);
-
-        upperPanel.add(lvlPanel, BorderLayout.CENTER);
-
-        //////////////////////////////////////////////////// CREATING 81 CELLS IN THE SUDOKU PUZZLE //////////////////////////////////////////////////////////
-
-        JPanel game = new JPanel();
-
-        //generate a sudoku puzzle with its solution
-        ArrayList<JButton[][]> puzzleNSolution = sudokuGenerator(lvl.getText());
-
-        sudoku = puzzleNSolution.get(0);
-
-        solution = puzzleNSolution.get(1);
-
-        game.setLayout(new GridLayout(3, 3));
-
-        int startRow = 0;
-
-        int startCol = 0;
-
-        int countBox = 0;
-
-        // loop through each row in the sudoku board
-        for (int row = 0; row < 3; row++)
-        {
-            // loop through each column in the sudoku board
-            for (int col = 0; col < 3; col++)
-            {
-
-                // create a panel that will represent each of the six boxes in the sudoku board
-                JPanel box = new JPanel(new GridLayout(3, 3));
-
-                box.setBorder(LineBorder.createGrayLineBorder());
-
-                // loop through each row of the box
-                for (int boxRow = startRow; boxRow < startRow + 3; boxRow++)
-                {
-                    // loop through each column of the box
-                    for (int boxCol = startCol; boxCol < startCol + 3; boxCol++)
-                    {
-
-                        // create a new button for each cell
-                        JButton tile = new JButton();
-
-                        //if this 2D element has a zero
-                        if (sudoku[boxRow][boxCol].getText() == "0")
-                        {
-                            //set that cell to an empty string
-                            tile.setText("");
-
-                        }
-
-                        //if this 2D element has a non-zero number
-                        else
-                        {
-                            //set that cell to that non-zero number
-                            tile.setText(sudoku[boxRow][boxCol].getText());
-
-                            //set the color of this cell to blue
-                            tile.setForeground(Color.blue);
-
-                        }
-
-                        //adding this action listener gives the user the ability to choose a number from 1-9
-                        tile.addActionListener(new setNumber(boxRow, boxCol, countBox));
-
-                        // add this button to the box
-                        box.add(tile);
-
-                        // store the button to the 2D array
-                        sudoku[boxRow][boxCol] = tile;
-                    }
-                }
-
-                countBox++;
-
-                // since we are keeping track of all the boxes in the grid, add the box to the list of boxes
-                boxes.add(box);
-
-                // add this panel to the main grid panel
-                game.add(box);
-
-                // if we are on the last box
-                if (startCol == 6)
-                {
-                    // reset the starting column number to the first column of the sudoku grid
-                    startCol = 0;
-
-                    // add three to the starting row since we are going to start looping at the next row of boxes
-                    startRow += 3;
-                }
-
-                // if we are on the first two boxes of the row
-                else
-                {
-                    // add three to starting column # to get to the next box in that row
-                    startCol += 3;
-                }
-
-            }
-
-        }
-
-        finalSubmit = new JButton("Submit");
-
-        finalSubmit.addActionListener(new ActionListener()
-        {
-
-            public void actionPerformed(ActionEvent e)
-            {
-                if (isSudokuCompleted(sudoku))
-                {
-                    JOptionPane.showMessageDialog(new JFrame(), "Congratulations On Completing The Sudoku Puzzle",
-                    "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
-
-                    JFrame continueGame = new JFrame();
-
-                    continueGame.setTitle("Continue Game");
-
-                    JLabel continueQuestion = new JLabel("Would you like to start another game?");
-
-                    continueQuestion.setHorizontalAlignment(JLabel.CENTER);
-
-                    continueGame.setLayout(new BorderLayout());
-
-                    JPanel questionArea = new JPanel();
-
-                    questionArea.add(continueQuestion);
-
-                    continueGame.add(questionArea, BorderLayout.NORTH);
-
-                    JButton yes = new JButton("Yes");
-
-                    JButton no = new JButton("No");
-
-                    yes.addActionListener(new startingNewGame(continueGame));
-
-                    no.addActionListener(new ActionListener()
-                    {
-
-                        public void actionPerformed(ActionEvent e)
-                        {
-
-                            System.exit(0);
-                        }
-
-                    });
-
-                    JPanel submitArea = new JPanel();
-
-                    submitArea.add(yes);
-
-                    submitArea.add(no);
-
-                    continueGame.add(submitArea, BorderLayout.SOUTH);
-
-                    continueGame.setBounds(400, 400, 400, 100);
-
-                    continueGame.setVisible(true);
-
-                    continueGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-                }
-
-                else
-                {
-
-                    if (isMissingNumbers(sudoku))
-                    {
-                        JOptionPane.showMessageDialog(new JFrame(), "There are some cells that haven't been filled in yet",
-                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
-                    }
-
-                    else if (doesEachRowHaveUniqueNumbers(sudoku))
-                    {
-                        JOptionPane.showMessageDialog(new JFrame(), "A number has appeared more than once in the same row",
-                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
-                    }
-
-                    else if (doesEachColumnHaveUniqueNumbers(sudoku))
-                    {
-                        JOptionPane.showMessageDialog(new JFrame(), "A number has appeared more than once in the same column",
-                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
-                    }
-
-                    else if (doesEachBoxHaveUniqueNumbers(sudoku))
-                    {
-                        JOptionPane.showMessageDialog(new JFrame(), "A number has appeared more than once in the same box",
-                        "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
-                    }
-                }
-            }
-
-        });
-
-        autoFill = new JButton("Autofill");
-
-        autoFill.addActionListener(new ActionListener()
-        {
-
-            public void actionPerformed(ActionEvent e)
-            {
-
-                for (int r = 0; r < 9; r++)
-                {
-                    for (int col = 0; col < 9; col++)
-                    {
-                        sudoku[r][col].setText(solution[r][col].getText());
-                    }
-                }
-            }
-
-        });
-
-        lowerPanel.add(finalSubmit);
-
-        lowerPanel.add(autoFill);
+        /////////////////////////////////////////////////////// ADDING ALL THE PANELS TO THE FRAME ////////////////////////////////////////////////////////////////////
 
         add(upperPanel, BorderLayout.NORTH);
 
-        add(game, BorderLayout.CENTER);
+        add(gamePanel, BorderLayout.CENTER);
 
         add(lowerPanel, BorderLayout.SOUTH);
     }
@@ -580,6 +504,13 @@ public class SudokuPanel extends JPanel
         for (JButton number : numbers)
         {
             int num = (number.getText() == "" ? 0 : Integer.parseInt(number.getText()));
+
+            // If this is just an empty cell (here empty cells are represented by zero)
+            if (num == 0)
+            {
+                // move on to the next number
+                continue;
+            }
 
             // if the number that we are currently on isn't in the empty array list
             if (!checking.contains(num))
@@ -811,13 +742,13 @@ public class SudokuPanel extends JPanel
                     JOptionPane.showMessageDialog(new JFrame(), "Congratulations On Completing The Sudoku Puzzle Just As Time Expires",
                     "Puzzle Completed Just On Time", JOptionPane.INFORMATION_MESSAGE);
                 }
-                
+
                 else
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Sorry That You Were Unable To Complete The Sudoku Puzzle On Time",
                     "Puzzle Not Completed On Time", JOptionPane.INFORMATION_MESSAGE);
-                }
 
+                }
 
             }
 
@@ -971,6 +902,101 @@ public class SudokuPanel extends JPanel
 
     }
 
+    private class endGame implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (isSudokuCompleted(sudoku))
+            {
+                JOptionPane.showMessageDialog(new JFrame(), "Congratulations On Completing The Sudoku Puzzle",
+                "Puzzle Completed", JOptionPane.INFORMATION_MESSAGE);
+
+                JFrame continueGame = new JFrame();
+
+                continueGame.setTitle("Continue Game");
+
+                JLabel continueQuestion = new JLabel("Would you like to start another game?");
+
+                continueQuestion.setHorizontalAlignment(JLabel.CENTER);
+
+                continueGame.setLayout(new BorderLayout());
+
+                JPanel questionArea = new JPanel();
+
+                questionArea.add(continueQuestion);
+
+                continueGame.add(questionArea, BorderLayout.NORTH);
+
+                JButton yes = new JButton("Yes");
+
+                JButton no = new JButton("No");
+
+                yes.addActionListener(new startingNewGame(continueGame));
+
+                no.addActionListener(new ActionListener()
+                {
+
+                    public void actionPerformed(ActionEvent e)
+                    {
+
+                        System.exit(0);
+                    }
+
+                });
+
+                JPanel submitArea = new JPanel();
+
+                submitArea.add(yes);
+
+                submitArea.add(no);
+
+                continueGame.add(submitArea, BorderLayout.SOUTH);
+
+                continueGame.setBounds(400, 400, 400, 100);
+
+                continueGame.setVisible(true);
+
+                continueGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+            }
+
+            else
+            {
+
+                String message = "";
+
+                if (isMissingNumbers(sudoku))
+                {
+                    message += "Error: There are some cells that haven't been filled in yet";
+
+                }
+
+                if (!doesEachRowHaveUniqueNumbers(sudoku))
+                {
+
+                    message += "\n" + "Error: A number has appeared more than once in the same row";
+
+                }
+
+                if (!doesEachColumnHaveUniqueNumbers(sudoku))
+                {
+                    message += "\n" + "Error: A number has appeared more than once in the same column";
+
+                }
+
+                if (!doesEachBoxHaveUniqueNumbers(sudoku))
+                {
+                    message += "\n" + "Error: A number has appeared more than once in the same box";
+
+                }
+
+                JOptionPane.showMessageDialog(new JFrame(), message,
+                "Puzzle Not Completed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+    }
+
     private class setNumber implements ActionListener
     {
 
@@ -994,14 +1020,14 @@ public class SudokuPanel extends JPanel
 
             JButton sourceButton = (JButton) e.getSource();
 
-            //if the button that triggered this event is blue
+            // if the button that triggered this event is blue
             if (sourceButton.getForeground() == Color.BLUE)
             {
-                //remove this action (don't bother trying to do anything since blue buttons shouldn't be changed)
+                // remove this action (don't bother trying to do anything since blue buttons shouldn't be changed)
                 sourceButton.removeActionListener(this);
             }
 
-            //if the button that triggered this event isn't blue
+            // if the button that triggered this event isn't blue
             else
             {
 
@@ -1105,6 +1131,72 @@ public class SudokuPanel extends JPanel
 
         int originalY = 300;
 
+        public int findBoxNumber(int row, int col)
+        {
+            if (row >= 0 && row < 3)
+            {
+                if (col >= 0 && col < 3)
+                {
+                    return 1;
+                }
+
+                else if (col >= 3 && col < 6)
+                {
+                    return 2;
+
+                }
+
+                else
+                {
+                    return 3;
+
+                }
+            }
+
+            else if (row >= 3 && row < 6)
+            {
+                if (col >= 0 && col < 3)
+                {
+                    return 4;
+
+                }
+
+                else if (col >= 3 && col < 6)
+                {
+                    return 5;
+
+                }
+
+                else
+                {
+                    return 6;
+
+                }
+            }
+
+            else
+            {
+                if (col >= 0 && col < 3)
+                {
+                    return 7;
+
+                }
+
+                else if (col >= 3 && col < 6)
+                {
+                    return 8;
+
+                }
+
+                else
+                {
+                    return 9;
+
+                }
+            }
+
+        }
+
         public void actionPerformed(ActionEvent e)
         {
             JMenuItem newLevel = (JMenuItem) e.getSource();
@@ -1168,6 +1260,8 @@ public class SudokuPanel extends JPanel
                             {
                                 sudoku[r][col].setText("");
 
+                                sudoku[r][col].setForeground(Color.black);
+
                             }
 
                             else
@@ -1176,13 +1270,14 @@ public class SudokuPanel extends JPanel
                                 sudoku[r][col].setText(num);
 
                                 sudoku[r][col].setForeground(Color.blue);
-                                
-                                
 
                             }
+
                         }
 
                     }
+
+                    System.out.println();
 
                     for (int r = 0; r < 9; r++)
                     {
