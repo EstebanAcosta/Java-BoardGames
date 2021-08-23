@@ -804,12 +804,20 @@ public class SudokuPanel extends JPanel
 
             if (timeLeft <= 0)
             {
+                timer.stop();
+
                 if (isSudokuCompleted(sudoku))
                 {
-
+                    JOptionPane.showMessageDialog(new JFrame(), "Congratulations On Completing The Sudoku Puzzle Just As Time Expires",
+                    "Puzzle Completed Just On Time", JOptionPane.INFORMATION_MESSAGE);
+                }
+                
+                else
+                {
+                    JOptionPane.showMessageDialog(new JFrame(), "Sorry That You Were Unable To Complete The Sudoku Puzzle On Time",
+                    "Puzzle Not Completed On Time", JOptionPane.INFORMATION_MESSAGE);
                 }
 
-                timer.stop();
 
             }
 
@@ -1168,6 +1176,8 @@ public class SudokuPanel extends JPanel
                                 sudoku[r][col].setText(num);
 
                                 sudoku[r][col].setForeground(Color.blue);
+                                
+                                
 
                             }
                         }
