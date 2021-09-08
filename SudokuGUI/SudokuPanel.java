@@ -3,6 +3,7 @@ package SudokuGUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -298,6 +299,8 @@ public class SudokuPanel extends JPanel
             public void actionPerformed(ActionEvent e)
             {
 
+                JPanel pausePanel = new JPanel();
+
                 JMenuItem pause_or_resume = (JMenuItem) e.getSource();
 
                 if (pause_or_resume.getText().equalsIgnoreCase("Pause"))
@@ -305,10 +308,22 @@ public class SudokuPanel extends JPanel
                     timer.stop();
 
                     gamePanel.setVisible(false);
-                    
+
                     lowerPanel.setVisible(false);
+
+                    JLabel pausedLabel = new JLabel("Paused");
+
+                    pausedLabel.setHorizontalAlignment(JLabel.CENTER);
                     
-                    JLabel paused = new JLabel("Paused");
+                    pausedLabel.setForeground(Color.BLUE);
+                    
+                    pausedLabel.setSize();
+
+                    pausePanel.add(pausedLabel);
+
+                    pausePanel.setVisible(true);
+
+                    add(pausePanel,BorderLayout.CENTER);
 
                     pause_or_resume.setText("Resume");
 
@@ -320,8 +335,10 @@ public class SudokuPanel extends JPanel
                 {
                     timer.start();
 
+                    pausePanel.setVisible(false);
+
                     gamePanel.setVisible(true);
-                    
+
                     lowerPanel.setVisible(true);
 
                     pause_or_resume.setText("Pause");
