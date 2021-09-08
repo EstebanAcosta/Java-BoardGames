@@ -3,6 +3,7 @@ package SudokuGUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -268,7 +269,7 @@ public class SudokuPanel extends JPanel
 
         else
         {
-            min = 30;
+            min = 1;
         }
 
         timeLeft = min * 60 * 1000;
@@ -317,8 +318,10 @@ public class SudokuPanel extends JPanel
                     
                     pausedLabel.setForeground(Color.BLUE);
                     
-                    pausedLabel.setSize();
-
+                    pausedLabel.setFont(new Font("Serif",Font.BOLD,40));
+                    
+                    pausedLabel.setPreferredSize(new Dimension(200,300));
+                    
                     pausePanel.add(pausedLabel);
 
                     pausePanel.setVisible(true);
@@ -758,6 +761,8 @@ public class SudokuPanel extends JPanel
                 {
                     JOptionPane.showMessageDialog(new JFrame(), "Congratulations On Completing The Sudoku Puzzle Just As Time Expires",
                     "Puzzle Completed Just On Time", JOptionPane.INFORMATION_MESSAGE);
+                    
+                    
                 }
 
                 else
@@ -766,6 +771,53 @@ public class SudokuPanel extends JPanel
                     "Puzzle Not Completed On Time", JOptionPane.INFORMATION_MESSAGE);
 
                 }
+                
+                JFrame continueGame = new JFrame();
+
+                continueGame.setTitle("Continue Game");
+
+                JLabel continueQuestion = new JLabel("Would you like to start another game?");
+
+                continueQuestion.setHorizontalAlignment(JLabel.CENTER);
+
+                continueGame.setLayout(new BorderLayout());
+
+                JPanel questionArea = new JPanel();
+
+                questionArea.add(continueQuestion);
+
+                continueGame.add(questionArea, BorderLayout.NORTH);
+
+                JButton yes = new JButton("Yes");
+
+                JButton no = new JButton("No");
+
+                yes.addActionListener(new startingNewGame(continueGame));
+
+                no.addActionListener(new ActionListener()
+                {
+
+                    public void actionPerformed(ActionEvent e)
+                    {
+
+                        System.exit(0);
+                    }
+
+                });
+
+                JPanel submitArea = new JPanel();
+
+                submitArea.add(yes);
+
+                submitArea.add(no);
+
+                continueGame.add(submitArea, BorderLayout.SOUTH);
+
+                continueGame.setBounds(400, 400, 400, 100);
+
+                continueGame.setVisible(true);
+
+                continueGame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             }
 
