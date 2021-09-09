@@ -32,6 +32,8 @@ public class calculatorPanel extends JPanel
 
     String lastOperation;
 
+    double result = 0;
+
     public calculatorPanel()
     {
         setLayout(new BorderLayout());
@@ -50,7 +52,7 @@ public class calculatorPanel extends JPanel
 
         upperPanel.add(screen);
 
-        String[] operations = { "x!", "+", "-", "*", "/", "E", "%", "x", "sqrt", "log", "ln" };
+        String[] operations = { "x!", "+", "-", "*", "/", "%", "sqrt", "log", "ln" };
 
         String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
 
@@ -70,6 +72,16 @@ public class calculatorPanel extends JPanel
         {
             JButton tFunct = new JButton(trig);
 
+            tFunct.addActionListener(new ActionListener()
+            {
+
+                public void actionPerformed(ActionEvent e)
+                {
+
+                }
+
+            });
+
             centralLeftPanel.add(tFunct);
         }
 
@@ -79,19 +91,17 @@ public class calculatorPanel extends JPanel
 
         centralCentralPanel.setLayout(new GridLayout(4, 6));
 
-        inv.addActionListener(new ActionListener()
-        {
+        // inv.addActionListener(new ActionListener()
+        // {
+        //
+        // public void actionPerformed(ActionEvent e)
+        // {
+        //
+        // }
+        //
+        // });
 
-            public void actionPerformed(ActionEvent e)
-            {
-
-            }
-
-        });
-
-        centralCentralPanel.add(inv);
-
-        for (int i = 0; i < 10; i++)
+        for (int i = 9; i >= 0; i--)
         {
             JButton num = new JButton(Integer.toString(i));
 
@@ -118,6 +128,14 @@ public class calculatorPanel extends JPanel
 
         }
 
+        JButton equal = new JButton("=");
+
+        centralCentralPanel.add(equal);
+
+        JButton dot = new JButton(".");
+
+        centralCentralPanel.add(dot);
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         JPanel centralRightPanel = new JPanel(new GridLayout(4, 6));
@@ -125,6 +143,8 @@ public class calculatorPanel extends JPanel
         for (String operation : operations)
         {
             JButton op = new JButton(operation);
+
+            op.addActionListener(new orderAction());
 
             centralRightPanel.add(op);
         }
@@ -136,6 +156,51 @@ public class calculatorPanel extends JPanel
         add(centralCentralPanel, BorderLayout.CENTER);
 
         add(centralRightPanel, BorderLayout.EAST);
+
+    }
+
+    private class orderAction implements ActionListener
+    {
+
+        public void actionPerformed(ActionEvent e)
+        {
+            String operation = e.getActionCommand();
+
+            lastOperation = operation;
+
+            calculate(Double.parseDouble(screen.getText()));
+        }
+
+        public void calculate(double x)
+        {
+            if (lastOperation.equalsIgnoreCase("+"))
+            {
+                result += x;
+
+            }
+
+            else if (lastOperation.equalsIgnoreCase("-"))
+            {
+                result -= x;
+            }
+
+            else if (lastOperation.equalsIgnoreCase("*"))
+            {
+                result *= x;
+            }
+
+            else if (lastOperation.equalsIgnoreCase("/"))
+            {
+                result /= x;
+            }
+
+            else
+            {
+                result = x;
+            }
+
+            screen.setText(String.valueOf(result));
+        }
 
     }
 }
