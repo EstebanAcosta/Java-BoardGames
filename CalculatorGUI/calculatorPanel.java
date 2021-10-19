@@ -131,8 +131,33 @@ public class calculatorPanel extends JPanel
         JButton equal = new JButton("=");
 
         centralCentralPanel.add(equal);
+        
+        equal.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                
+            }
+            
+        });
 
         JButton dot = new JButton(".");
+
+        dot.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+                if (!screen.getText().contains("."))
+                {
+                    screen.setText(screen.getText() + ".");
+                }
+
+            }
+
+        });
 
         centralCentralPanel.add(dot);
 
