@@ -61,12 +61,25 @@ public class calculatorPanel extends JPanel
         String[] constants = { "π", "e" };
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+        
         JPanel centralLeftPanel = new JPanel();
 
         centralLeftPanel.setLayout(new GridLayout(4, 6));
+        
+        JButton clear = new JButton("C");
+        
+        clear.addActionListener(new ActionListener()
+        {
 
-        JButton inv = new JButton("Inv");
+           
+            public void actionPerformed(ActionEvent e)
+            {
+                
+            }
+            
+        });
+        
+        centralLeftPanel.add(clear);
 
         for (String trig : trigFunctions)
         {
@@ -83,6 +96,25 @@ public class calculatorPanel extends JPanel
             });
 
             centralLeftPanel.add(tFunct);
+        }
+        
+        
+        
+        for(String inv : inverseFunctions)
+        {
+              JButton invF = new JButton(inv);
+              
+              invF.addActionListener(new ActionListener()
+              {
+
+                public void actionPerformed(ActionEvent e)
+                {
+                   
+                }
+                  
+              });
+              
+              centralLeftPanel.add(invF);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,15 +163,15 @@ public class calculatorPanel extends JPanel
         JButton equal = new JButton("=");
 
         centralCentralPanel.add(equal);
-        
+
         equal.addActionListener(new ActionListener()
         {
 
             public void actionPerformed(ActionEvent e)
             {
-                
+
             }
-            
+
         });
 
         JButton dot = new JButton(".");
@@ -206,17 +238,34 @@ public class calculatorPanel extends JPanel
 
             else if (lastOperation.equalsIgnoreCase("-"))
             {
-                result -= x;
+               
+                    result -= x;
+
             }
 
             else if (lastOperation.equalsIgnoreCase("*"))
             {
+                if(result == 0)
+                {
+                    result = x;
+                }
+                else
+                {
                 result *= x;
+                }
             }
 
             else if (lastOperation.equalsIgnoreCase("/"))
             {
-                result /= x;
+                if(result == 0)
+                {
+                    result = x;
+                }
+                else
+                {
+                    result /= x;
+
+                }
             }
 
             else
