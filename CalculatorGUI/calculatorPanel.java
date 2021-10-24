@@ -42,7 +42,7 @@ public class calculatorPanel extends JPanel
 
         screen = new JButton();
 
-        screen.setText("");
+        screen.setText("0");
 
         Dimension d = new Dimension(400, 20);
 
@@ -61,25 +61,44 @@ public class calculatorPanel extends JPanel
         String[] constants = { "π", "e" };
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        
+
         JPanel centralLeftPanel = new JPanel();
 
         centralLeftPanel.setLayout(new GridLayout(4, 6));
-        
+
         JButton clear = new JButton("C");
-        
+
         clear.addActionListener(new ActionListener()
         {
 
-           
             public void actionPerformed(ActionEvent e)
             {
-                
+                if (clear.getText().equalsIgnoreCase("C"))
+                {
+                    screen.setText("0");
+
+                    clear.setText("AC");
+                }
+
             }
-            
+
         });
-        
+
         centralLeftPanel.add(clear);
+
+        JButton plus_minus = new JButton("+/-");
+
+        plus_minus.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                screen.setText(Double.toString(Double.parseDouble(screen.getText()) * -1));
+            }
+
+        });
+
+        centralLeftPanel.add(plus_minus);
 
         for (String trig : trigFunctions)
         {
@@ -90,31 +109,71 @@ public class calculatorPanel extends JPanel
 
                 public void actionPerformed(ActionEvent e)
                 {
+                    JButton originator = (JButton) e.getSource();
 
+                    if (originator.getText().equalsIgnoreCase("sin"))
+                    {
+
+                    }
+
+                    else if (originator.getText().equalsIgnoreCase("cos"))
+                    {
+
+                    }
+                    else if (originator.getText().equalsIgnoreCase("tan"))
+                    {
+
+                    }
+                    else if (originator.getText().equalsIgnoreCase("csc"))
+                    {
+
+                    }
+                    else if (originator.getText().equalsIgnoreCase("sec"))
+                    {
+
+                    }
+
+                    else
+                    {
+
+                    }
                 }
 
             });
 
             centralLeftPanel.add(tFunct);
         }
-        
-        
-        
-        for(String inv : inverseFunctions)
+
+        for (String inv : inverseFunctions)
         {
-              JButton invF = new JButton(inv);
-              
-              invF.addActionListener(new ActionListener()
-              {
+            JButton invF = new JButton(inv);
+
+            invF.addActionListener(new ActionListener()
+            {
 
                 public void actionPerformed(ActionEvent e)
                 {
-                   
+                    JButton originator = (JButton) e.getSource();
+
+                    if (originator.getText().equalsIgnoreCase("sin"))
+                    {
+
+                    }
+
+                    else if (originator.getText().equalsIgnoreCase("cos"))
+                    {
+
+                    }
+                    else if (originator.getText().equalsIgnoreCase("tan"))
+                    {
+
+                    }
+
                 }
-                  
-              });
-              
-              centralLeftPanel.add(invF);
+
+            });
+
+            centralLeftPanel.add(invF);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,7 +201,7 @@ public class calculatorPanel extends JPanel
 
                 public void actionPerformed(ActionEvent e)
                 {
-                    if (screen.getText() == "")
+                    if (screen.getText() == "0")
                     {
                         screen.setText(num.getText());
                     }
@@ -152,6 +211,8 @@ public class calculatorPanel extends JPanel
                         screen.setText(screen.getText() + num.getText());
 
                     }
+
+                    clear.setText("C");
                 }
 
             });
@@ -238,26 +299,26 @@ public class calculatorPanel extends JPanel
 
             else if (lastOperation.equalsIgnoreCase("-"))
             {
-               
-                    result -= x;
+
+                result -= x;
 
             }
 
             else if (lastOperation.equalsIgnoreCase("*"))
             {
-                if(result == 0)
+                if (result == 0)
                 {
                     result = x;
                 }
                 else
                 {
-                result *= x;
+                    result *= x;
                 }
             }
 
             else if (lastOperation.equalsIgnoreCase("/"))
             {
-                if(result == 0)
+                if (result == 0)
                 {
                     result = x;
                 }
