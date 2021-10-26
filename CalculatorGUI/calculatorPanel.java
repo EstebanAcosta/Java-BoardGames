@@ -33,6 +33,8 @@ public class calculatorPanel extends JPanel
     String lastOperation;
 
     double result = 0;
+    
+    boolean initial;
 
     public calculatorPanel()
     {
@@ -109,34 +111,37 @@ public class calculatorPanel extends JPanel
 
                 public void actionPerformed(ActionEvent e)
                 {
+
                     JButton originator = (JButton) e.getSource();
 
-                    if (originator.getText().equalsIgnoreCase("sin"))
-                    {
-
-                    }
-
-                    else if (originator.getText().equalsIgnoreCase("cos"))
-                    {
-
-                    }
-                    else if (originator.getText().equalsIgnoreCase("tan"))
-                    {
-
-                    }
-                    else if (originator.getText().equalsIgnoreCase("csc"))
-                    {
-
-                    }
-                    else if (originator.getText().equalsIgnoreCase("sec"))
-                    {
-
-                    }
-
-                    else
-                    {
-
-                    }
+                    // if (originator.getText().equalsIgnoreCase("sin"))
+                    // {
+                    // Math.sin();
+                    // }
+                    //
+                    // else if (originator.getText().equalsIgnoreCase("cos"))
+                    // {
+                    // Math.cos();
+                    // }
+                    // else if (originator.getText().equalsIgnoreCase("tan"))
+                    // {
+                    // Math.tan();
+                    // }
+                    // else if (originator.getText().equalsIgnoreCase("csc"))
+                    // {
+                    // 1/Math.sin();
+                    // }
+                    // else if (originator.getText().equalsIgnoreCase("sec"))
+                    // {
+                    // 1/Math.cos();
+                    //
+                    // }
+                    //
+                    // else
+                    // {
+                    // 1/Math.tan();
+                    //
+                    // }
                 }
 
             });
@@ -155,16 +160,16 @@ public class calculatorPanel extends JPanel
                 {
                     JButton originator = (JButton) e.getSource();
 
-                    if (originator.getText().equalsIgnoreCase("sin"))
+                    if (originator.getText().equalsIgnoreCase("arcsin"))
                     {
 
                     }
 
-                    else if (originator.getText().equalsIgnoreCase("cos"))
+                    else if (originator.getText().equalsIgnoreCase("arccos"))
                     {
 
                     }
-                    else if (originator.getText().equalsIgnoreCase("tan"))
+                    else if (originator.getText().equalsIgnoreCase("arctan"))
                     {
 
                     }
@@ -201,18 +206,19 @@ public class calculatorPanel extends JPanel
 
                 public void actionPerformed(ActionEvent e)
                 {
-                    if (screen.getText() == "0")
+                    String entry = e.getActionCommand();
+
+                    if (initial)
                     {
-                        screen.setText(num.getText());
+                        screen.setText("");
+
+                        initial = false;
                     }
 
-                    else
-                    {
-                        screen.setText(screen.getText() + num.getText());
-
-                    }
+                    screen.setText(screen.getText() + entry);
 
                     clear.setText("C");
+
                 }
 
             });
@@ -225,15 +231,7 @@ public class calculatorPanel extends JPanel
 
         centralCentralPanel.add(equal);
 
-        equal.addActionListener(new ActionListener()
-        {
-
-            public void actionPerformed(ActionEvent e)
-            {
-
-            }
-
-        });
+        equal.addActionListener(new orderAction());
 
         JButton dot = new JButton(".");
 
@@ -285,15 +283,22 @@ public class calculatorPanel extends JPanel
             String operation = e.getActionCommand();
 
             lastOperation = operation;
+            
+            initial = true;
 
             calculate(Double.parseDouble(screen.getText()));
         }
 
         public void calculate(double x)
         {
+
             if (lastOperation.equalsIgnoreCase("+"))
             {
+                System.out.println(result);
+
                 result += x;
+
+                System.out.println(result);
 
             }
 
@@ -306,35 +311,25 @@ public class calculatorPanel extends JPanel
 
             else if (lastOperation.equalsIgnoreCase("*"))
             {
-                if (result == 0)
-                {
-                    result = x;
-                }
-                else
-                {
-                    result *= x;
-                }
+
+                result *= x;
+
             }
 
             else if (lastOperation.equalsIgnoreCase("/"))
             {
-                if (result == 0)
-                {
-                    result = x;
-                }
-                else
-                {
-                    result /= x;
 
-                }
+                result /= x;
+
             }
 
-            else
+            else if (lastOperation.equalsIgnoreCase("="))
             {
-                result = x;
+
             }
 
             screen.setText(String.valueOf(result));
+
         }
 
     }
