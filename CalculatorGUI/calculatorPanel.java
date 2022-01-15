@@ -30,23 +30,24 @@ public class calculatorPanel extends JPanel
 
     JButton screen;
 
-    String lastOperation;
+    ArrayList<String> list_of_operations = new ArrayList<String>();
 
-    double result = 0;
-    
+    double result;
+
     boolean initial;
 
     public calculatorPanel()
     {
+
         setLayout(new BorderLayout());
 
         JPanel upperPanel = new JPanel();
 
         screen = new JButton();
 
-        screen.setText("0");
+        screen.setText("");
 
-        Dimension d = new Dimension(400, 20);
+        Dimension d = new Dimension(400, 40);
 
         screen.setPreferredSize(d);
 
@@ -77,9 +78,12 @@ public class calculatorPanel extends JPanel
             {
                 if (clear.getText().equalsIgnoreCase("C"))
                 {
-                    screen.setText("0");
 
                     clear.setText("AC");
+
+                    screen.setText("0");
+
+                    result = 0;
                 }
 
             }
@@ -280,10 +284,8 @@ public class calculatorPanel extends JPanel
 
         public void actionPerformed(ActionEvent e)
         {
-            String operation = e.getActionCommand();
+            list_of_operations.add(e.getActionCommand());
 
-            lastOperation = operation;
-            
             initial = true;
 
             calculate(Double.parseDouble(screen.getText()));
@@ -292,43 +294,49 @@ public class calculatorPanel extends JPanel
         public void calculate(double x)
         {
 
-            if (lastOperation.equalsIgnoreCase("+"))
-            {
-                System.out.println(result);
+            int list_size = list_of_operations.size();
 
+            String lastOperation = list_of_operations.get(list_size - 1);
+
+            if (lastOperation.equalsIgnoreCase("+"))
                 result += x;
 
-                System.out.println(result);
-
-            }
-
             else if (lastOperation.equalsIgnoreCase("-"))
-            {
-
                 result -= x;
 
-            }
-
             else if (lastOperation.equalsIgnoreCase("*"))
-            {
-
                 result *= x;
-
-            }
 
             else if (lastOperation.equalsIgnoreCase("/"))
             {
+                if (x == 0)
+                {
+                    screen.setText(String.valueOf("Undefined"));
 
-                result /= x;
+                    result = 0;
+                    
+                    list_of_operations.clear();
+                }
+
+                else
+                    result /= x;
 
             }
 
             else if (lastOperation.equalsIgnoreCase("="))
             {
 
-            }
+                if (list_size > 2 && list_of_operations.get(list_size - 2).equalsIgnoreCase("="))
+                {
 
-            screen.setText(String.valueOf(result));
+                }
+
+                screen.setText(String.valueOf(result));
+            }
+            
+            
+            if(list_size >= 2)
+                screen.setText(String.valueOf(result));
 
         }
 
