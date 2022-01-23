@@ -1,40 +1,34 @@
 package CalculatorGUI;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
-import javax.swing.border.LineBorder;
-
-import com.sun.glass.events.KeyEvent;
 
 public class calculatorPanel extends JPanel
 {
 
     JButton[][] functionGrid;
 
+    // Button used to display either numbers or calculations done on numbers
     JButton screen;
 
+    // Dynamic array that stores the most recent operations used
     ArrayList<String> list_of_operations = new ArrayList<String>();
 
+    int numOps = 0;
+
+    // Keeps track of the calculation results
     double result;
 
-    boolean initial;
+    // Keeps track of whether or not a new number has been entered
+    boolean newEntry = true;
 
     public calculatorPanel()
     {
@@ -83,7 +77,11 @@ public class calculatorPanel extends JPanel
 
                     screen.setText("0");
 
+                    list_of_operations.clear();
+
                     result = 0;
+                    
+                    newEntry = false;
                 }
 
             }
@@ -212,11 +210,11 @@ public class calculatorPanel extends JPanel
                 {
                     String entry = e.getActionCommand();
 
-                    if (initial)
+                    if (!newEntry)
                     {
                         screen.setText("");
 
-                        initial = false;
+                        newEntry = true;
                     }
 
                     screen.setText(screen.getText() + entry);
@@ -282,61 +280,110 @@ public class calculatorPanel extends JPanel
     private class orderAction implements ActionListener
     {
 
+        boolean basicOperation = false;
+
         public void actionPerformed(ActionEvent e)
         {
-            list_of_operations.add(e.getActionCommand());
 
-            initial = true;
+            String operation = e.getActionCommand();
+
+            newEntry = false;
+
+            if (operation.equalsIgnoreCase("+") || operation.equalsIgnoreCase("-")
+            || operation.equalsIgnoreCase("*") || operation.equalsIgnoreCase("/")
+            || operation.equalsIgnoreCase("="))
+            {
+                basicOperation = true;
+            }
+
+            list_of_operations.add(operation);
 
             calculate(Double.parseDouble(screen.getText()));
         }
 
-        public void calculate(double x)
+        public void calculate(double num)
         {
 
             int list_size = list_of_operations.size();
 
             String lastOperation = list_of_operations.get(list_size - 1);
 
-            if (lastOperation.equalsIgnoreCase("+"))
-                result += x;
+            if (list_size <= 1 && basicOperation)
+                result = num;
 
-            else if (lastOperation.equalsIgnoreCase("-"))
-                result -= x;
-
-            else if (lastOperation.equalsIgnoreCase("*"))
-                result *= x;
-
-            else if (lastOperation.equalsIgnoreCase("/"))
+            else
             {
-                if (x == 0)
+                if (lastOperation.equalsIgnoreCase("+"))
+                    result += num;
+
+                else if (lastOperation.equalsIgnoreCase("-"))
+                    result -= num;
+
+                else if (lastOperation.equalsIgnoreCase("*"))
+                    result *= num;
+
+                else if (lastOperation.equalsIgnoreCase("/"))
                 {
-                    screen.setText(String.valueOf("Undefined"));
+                    if (num == 0)
+                    {
+                        screen.setText("Undefined");
 
-                    result = 0;
-                    
-                    list_of_operations.clear();
-                }
+                        result = 0;
 
-                else
-                    result /= x;
+                        list_of_operations.clear();
+                    }
 
-            }
-
-            else if (lastOperation.equalsIgnoreCase("="))
-            {
-
-                if (list_size > 2 && list_of_operations.get(list_size - 2).equalsIgnoreCase("="))
-                {
+                    else
+                        result /= num;
 
                 }
 
-                screen.setText(String.valueOf(result));
+                else if (lastOperation.equalsIgnoreCase("="))
+                {
+
+                }
+
+                else if (lastOperation.equalsIgnoreCase("x!"))
+                {
+                    if (num % 1 == 0 && num >= 0)
+                    {
+                        result = findFactorial(new Hashtable<Integer, Long>(), (int) num);
+                    }
+
+                    else
+                    {
+                        if (num <= 0)
+                            screen.setText("Can't Take The Factorial of a Negative Value");
+                        else
+                            screen.setText("Can't Take Factorial of a Decimal Value");
+
+                        result = 0;
+
+                        list_of_operations.clear();
+                    }
+
+                }
+
             }
-            
-            
-            if(list_size >= 2)
-                screen.setText(String.valueOf(result));
+
+            screen.setText(String.valueOf(result));
+
+        }
+
+        public long findFactorial(Hashtable<Integer, Long> factorialTable, int num)
+        {
+
+            if (num <= 1)
+                return 1;
+
+            if (factorialTable.containsKey(num))
+                return factorialTable.get(num);
+
+            else
+            {
+                factorialTable.put(num, (long) (num * findFactorial(factorialTable, num - 1)));
+                return factorialTable.get(num);
+            }
 
         }
 
