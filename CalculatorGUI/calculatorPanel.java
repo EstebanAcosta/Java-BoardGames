@@ -49,7 +49,7 @@ public class calculatorPanel extends JPanel
 
         upperPanel.add(screen);
 
-        String[] operations = { "x!", "+", "-", "*", "/", "%", "sqrt", "log", "ln" };
+        String[] operations = { "+", "-", "*", "/", "%", "sqrt", "x!", "x^2", "x^n", "log", "ln", "=" };
 
         String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
 
@@ -80,7 +80,7 @@ public class calculatorPanel extends JPanel
                     list_of_operations.clear();
 
                     result = 0;
-                    
+
                     newEntry = false;
                 }
 
@@ -108,45 +108,7 @@ public class calculatorPanel extends JPanel
         {
             JButton tFunct = new JButton(trig);
 
-            tFunct.addActionListener(new ActionListener()
-            {
-
-                public void actionPerformed(ActionEvent e)
-                {
-
-                    JButton originator = (JButton) e.getSource();
-
-                    // if (originator.getText().equalsIgnoreCase("sin"))
-                    // {
-                    // Math.sin();
-                    // }
-                    //
-                    // else if (originator.getText().equalsIgnoreCase("cos"))
-                    // {
-                    // Math.cos();
-                    // }
-                    // else if (originator.getText().equalsIgnoreCase("tan"))
-                    // {
-                    // Math.tan();
-                    // }
-                    // else if (originator.getText().equalsIgnoreCase("csc"))
-                    // {
-                    // 1/Math.sin();
-                    // }
-                    // else if (originator.getText().equalsIgnoreCase("sec"))
-                    // {
-                    // 1/Math.cos();
-                    //
-                    // }
-                    //
-                    // else
-                    // {
-                    // 1/Math.tan();
-                    //
-                    // }
-                }
-
-            });
+            tFunct.addActionListener(new trigAction());
 
             centralLeftPanel.add(tFunct);
         }
@@ -155,30 +117,7 @@ public class calculatorPanel extends JPanel
         {
             JButton invF = new JButton(inv);
 
-            invF.addActionListener(new ActionListener()
-            {
-
-                public void actionPerformed(ActionEvent e)
-                {
-                    JButton originator = (JButton) e.getSource();
-
-                    if (originator.getText().equalsIgnoreCase("arcsin"))
-                    {
-
-                    }
-
-                    else if (originator.getText().equalsIgnoreCase("arccos"))
-                    {
-
-                    }
-                    else if (originator.getText().equalsIgnoreCase("arctan"))
-                    {
-
-                    }
-
-                }
-
-            });
+            invF.addActionListener(new trigAction());
 
             centralLeftPanel.add(invF);
         }
@@ -188,7 +127,7 @@ public class calculatorPanel extends JPanel
         JPanel centralCentralPanel = new JPanel();
 
         centralCentralPanel.setLayout(new GridLayout(4, 6));
-
+        //
         // inv.addActionListener(new ActionListener()
         // {
         //
@@ -229,12 +168,6 @@ public class calculatorPanel extends JPanel
 
         }
 
-        JButton equal = new JButton("=");
-
-        centralCentralPanel.add(equal);
-
-        equal.addActionListener(new orderAction());
-
         JButton dot = new JButton(".");
 
         dot.addActionListener(new ActionListener()
@@ -262,7 +195,7 @@ public class calculatorPanel extends JPanel
         {
             JButton op = new JButton(operation);
 
-            op.addActionListener(new orderAction());
+            op.addActionListener(new operationAction());
 
             centralRightPanel.add(op);
         }
@@ -277,7 +210,62 @@ public class calculatorPanel extends JPanel
 
     }
 
-    private class orderAction implements ActionListener
+    private class trigAction implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            JButton trigButton = (JButton) e.getSource();
+
+            newEntry = false;
+
+            String trigFunc = trigButton.getText();
+
+            calculate(trigFunc, Double.parseDouble(screen.getText()));
+
+        }
+
+        public void calculate(String trigFunc, Double num)
+        {
+
+            if (trigFunc.equalsIgnoreCase("sin"))
+                result = Math.sin(num);
+
+            else if (trigFunc.equalsIgnoreCase("cos"))
+
+                result = Math.cos(result);
+
+            else if (trigFunc.equalsIgnoreCase("tan"))
+
+                result = Math.tan(num);
+
+            else if (trigFunc.equalsIgnoreCase("csc"))
+
+                result = 1 / Math.sin(num);
+
+            else if (trigFunc.equalsIgnoreCase("sec"))
+
+                result = 1 / Math.cos(num);
+
+            else if (trigFunc.equalsIgnoreCase("cot"))
+
+                result = 1 / Math.tan(num);
+
+            else if (trigFunc.equalsIgnoreCase("arcsin"))
+                result = Math.asin(num);
+
+            else if (trigFunc.equalsIgnoreCase("arccos"))
+                result = Math.acos(num);
+
+            else if (trigFunc.equalsIgnoreCase("arctan"))
+                result = Math.atan(num);
+
+            screen.setText(String.valueOf(result));
+
+        }
+
+    }
+
+    private class operationAction implements ActionListener
     {
 
         boolean basicOperation = false;
@@ -338,7 +326,12 @@ public class calculatorPanel extends JPanel
 
                 }
 
-                else if (lastOperation.equalsIgnoreCase("="))
+                else if (lastOperation.equalsIgnoreCase("%"))
+                {
+
+                }
+
+                else if (lastOperation.equalsIgnoreCase("sqrt"))
                 {
 
                 }
@@ -347,7 +340,9 @@ public class calculatorPanel extends JPanel
                 {
                     if (num % 1 == 0 && num >= 0)
                     {
-                        result = findFactorial(new Hashtable<Integer, Long>(), (int) num);
+                        long answer = findFactorial(new Hashtable<Integer, Long>(), (int) num);
+
+                        screen.setText(String.valueOf(answer));
                     }
 
                     else
@@ -355,7 +350,7 @@ public class calculatorPanel extends JPanel
                         if (num <= 0)
                             screen.setText("Can't Take The Factorial of a Negative Value");
                         else
-                            screen.setText("Can't Take Factorial of a Decimal Value");
+                            screen.setText("Can't Take The Factorial of a Decimal Value");
 
                         result = 0;
 
@@ -364,12 +359,46 @@ public class calculatorPanel extends JPanel
 
                 }
 
+                else if (lastOperation.equalsIgnoreCase("x^2"))
+                {
+
+                }
+
+                else if (lastOperation.equalsIgnoreCase("x^n"))
+                {
+
+                }
+
+                else if (lastOperation.equalsIgnoreCase("log"))
+                {
+
+                }
+
+                else if (lastOperation.equalsIgnoreCase("ln"))
+                {
+
+                }
+
+                else if (lastOperation.equalsIgnoreCase("="))
+                {
+
+                }
+
             }
 
-            screen.setText(String.valueOf(result));
+            if (!lastOperation.equalsIgnoreCase("x!"))
+                screen.setText(String.valueOf(result));
 
         }
 
+        /***
+         * Memoized factorial method. Takes a hashtable and the value we wish to find the factorial of and recursively
+         * looks for the factorial of the parameter value either by checking if it's already been computed and stored in a
+         * hash table or by computing the factorial manually.
+         * @param factorialTable
+         * @param num
+         * @return
+         */
         public long findFactorial(Hashtable<Integer, Long> factorialTable, int num)
         {
 
