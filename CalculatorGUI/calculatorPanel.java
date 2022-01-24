@@ -179,6 +179,9 @@ public class calculatorPanel extends JPanel
             }
 
         });
+        
+        
+       
 
         centralCentralPanel.add(dot);
 
