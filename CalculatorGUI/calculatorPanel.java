@@ -49,7 +49,7 @@ public class calculatorPanel extends JPanel
 
         upperPanel.add(screen);
 
-        String[] operations = { "+", "-", "*", "/", "%", "sqrt", "x!", "x^2", "x^n", "log", "ln", "=" };
+        String[] operations = { "+", "-", "*", "/", "%", "sqrt", "x!", "x^2", "x^n", "log", "ln","e^x", "=" };
 
         String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
 
@@ -97,7 +97,12 @@ public class calculatorPanel extends JPanel
 
             public void actionPerformed(ActionEvent e)
             {
-                screen.setText(Double.toString(Double.parseDouble(screen.getText()) * -1));
+                double number = Double.parseDouble(screen.getText());
+                if (number % 1 == 0)
+                    screen.setText(String.valueOf((int) number * -1));
+                else
+                    screen.setText(Double.toString(number * -1));
+
             }
 
         });
@@ -127,16 +132,6 @@ public class calculatorPanel extends JPanel
         JPanel centralCentralPanel = new JPanel();
 
         centralCentralPanel.setLayout(new GridLayout(4, 6));
-        //
-        // inv.addActionListener(new ActionListener()
-        // {
-        //
-        // public void actionPerformed(ActionEvent e)
-        // {
-        //
-        // }
-        //
-        // });
 
         for (int i = 9; i >= 0; i--)
         {
@@ -328,13 +323,11 @@ public class calculatorPanel extends JPanel
 
                 else if (lastOperation.equalsIgnoreCase("%"))
                 {
-
+                    result = num / 100;
                 }
 
                 else if (lastOperation.equalsIgnoreCase("sqrt"))
-                {
-
-                }
+                    result = Math.sqrt(num);
 
                 else if (lastOperation.equalsIgnoreCase("x!"))
                 {
@@ -361,22 +354,24 @@ public class calculatorPanel extends JPanel
 
                 else if (lastOperation.equalsIgnoreCase("x^2"))
                 {
-
+                    result = num * num;
                 }
 
                 else if (lastOperation.equalsIgnoreCase("x^n"))
                 {
+                    int exp = 0;
 
+                    result = Math.pow(num, exp);
                 }
 
                 else if (lastOperation.equalsIgnoreCase("log"))
                 {
-
+                    result = Math.log(num);
                 }
 
                 else if (lastOperation.equalsIgnoreCase("ln"))
                 {
-
+                    result = Math.log(num) / Math.log(Math.E);
                 }
 
                 else if (lastOperation.equalsIgnoreCase("="))
@@ -386,8 +381,19 @@ public class calculatorPanel extends JPanel
 
             }
 
+            // if the operation isn't a factorial
             if (!lastOperation.equalsIgnoreCase("x!"))
-                screen.setText(String.valueOf(result));
+            {
+                // if the result is an integer
+                if (result % 1 == 0)
+                    // cast the result to an integer then print the result
+                    screen.setText(String.valueOf((int) result));
+
+                // if the result is a double/float
+                else
+                    // print the result as is
+                    screen.setText(String.valueOf(result));
+            }
 
         }
 
