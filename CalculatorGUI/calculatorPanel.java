@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class calculatorPanel extends JPanel
 {
@@ -49,7 +52,7 @@ public class calculatorPanel extends JPanel
 
         upperPanel.add(screen);
 
-        String[] operations = { "+", "-", "*", "/", "%", "sqrt", "x!", "x^2", "x^n", "log", "ln","e^x", "=" };
+        String[] operations = { "+", "-", "*", "/", "%", "sqrt", "x!", "x^2", "x^n", "log", "ln", "e^x" };
 
         String[] trigFunctions = { "sin", "cos", "tan", "csc", "sec", "cot" };
 
@@ -179,11 +182,21 @@ public class calculatorPanel extends JPanel
             }
 
         });
-        
-        
-       
 
         centralCentralPanel.add(dot);
+
+        JButton equal = new JButton("=");
+
+        equal.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+        });
+
+        centralCentralPanel.add(equal);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -364,6 +377,30 @@ public class calculatorPanel extends JPanel
                 {
                     int exp = 0;
 
+                    JFrame getExpFrame = new JFrame();
+
+                    getExpFrame.setBounds(300, 400, 200, 200);
+
+                    getExpFrame.setTitle("Get Exponent");
+
+                    getExpFrame.setResizable(false);
+
+                    JSpinner randNumSpinner = new JSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
+
+                    JPanel getExPanel = new JPanel();
+                    
+                    JButton submitButton = new JButton("Submit");
+
+                    getExpFrame.add(getExPanel);
+
+                    getExPanel.setLayout(new BorderLayout());
+
+                    getExPanel.add(randNumSpinner, BorderLayout.CENTER);
+
+                    getExpFrame.setVisible(true);
+
+                    getExpFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
                     result = Math.pow(num, exp);
                 }
 
@@ -375,11 +412,6 @@ public class calculatorPanel extends JPanel
                 else if (lastOperation.equalsIgnoreCase("ln"))
                 {
                     result = Math.log(num) / Math.log(Math.E);
-                }
-
-                else if (lastOperation.equalsIgnoreCase("="))
-                {
-
                 }
 
             }
