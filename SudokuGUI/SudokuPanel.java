@@ -1187,7 +1187,7 @@ public class SudokuPanel extends JPanel
 
             }
         }
-    }
+    } 
 
     /**
      * A confirmation window will appear whenever the player decides to change the difficulty of the game

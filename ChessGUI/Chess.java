@@ -20,7 +20,7 @@ class chessFrame extends JFrame
 
         setTitle("Chess");
 
-        setBounds(500, 200, 700, 500);
+        setBounds(300, 100, 1000, 600);
 
         add(cPanel);
         

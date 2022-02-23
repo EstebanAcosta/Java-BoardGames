@@ -6,3 +6,11 @@
 /Chess.class
 /chessFrame.class
 /chessPanel.class
+/openFile.class
+/Queen.class
+/Rook.class
+/Pawn.class
+/Bishop.class
+/Knight.class
+/Piece.class
+/King.class

@@ -1,6 +1,7 @@
 package ChessGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
@@ -13,13 +14,14 @@ import javax.swing.Timer;
 
 public class chessPanel extends JPanel
 {
+
+    final int ROW = 8, COL = 8;
+
     Timer timer;
 
     JLabel timerLabel = new JLabel();
 
     JLabel lvl;
-
-    final int ROW = 8, COL = 8;
 
     String level;
 
@@ -35,7 +37,7 @@ public class chessPanel extends JPanel
         JPanel upperPanel = new JPanel();
 
         upperPanel.setLayout(new BorderLayout());
-        
+
         JPanel menuPanel = new JPanel();
 
         JMenuBar menuBar = new JMenuBar();
@@ -101,7 +103,7 @@ public class chessPanel extends JPanel
         /////////////////////////////////// ADDED MENU BAR TO TOP PANEL ////////////////////////////////////////
 
         menuPanel.add(menuBar);
-        
+
         upperPanel.add(menuPanel, BorderLayout.NORTH);
 
         //////////////////////////////////////////////////// SETTING UP LABELS AT THE TOP //////////////////////////////////////////////////////////
@@ -161,15 +163,32 @@ public class chessPanel extends JPanel
 
         centerPanel.setLayout(new GridLayout(ROW, COL));
 
+        Color startColor; 
+
         for (int r = 0; r < ROW; r++)
         {
+
+            if (r % 2 == 0)
+                startColor = Color.BLACK;
+            else
+                startColor = Color.WHITE;
+
             for (int c = 0; c < COL; c++)
             {
+
                 JButton square = new JButton();
+                
+                square.setOpaque(true);
+                
+                square.setBorderPainted(false);
+
+                square.setBackground(startColor);
 
                 chessBoard[r][c] = square;
 
                 centerPanel.add(square);
+
+                startColor = (startColor == Color.WHITE) ? Color.BLACK : Color.WHITE;
             }
         }
 
