@@ -1,4 +1,4 @@
-package ChessGUI;
+package GUI_Chess;
 
 public class Rook
 {

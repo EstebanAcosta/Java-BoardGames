@@ -1,4 +1,4 @@
-package SudokuGUI;
+package GUI_Sudoku;
 
 import javax.swing.JButton;
 

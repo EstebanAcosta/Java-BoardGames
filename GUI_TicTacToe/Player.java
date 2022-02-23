@@ -1,4 +1,4 @@
-package TicTacToeGUI;
+package GUI_TicTacToe;
 
 public class Player
 {

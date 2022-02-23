@@ -1,4 +1,4 @@
-package TicTacToeGUI;
+package GUI_TicTacToe;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

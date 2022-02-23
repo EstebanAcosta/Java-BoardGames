@@ -1,4 +1,4 @@
-package TicTacToeGUI;
+package GUI_TicTacToe;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
