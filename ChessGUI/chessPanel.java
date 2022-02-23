@@ -4,25 +4,43 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class chessPanel extends JPanel
 {
+    Timer timer;
+
+    JLabel timerLabel = new JLabel();
+
+    JLabel lvl;
 
     final int ROW = 8, COL = 8;
 
+    String level;
+
+    int min, timeLeft;
+
     public chessPanel()
     {
+
         JButton[][] chessBoard = new JButton[ROW][COL];
 
         setLayout(new BorderLayout());
 
         JPanel upperPanel = new JPanel();
 
+        upperPanel.setLayout(new BorderLayout());
+        
+        JPanel menuPanel = new JPanel();
+
         JMenuBar menuBar = new JMenuBar();
+
+        ////////////////////////////// OPENING A SAVED FILE/////////////////////////////////////////////
 
         JMenu openFile = new JMenu("Open File");
 
@@ -30,7 +48,9 @@ public class chessPanel extends JPanel
 
         openFile.add(openFileOption);
 
-        ///////////////////////////////////////////////////////////////////////////
+        menuBar.add(openFile);
+
+        /////////////////////////////// SAVING CURRENT GAME////////////////////////////////////////////
 
         JMenu saveGame = new JMenu("Save Game");
 
@@ -38,7 +58,9 @@ public class chessPanel extends JPanel
 
         saveGame.add(saveGameOption);
 
-        ///////////////////////////////////////////////////////////////////////////
+        menuBar.add(saveGame);
+
+        ///////////////////////////////// CREATING A NEW GAME//////////////////////////////////////////
 
         JMenu newGame = new JMenu("New Game");
 
@@ -46,7 +68,9 @@ public class chessPanel extends JPanel
 
         newGame.add(newGameOption);
 
-        ///////////////////////////////////////////////////////////////////////////
+        menuBar.add(newGame);
+
+        ////////////////////////////////// UNDOING THE LAST MOVE/////////////////////////////////////////
 
         JMenu undoMove = new JMenu("Undo Move");
 
@@ -54,17 +78,82 @@ public class chessPanel extends JPanel
 
         undoMove.add(undoMoveOption);
 
-        ///////////////////////////////////////////////////////////////////////////
-
-        menuBar.add(openFile);
-        
-        menuBar.add(saveGame);
-
-        menuBar.add(newGame);
-
         menuBar.add(undoMove);
 
-        upperPanel.add(menuBar);
+        /////////////////////////////////// SETTING GAME DIFFICULTY////////////////////////////////////////
+
+        JMenu setDifficulty = new JMenu("Set Difficulty");
+
+        JMenuItem easy = new JMenuItem("Easy");
+
+        JMenuItem medium = new JMenuItem("Medium");
+
+        JMenuItem expert = new JMenuItem("Expert");
+
+        setDifficulty.add(easy);
+
+        setDifficulty.add(medium);
+
+        setDifficulty.add(expert);
+
+        menuBar.add(setDifficulty);
+
+        /////////////////////////////////// ADDED MENU BAR TO TOP PANEL ////////////////////////////////////////
+
+        menuPanel.add(menuBar);
+        
+        upperPanel.add(menuPanel, BorderLayout.NORTH);
+
+        //////////////////////////////////////////////////// SETTING UP LABELS AT THE TOP //////////////////////////////////////////////////////////
+
+        JPanel lvlPanel = new JPanel();
+
+        JLabel labelHeader = new JLabel("Level:");
+
+        lvl = new JLabel(level);
+
+        lvl.setHorizontalAlignment(JLabel.CENTER);
+
+        lvlPanel.add(labelHeader);
+
+        lvlPanel.add(lvl);
+
+        /////////////////////////////////// ADDED LEVEL LABEL TO TOP PANEL ////////////////////////////////////////
+
+        upperPanel.add(lvlPanel, BorderLayout.CENTER);
+
+        ////////////////////////////////////// SETTING UP TIMER///////////////////////////////////////////
+
+        if (level == "Easy")
+        {
+            min = 30;
+        }
+
+        else if (level == "Medium")
+        {
+            min = 20;
+        }
+
+        else
+        {
+            min = 10;
+        }
+
+        timeLeft = min * 60 * 1000;
+
+        // timer = new Timer(1000, new countDown(timeLeft));
+
+        // timer.start();
+
+        JPanel timerPanel = new JPanel();
+
+        timerLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        timerPanel.add(timerLabel);
+
+        /////////////////////////////////// ADDED TIMER TO TOP PANEL ////////////////////////////////////////
+
+        upperPanel.add(timerPanel, BorderLayout.SOUTH);
 
         ///////////////////////////////////////////////////////////////////////////
 
