@@ -99,6 +99,17 @@ public class chessPanel extends JPanel
         setDifficulty.add(expert);
 
         menuBar.add(setDifficulty);
+        
+        /////////////////////////////////// EXITING GAME ////////////////////////////////////////
+
+
+        JMenu exit = new JMenu("Exit");
+
+        JMenuItem exiting = new JMenuItem("Exit Game");
+        
+        exit.add(exiting);
+        
+        menuBar.add(exit);
 
         /////////////////////////////////// ADDED MENU BAR TO TOP PANEL ////////////////////////////////////////
 
@@ -163,7 +174,7 @@ public class chessPanel extends JPanel
 
         centerPanel.setLayout(new GridLayout(ROW, COL));
 
-        Color startColor; 
+        Color startColor;
 
         for (int r = 0; r < ROW; r++)
         {
@@ -177,9 +188,9 @@ public class chessPanel extends JPanel
             {
 
                 JButton square = new JButton();
-                
+
                 square.setOpaque(true);
-                
+
                 square.setBorderPainted(false);
 
                 square.setBackground(startColor);
