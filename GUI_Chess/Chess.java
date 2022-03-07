@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,6 +26,12 @@ public class Chess
     private static void chooseSide(String difficulty)
     {
         JFrame choosingSideFrame= new JFrame();
+        
+        Random random = new Random();
+        
+        JLabel prompt = new JLabel("Press button to randomly ");
+        
+        JButton randomButton =  new JButton();
         
         choosingSideFrame.setVisible(true);
     }
