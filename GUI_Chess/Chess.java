@@ -25,15 +25,60 @@ public class Chess
 
     private static void chooseSide(String difficulty)
     {
-        JFrame choosingSideFrame= new JFrame();
-        
+        JFrame choosingSideFrame = new JFrame();
+
+        choosingSideFrame.setLayout(new BorderLayout());
+
         Random random = new Random();
-        
-        JLabel prompt = new JLabel("Press button to randomly ");
-        
-        JButton randomButton =  new JButton();
-        
+
+        JPanel upperJPanel = new JPanel();
+
+        JLabel prompt = new JLabel("Press the button to randomly choose a side");
+
+        upperJPanel.add(prompt);
+
+        choosingSideFrame.add(upperJPanel, BorderLayout.NORTH);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        JPanel lowerJPanel = new JPanel();
+
+        JButton randomButton = new JButton("Randomly Choose A Side");
+
+        randomButton.addActionListener(new ActionListener()
+        {
+
+            public void actionPerformed(ActionEvent e)
+            {
+                boolean choice = random.nextBoolean();
+
+                String side = choice == true ? "WHITE" : "BLACK";
+
+                chessFrame sf = new chessFrame(difficulty, side);
+
+            }
+
+        });
+
+        lowerJPanel.add(randomButton);
+
+        choosingSideFrame.add(lowerJPanel);
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        Toolkit screen = Toolkit.getDefaultToolkit();
+
+        Dimension screenSize = screen.getScreenSize();
+
+        int height = screenSize.height;
+
+        int width = screenSize.width;
+
+        choosingSideFrame.setBounds(width / 4 + 200, (height / 4) + 100, 500, 140);
+
         choosingSideFrame.setVisible(true);
+        
+        choosingSideFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private static void chooseDifficulty()
@@ -75,12 +120,10 @@ public class Chess
             public void actionPerformed(ActionEvent e)
             {
                 chooseDifficultyFrame.dispose();
-                
+
                 String choice = options.getSelectedItem().toString();
 
                 chooseSide(choice);
-
-                // SudokuFrame sf = new SudokuFrame(options.getSelectedItem().toString());
 
             }
 
@@ -118,7 +161,7 @@ public class Chess
 
 class chessFrame extends JFrame
 {
-    public chessFrame(String difficulty, Color side)
+    public chessFrame(String difficulty, String side)
     {
         chessPanel cPanel = new chessPanel();
 
