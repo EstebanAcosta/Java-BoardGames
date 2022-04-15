@@ -23,11 +23,9 @@ public class chessPanel extends JPanel
 
     JLabel lvl;
 
-    String level;
-
     int min, timeLeft;
 
-    public chessPanel()
+    public chessPanel(String level, String mySide)
     {
 
         JButton[][] chessBoard = new JButton[ROW][COL];
