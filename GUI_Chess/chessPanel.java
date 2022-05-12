@@ -21,8 +21,6 @@ public class chessPanel extends JPanel
 
     JLabel timerLabel = new JLabel();
 
-    JLabel lvl;
-
     int min, timeLeft;
 
     public chessPanel(String level, String mySide)
@@ -97,16 +95,15 @@ public class chessPanel extends JPanel
         setDifficulty.add(expert);
 
         menuBar.add(setDifficulty);
-        
-        /////////////////////////////////// EXITING GAME ////////////////////////////////////////
 
+        /////////////////////////////////// EXITING GAME ////////////////////////////////////////
 
         JMenu exit = new JMenu("Exit");
 
         JMenuItem exiting = new JMenuItem("Exit Game");
-        
+
         exit.add(exiting);
-        
+
         menuBar.add(exit);
 
         /////////////////////////////////// ADDED MENU BAR TO TOP PANEL ////////////////////////////////////////
@@ -119,15 +116,21 @@ public class chessPanel extends JPanel
 
         JPanel lvlPanel = new JPanel();
 
-        JLabel labelHeader = new JLabel("Level:");
+        lvlPanel.setLayout(new BorderLayout());
 
-        lvl = new JLabel(level);
+        //create a label that shows the game's level
+        
+        JLabel labelHeader = new JLabel("Level:" + level);
 
-        lvl.setHorizontalAlignment(JLabel.CENTER);
+        labelHeader.setHorizontalAlignment(JLabel.CENTER);
 
-        lvlPanel.add(labelHeader);
+        lvlPanel.add(labelHeader, BorderLayout.NORTH);
 
-        lvlPanel.add(lvl);
+        JLabel whoseTurnLabel = new JLabel("It's " + (mySide == "WHITE" ? "Your " : "Computer's ") + "turn");
+
+        whoseTurnLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        lvlPanel.add(whoseTurnLabel, BorderLayout.CENTER);
 
         /////////////////////////////////// ADDED LEVEL LABEL TO TOP PANEL ////////////////////////////////////////
 

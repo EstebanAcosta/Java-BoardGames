@@ -154,8 +154,10 @@ public class Chess
         int height = screenSize.height;
 
         int width = screenSize.width;
+        
+        choosingSideFrame.setTitle("Randomly Choose Side");
 
-        choosingSideFrame.setBounds(width / 4 + 200, (height / 4) + 100, 500, 140);
+        choosingSideFrame.setBounds(width / 4 + 200, (height / 4) + 100, 500, 120);
 
         choosingSideFrame.setVisible(true);
         
